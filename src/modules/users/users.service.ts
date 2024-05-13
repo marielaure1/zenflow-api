@@ -1,26 +1,51 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreateUserDto } from '@modules/users/dto/create-user.dto';
-import { UpdateUserDto } from '@modules/users/dto/update-user.dto';
+import { UpdateUserEmailDto } from '@modules/users/dto/update-user-email.dto';
+import { UpdateUserPasswordDto } from '@modules/users/dto/update-user-password.dto';
+import { User, UserDocument } from '@modules/users/entities/user.entity';
+import { AppService } from '@modules/app.service';
 
 @Injectable()
-export class UsersService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+export class UsersService extends AppService<UserDocument, CreateUserDto, CreateUserDto>{
+  
+  constructor(@InjectModel(User.name) private usersModel: Model<UserDocument>) {
+    super(usersModel);
   }
 
-  findAll() {
-    return `This action returns all users`;
-  }
+    async findOneByEmail(email: string): Promise<User> {
+      try{
+        const findOne = await this.usersModel.findOne({email}).exec();
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
+        return findOne;
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
+      }catch(error){
+        console.log("UsersModule > UsersService > findOneByEmail : ", error);  
+      }
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
-  }
+    async updateEmail(email: string, updateUserEmailDto: UpdateUserEmailDto): Promise<User> {
+      try{
+        const findOne = await this.usersModel.findOne({email}).exec();
+
+          return this.usersModel.findOneAndUpdate({email}, updateUserEmailDto).exec();
+
+
+      }catch(error){
+        console.log(error);  
+      }
+    }
+
+    async updatePassword(password: string, updateUserPasswordDto: UpdateUserPasswordDto): Promise<User> {
+      try{
+        const findOne = await this.usersModel.findOne({password}).exec();
+
+          return this.usersModel.findOneAndUpdate({password}, updateUserPasswordDto).exec();
+
+
+      }catch(error){
+        console.log(error);  
+      }
+    }
 }

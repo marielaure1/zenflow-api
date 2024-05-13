@@ -20,7 +20,21 @@
     "paths": {
       "@/*": ["./src/*"],
       "@modules/*": ["./src/modules/*"],
+      "@config/*": ["./src/config/*"],
+      "@jobs/*": ["./src/jobs/*"],
+      "@mails/*": ["./src/mails/*"],
       "@constants/*": ["./src/common/constants/*"],
+      "@decorators/*": ["./src/common/decorators/*"],
+      "@dtos/*": ["./src/common/dtos/*"],
+      "@enums/*": ["./src/common/enums/*"],
+      "@exceptions/*": ["./src/common/exceptions/*"],
+      "@guards/*": ["./src/common/guards/*"],
+      "@helpers/*": ["./src/common/helpers/*"],
+      "@interceptors/*": ["./src/common/interceptors/*"],
+      "@interfaces/*": ["./src/common/interfaces/*"],
+      "@middleware/*": ["./src/common/middleware/*"],
+      "@pipes/*": ["./src/common/pipes/*"],
+      "@serializers/*": ["./src/common/serializers/*"],
       "~/*": ["./src/*"]
     }, 
   }
