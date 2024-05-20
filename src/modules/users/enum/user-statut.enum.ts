@@ -4,3 +4,5 @@ enum UserStatut{
     Suspended, 
     Banned
 }
+
+export default UserStatut;

@@ -1,52 +1,35 @@
-import { 
-    Controller, 
-    Get, 
-    Post, 
-    Put, 
-    Patch, 
-    Delete, 
-    Body,
-    Param,
-    Res,
-    HttpStatus,
-    HttpCode
-  } from '@nestjs/common';
-  import { AuthService } from '@modules/auth/auth.service';
-  import { AuthUserTeamDto } from "@modules/auth/dto/auth-user-team.dto"
-  import { AuthGuard } from '@modules/auth/guard/auth.guard';
-  import { Public } from '@decorators/public.decorator';
-  import { User } from '@modules/users/entities/user.entity'
-  import { Model } from 'mongoose'
-  import { UsersService } from '@modules/users/users.service';
-  @Controller('auth')
-  export class AuthController {
-    constructor(private readonly authService: AuthService) {}
-  
-    // @Public()
-    // @HttpCode(HttpStatus.OK)
-    // @Post('login')
-    // login(@Body() authDto: AuthDto) {
-    //   return this.authService.login(authDto.email, authDto.password);
-    // }
-  
-    @Public()
-    @HttpCode(HttpStatus.OK)
-    @Post('register/:type')
-    register(@Param('type') type: string, @Body() authUserTeamDto: AuthUserTeamDto) {
-  
-      return this.authService.register(authUserTeamDto, type);
-    }
-  
-    // @HttpCode(HttpStatus.OK)
-    // @Post('logout')
-    // logout(@Body() authDto: AuthDto) {
-    //   return this.authService.logout(authDto.email, authDto.password);
-    // }
-  
-    // @UseGuards(AuthGuard)
-    // @Get('profile')
-    // getProfile(@Request() req: Model<User>) {
-    //   return req;
-    // }
+import { Controller, Get, Post, Body, Res} from '@nestjs/common';
+import { FirebaseService } from '@providers/services/firebase/firebase.service';
+import { CreateUserDto } from '@modules/users/dto/create-user.dto';
+import { Response } from 'express';
+
+@Controller('auth')
+export class AuthController {
+  constructor(private readonly firebaseService: FirebaseService) {}
+
+  @Get('users')
+  async getUsers() {
+    const auth = this.firebaseService.getAuth();
+    const users = await auth.listUsers();
+    return users;
   }
-  
+
+  @Get('data')
+  async getData() {
+    const firestore = this.firebaseService.getFirestore();
+    const snapshot = await firestore.collection('your-collection').get();
+    return snapshot.docs.map(doc => doc.data());
+  }
+
+  @Post()
+  async register(@Body() createUserDto :CreateUserDto, @Res() res: Response){
+    const { email, password } = createUserDto;
+
+    console.log(email);
+    
+    const firestore = this.firebaseService.createUser(email, password);
+    console.log("firestore ",firestore);
+    
+    return firestore;
+  }
+}

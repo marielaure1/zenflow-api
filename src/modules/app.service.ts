@@ -38,7 +38,7 @@ export abstract class AppService<AppModel, CreateDto, UpdateDto> {
   }
 
   async remove(id: string): Promise<void> {
-    await this.appModel.findByIdAndRemove(id).exec();
+    // await this.appModel.findByIdAndRemove(id).exec();
   }
 }
 

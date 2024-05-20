@@ -18,11 +18,13 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@/*": ["./src/*"],
       "@modules/*": ["./src/modules/*"],
       "@config/*": ["./src/config/*"],
       "@jobs/*": ["./src/jobs/*"],
-      "@mails/*": ["./src/mails/*"],
+      "@providers/*": ["./src/providers/*"],
+      /*
+      * Common
+      */
       "@constants/*": ["./src/common/constants/*"],
       "@decorators/*": ["./src/common/decorators/*"],
       "@dtos/*": ["./src/common/dtos/*"],
@@ -35,6 +37,10 @@
       "@middleware/*": ["./src/common/middleware/*"],
       "@pipes/*": ["./src/common/pipes/*"],
       "@serializers/*": ["./src/common/serializers/*"],
+      /*
+      * Générale
+      */
+      "@/*": ["./src/*"],
       "~/*": ["./src/*"]
     }, 
   }

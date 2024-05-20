@@ -1,6 +1,7 @@
 import { User } from '@modules/users/entities/user.entity';
-import { IsEmail, IsNotEmpty, IsOptional, Length, Matches } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, Length, IsEmpty, Matches } from 'class-validator';
 import regex from "@constants/regex";
+import UserStatut from "@modules/users/enum/user-statut.enum";
 
 export class CreateUserDto extends User {
   @IsNotEmpty()
@@ -13,14 +14,16 @@ export class CreateUserDto extends User {
   password: string;
 
   @IsNotEmpty()
-  statut: string;
+  @Length(8, 20)
+  @Matches(regex.password)
+  passwordConfirm: string;
+
+  @IsNotEmpty()
+  status: UserStatut;
+
+  @IsEmpty()
+  role: string;
 
   @IsOptional()
   token?: string;
-
-  @IsOptional()
-  createdAt?: Number;
-
-  @IsOptional()
-  updatedAt?: Number;
 }

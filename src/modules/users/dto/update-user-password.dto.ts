@@ -1,6 +1,6 @@
 import { Document } from 'mongoose';
 import { IsNotEmpty, Length, Matches } from 'class-validator';
-import Regex from "~/utils/regex.utils";
+import Regex from "@constants/regex";
 
 export class UpdateUserPasswordDto extends Document {
 
