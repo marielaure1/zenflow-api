@@ -15,7 +15,7 @@ export class User {
   @Prop({ required: true })
   password: string;
 
-  @Prop({ required: true, default: UserStatut.NotVerified, enum: UserStatut })
+  @Prop({ required: true, default: UserStatut.NOTVERIFIED, enum: UserStatut })
   status: UserStatut;
 
   @Prop()
@@ -24,8 +24,15 @@ export class User {
   @Prop({ type: [{ type: Types.ObjectId, ref: PermissionUser.name }] })
   permissions?: PermissionUser[];
 
+  @Prop({ required: true, unique: true })
+  uid: string;
+
   createdAt?: Date;
   updatedAt?: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
+
+UserSchema.pre('find', function () {
+  this.select('-password'); // Exclure le champ password de toutes les requêtes find
+});

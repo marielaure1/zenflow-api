@@ -9,6 +9,6 @@ import { AppService } from '@modules/app.service';
 export class CustomersService extends AppService<CustomerDocument, CreateCustomerDto, CreateCustomerDto>{
   
   constructor(@InjectModel(Customer.name) private customersModel: Model<CustomerDocument>) {
-    super(customersModel);
+    super(customersModel, ["user"]);
   }
 }

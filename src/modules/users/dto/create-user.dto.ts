@@ -18,7 +18,7 @@ export class CreateUserDto extends User {
   @Matches(regex.password)
   passwordConfirm: string;
 
-  @IsNotEmpty()
+  @IsEmpty()
   status: UserStatut;
 
   @IsEmpty()

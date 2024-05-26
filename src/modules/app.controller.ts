@@ -14,6 +14,7 @@ import { Model, Document } from 'mongoose';
 import { AppService } from '@modules/app.service';
 import { Response } from 'express';
 import ResponsesHelper from "@helpers/responses.helpers";
+import { log } from 'console';
 @Controller()
 export abstract class AppController<Service extends AppService<AppModel, CreateDto, UpdateDto>, AppModel, CreateDto, UpdateDto> {
   private readonly schema :string;
@@ -131,14 +132,29 @@ export abstract class AppController<Service extends AppService<AppModel, CreateD
   @Delete(':id')
   async remove(@Param('id') id: string, @Res() res: Response) {
     try {
-      await this.service.remove(id);
+
+      const isFind = await this.service.findOne(id);
+
+      if(!isFind){
+        return this.responsesHelper.getResponse({
+          res,
+          path: "remove",
+          method: "Delete",
+          code: HttpStatus.NOT_FOUND,
+          subject: this.schema,
+          data: {}
+        });
+      }
+
+      const remove = await this.service.remove(id);
+      
       return this.responsesHelper.getResponse({
         res,
         path: "remove",
         method: "Delete",
         code: HttpStatus.OK,
         subject: this.schema,
-        data: { message: 'Deleted successfully' }
+        data: { remove }
       });
     } catch (error) {
       console.error("AppController > remove : ", error);

@@ -6,9 +6,11 @@ import { Model, Document } from 'mongoose';
 export abstract class AppService<AppModel, CreateDto, UpdateDto> {
   
   private appModel: Model<AppModel>;
+  public populate : Array<string>;
 
-  constructor(appModel: Model<AppModel>) {
+  constructor(appModel: Model<AppModel>, populate : Array<string> = []) {
     this.appModel = appModel;
+    this.populate = populate;
   }
 
   async create(createDto: CreateDto): Promise<AppModel> {
@@ -26,11 +28,11 @@ export abstract class AppService<AppModel, CreateDto, UpdateDto> {
   }
 
   async findAll(): Promise<AppModel[]> {
-    return this.appModel.find().exec();
+    return this.appModel.find().populate(this.populate).exec();
   }
 
   async findOne(id: string): Promise<AppModel> {
-    return this.appModel.findById(id).exec();
+    return this.appModel.findById(id).populate(this.populate).exec();
   }
 
   async update(id: string, updateDto: UpdateDto): Promise<AppModel> {
@@ -38,7 +40,7 @@ export abstract class AppService<AppModel, CreateDto, UpdateDto> {
   }
 
   async remove(id: string): Promise<void> {
-    // await this.appModel.findByIdAndRemove(id).exec();
+    await this.appModel.findByIdAndDelete(id).exec();
   }
 }
 

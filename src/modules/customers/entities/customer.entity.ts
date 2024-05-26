@@ -1,6 +1,6 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-import { User } from '@modules/users/entities/user.entity';
+import { User, UserSchema } from '@modules/users/entities/user.entity';
 
 export type CustomerDocument = Customer & Document;
 
@@ -8,8 +8,8 @@ export type CustomerDocument = Customer & Document;
   timestamps: true
 })
 export class Customer {
-  @Prop({ type: Types.ObjectId, ref: User.name, required: true })
-  user_id: Types.ObjectId;
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true }) // Référence vers le modèle User
+  user: Types.ObjectId;
 
   @Prop({ required: true })
   firstName: string;

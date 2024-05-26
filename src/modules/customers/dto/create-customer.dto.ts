@@ -1,11 +1,13 @@
-import { IsNotEmpty, IsOptional, Length, IsEmail, Matches, IsDateString, IsMongoId } from 'class-validator';
-import { Types } from 'mongoose';
+import { IsNotEmpty, IsOptional, ValidateNested ,IsEmpty, Length, IsEmail, Matches, IsDateString, IsMongoId } from 'class-validator';
+import { Type } from 'class-transformer';
+import { User } from '@modules/users/entities/user.entity';
 import regex from "@constants/regex";
 
 export class CreateCustomerDto {
-  @IsNotEmpty()
-  @IsMongoId()
-  user_id: Types.ObjectId;
+  @IsEmpty()
+  @ValidateNested() 
+  @Type(() => User)
+  user: User;
 
   @IsNotEmpty()
   firstName: string;

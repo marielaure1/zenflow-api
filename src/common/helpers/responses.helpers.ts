@@ -1,3 +1,4 @@
+import { log } from 'console';
 import { Response } from 'express';
 
 interface ResponsesProps {
@@ -60,7 +61,7 @@ export default class Responses {
             default:
                 action = "client error";
         }
-
+        
         const message = `${params.subject} ${action} ${success ? "with success" : `failed: ${codeMessage}, ${!success ? params.data : ""}`}`;
         console.log(`[${success ? "Success" : "Error"}] ${params.subject.toUpperCase()} > (${params.path} => code : ${params.code}, message: ${message})`);
 

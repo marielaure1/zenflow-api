@@ -4,11 +4,13 @@ import * as admin from 'firebase-admin';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { FirebaseService } from '@providers/services/firebase/firebase.service';
 import settings from '@constants/settings';
+import { UsersModule } from '@modules/users/users.module';
+import { UsersService } from '@modules/users/users.service';
 
 @Global()
 @Module({
-  imports: [ConfigModule],
-  providers: [FirebaseService],
+  imports: [ConfigModule, UsersModule],
+  providers: [FirebaseService, UsersService],
   exports: [FirebaseService],
 })
 export class FirebaseModule {

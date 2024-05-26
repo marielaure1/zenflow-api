@@ -1,8 +1,8 @@
 enum UserStatut{
-    Verified,
-    NotVerified,
-    Suspended, 
-    Banned
+    VERIFIED = "Verified",
+    NOTVERIFIED = "NotVerified",
+    SUSPENDED = "Suspended", 
+    BANNED = "Banned"
 }
 
 export default UserStatut;
