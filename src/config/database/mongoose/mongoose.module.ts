@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { User, UserSchema } from '@modules/users/entities/user.entity';
 import { Customer, CustomerSchema } from '@modules/customers/entities/customer.entity';
+import { Plan, PlanSchema } from '@modules/plans/entities/plan.entity';
 import settings from '@/common/constants/settings';
 
 @Global()
@@ -12,6 +13,7 @@ import settings from '@/common/constants/settings';
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
       { name: Customer.name, schema: CustomerSchema },
+      { name: Plan.name, schema: PlanSchema },
     ]),
   ],
   exports: [MongooseModule],

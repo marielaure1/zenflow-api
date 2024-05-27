@@ -1,51 +1,70 @@
 import { Injectable, Inject } from '@nestjs/common';
 import Stripe from 'stripe';
 import { CreatePlanDto } from '@modules/plans/dto/create-plan.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class PlansStripeService {
-  private readonly stripe: Stripe;
+  private stripe: Stripe;
 
-  constructor(@Inject('STRIPE_API_KEY') private readonly stripeApiKey: string) {
-    this.stripe = new Stripe(this.stripeApiKey, {
+  constructor(private configService: ConfigService) {
+    const stripeApiKey = this.configService.get<string>('STRIPE_API_KEY');
+    this.stripe = new Stripe(stripeApiKey, {
       apiVersion: '2024-04-10', 
     });
   }
 
-  // Méthode pour créer un plan
+  async createProduct(createPlanDto: CreatePlanDto): Promise<Stripe.Product> {
+    const { name} = createPlanDto;
+    const product = await this.stripe.products.create({
+      name
+    });
+
+    return product;
+  }
+
   async create(createPlanDto: CreatePlanDto): Promise<Stripe.Plan> {
     const { amount, currency, name, interval} = createPlanDto;
+
+    const product = await this.createProduct(createPlanDto);
+
     const plan = await this.stripe.plans.create({
       amount,
       currency,
       interval,
-      product: {
-        name,
-      },
+      product: product?.id
     });
 
     return plan;
   }
 
-  // Méthode pour récupérer un plan par son ID
   async findOne(planId: string): Promise<Stripe.Plan> {
     const plan = await this.stripe.plans.retrieve(planId);
     return plan;
   }
 
-  // Méthode pour mettre à jour un plan
-  async update(planId: string, updateData: Stripe.PlanUpdateParams): Promise<Stripe.Plan> {
+  async updateProduct(productId: string, updateData: Stripe.ProductUpdateParams): Promise<Stripe.Product> {
+    const product = await this.stripe.products.update(productId, updateData);
+    return product;
+  }
+
+  async update(planId: string, updateData): Promise<Stripe.Plan> {
+    const product = await this.updateProduct(planId, updateData);
     const plan = await this.stripe.plans.update(planId, updateData);
     return plan;
   }
+  
+  async deleteProduct(productId: string): Promise<Stripe.DeletedProduct> {
+    const deletedProduct = await this.stripe.products.del(productId);
+    // const product = await this.deleteProduct(planId);
+    return deletedProduct;
+  }
 
-  // Méthode pour supprimer un plan
   async delete(planId: string): Promise<Stripe.DeletedPlan> {
     const deletedPlan = await this.stripe.plans.del(planId);
     return deletedPlan;
   }
 
-  // Méthode pour lister tous les plans
   async findAll(): Promise<Stripe.ApiList<Stripe.Plan>> {
     const plans = await this.stripe.plans.list();
     return plans;

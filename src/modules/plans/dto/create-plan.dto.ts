@@ -1,4 +1,4 @@
-import { IsString, IsNumber, IsNotEmpty, IsEnum, IsArray } from 'class-validator';
+import { IsString, IsNumber, IsNotEmpty, IsEnum, IsArray, IsEmpty } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { PlanInterval } from '@modules/plans/enum/plan-interval.enum';
 
@@ -27,6 +27,11 @@ export class CreatePlanDto {
   @IsNotEmpty()
   @IsEnum(PlanInterval)
   readonly interval: PlanInterval;
+
+  @ApiProperty()
+  @IsEmpty()
+  @IsString()
+  readonly stripePlanId?: string;
 
   @ApiProperty()
   @IsArray()
