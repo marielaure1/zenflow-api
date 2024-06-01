@@ -1,26 +1,20 @@
-import { Injectable } from '@nestjs/common';
-import { CreatePaymentDto } from './dto/create-payment.dto';
-import { UpdatePaymentDto } from './dto/update-payment.dto';
-
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Module, Injectable} from '@nestjs/common';
+import { PaymentsStripeService } from '@providers/services/stripe/services/payments.stripe.service';
+import { CreatePaymentDto } from '@modules/payments/dto/create-payment.dto';
+import { UpdatePaymentDto } from '@modules/payments/dto/update-payment.dto';
+import { Payment, PaymentDocument } from '@modules/payments/entities/payment.entity';
+import { AppService } from '@modules/app.service';
+import settings from '@constants/settings';
 @Injectable()
-export class PaymentsService {
-  create(createPaymentDto: CreatePaymentDto) {
-    return 'This action adds a new payment';
-  }
+export class PaymentsService extends AppService<PaymentDocument, CreatePaymentDto, UpdatePaymentDto>{
 
-  findAll() {
-    return `This action returns all payments`;
+  constructor(
+    @InjectModel(Payment.name) private paymentsModel: Model<PaymentDocument>
+  ) {
+    super(paymentsModel);
   }
+  
 
-  findOne(id: number) {
-    return `This action returns a #${id} payment`;
-  }
-
-  update(id: number, updatePaymentDto: UpdatePaymentDto) {
-    return `This action updates a #${id} payment`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} payment`;
-  }
 }

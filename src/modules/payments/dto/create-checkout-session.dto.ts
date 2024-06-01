@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
-export class CreatePaymentDto {
+export class CreateCheckoutSessionDto {
   @IsNumber()
   @IsNotEmpty()
   amount: number;
@@ -11,17 +11,5 @@ export class CreatePaymentDto {
 
   @IsString()
   @IsNotEmpty()
-  description: string;
-
-  @IsString()
-  @IsNotEmpty()
-  paymentMethodId: string;
-
-  @IsString()
-  @IsNotEmpty()
   customerId: string;
-
-  @IsString()
-  @IsNotEmpty()
-  paymentIntentId: string;
 }

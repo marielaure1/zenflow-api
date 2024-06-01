@@ -23,6 +23,9 @@ export class CreateCustomerDto {
   phone?: string;
 
   @IsOptional()
+  stripeCustomerId?: string;
+
+  @IsOptional()
   @IsDateString()
   dateOfBirth?: Date;
 }

@@ -2,11 +2,13 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from '@modules/app.module';
 import settings from "@constants/settings";
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import * as bodyParser from 'body-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors();
+  app.use(bodyParser.json());
 
   const config = new DocumentBuilder()
     .setTitle('Api ZenFlow')

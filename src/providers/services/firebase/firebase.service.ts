@@ -3,6 +3,7 @@ import * as admin from 'firebase-admin';
 import { CreateUserDto } from '@modules/users/dto/create-user.dto';
 import { UpdateUserDto } from '@modules/users/dto/update-user.dto';
 import { UpdateUserEmailDto } from '@modules/users/dto/update-user-email.dto';
+import { log } from 'console';
 
 @Injectable()
 export class FirebaseService {
@@ -21,6 +22,17 @@ export class FirebaseService {
   getMessaging() {
     return this.firebaseAdmin.messaging();
   }
+
+  async verifyToken(token: string): Promise<admin.auth.DecodedIdToken> {
+    try {
+
+      console.log(token);
+      return await admin.auth().verifyIdToken(token);
+    } catch (error) {
+      throw new Error('Invalid token');
+    }
+  }
+
 
   async createUser(createUserDto: CreateUserDto) {
     try {

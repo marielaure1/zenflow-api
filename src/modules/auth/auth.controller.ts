@@ -2,6 +2,7 @@ import { CustomersService } from '@modules/customers/customers.service';
 import { CreateCustomerDto } from '@modules/customers/dto/create-customer.dto';
 import { Controller, Get, Post, Body, Res, HttpStatus} from '@nestjs/common';
 import { FirebaseService } from '@providers/services/firebase/firebase.service';
+import { CustomersStripeService } from '@providers/services/stripe/services/customers.stripe.service';
 import { CreateUserDto } from '@modules/users/dto/create-user.dto';
 import { CreateAuthDto } from '@modules/auth/dto/create-auth-customer.dto';
 import { Response } from 'express';
@@ -15,7 +16,8 @@ export class AuthController {
   constructor(
     private readonly firebaseService: FirebaseService,
     private readonly usersService: UsersService,
-    private readonly customersService: CustomersService
+    private readonly customersService: CustomersService,
+    private readonly customersStripeService: CustomersStripeService
   ) {
     this.responsesHelper = new ResponsesHelper();
   }
@@ -34,13 +36,14 @@ export class AuthController {
     return snapshot.docs.map(doc => doc.data());
   }
 
-  @Post()
+  @Post("register")
   async register(@Body() CreateAuthDto :CreateAuthDto, @Res() res: Response){
     try {
       
       const firestore = await this.firebaseService.createUser(CreateAuthDto);
       const user = await this.usersService.create({uid: firestore?.uid, ...CreateAuthDto});
-      const customers = await this.customersService.create({user, ...CreateAuthDto});
+      const stripeCustomer = await this.customersStripeService.createCustomer({name: `${CreateAuthDto.firstName} ${CreateAuthDto.lastName}`, email: CreateAuthDto.email});
+      const customers = await this.customersService.create({user, stripeCustomerId: stripeCustomer.id, ...CreateAuthDto});
       
       return this.responsesHelper.getResponse({
         res,

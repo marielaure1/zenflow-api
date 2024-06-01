@@ -14,8 +14,24 @@ export class PlansStripeService {
     });
   }
 
-  async createProduct(createPlanDto: CreatePlanDto): Promise<Stripe.Product> {
+  async createPrice(createPlanDto: CreatePlanDto): Promise<Stripe.Price> {
+    const { amount, currency, name, interval} = createPlanDto;
+
+    return this.stripe.prices.create({
+      currency,
+      unit_amount: amount,
+      recurring: {
+        interval
+      },
+      product_data: {
+        name
+      },
+    });
+  }
+
+  async createProduct(createPlanDto: CreatePlanDto) {
     const { name} = createPlanDto;
+    // const price = this.createPrice(createPlanDto)
     const product = await this.stripe.products.create({
       name
     });

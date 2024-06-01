@@ -25,6 +25,9 @@ export class Customer {
 
   @Prop()
   dateOfBirth?: Date;
+
+  @Prop()
+  stripeCustomerId: string;
 }
 
 export const CustomerSchema = SchemaFactory.createForClass(Customer);

@@ -1,26 +1,18 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreateSubscriptionDto } from '@modules/subscriptions/dto/create-subscription.dto';
 import { UpdateSubscriptionDto } from '@modules/subscriptions/dto/update-subscription.dto';
+import { Subscription, SubscriptionDocument } from '@modules/subscriptions/entities/subscription.entity';
+import { AppService } from '@modules/app.service';
 
 @Injectable()
-export class SubscriptionsService   {
-  create(createSubscriptionDto: CreateSubscriptionDto) {
-    return 'This action adds a new subscribe';
+export class SubscriptionsService extends AppService<SubscriptionDocument, CreateSubscriptionDto, UpdateSubscriptionDto>{
+
+  constructor(
+    @InjectModel(Subscription.name) private subscriptionsModel: Model<SubscriptionDocument>
+  ) {
+    super(subscriptionsModel);
   }
 
-  findAll() {
-    return `This action returns all subscribes`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} subscribe`;
-  }
-
-  update(id: number, updateSubscriptionDto: UpdateSubscriptionDto) {
-    return `This action updates a #${id} subscribe`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} subscribe`;
-  }
 }

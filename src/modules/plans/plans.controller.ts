@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, Res, HttpStatus, Inject } from '@nestjs/common';
-import { PlansStripeService } from '@providers/services/stripe/plans/plans.stripe.service';
+import { PlansStripeService } from '@providers/services/stripe/services/plans.stripe.service';
 import { PlansService } from '@modules/plans/plans.service';
 import { CreatePlanDto } from '@modules/plans/dto/create-plan.dto';
 import { UpdatePlanDto } from '@modules/plans/dto/update-plan.dto';

@@ -14,9 +14,10 @@ import { CustomersModule } from '@modules/customers/customers.module';
 import { ClientsModule } from '@modules/clients/clients.module';
 import { PlansModule } from '@modules/plans/plans.module';
 import { AuthModule } from '@modules/auth/auth.module';
+import { SubscriptionsModule } from '@modules/subscriptions/subscriptions.module';
 import settings from "@constants/settings";
 import { FirebaseModule } from '@providers/services/firebase/firebase.module';
-
+import { PaymentsModule } from '@modules/payments/payments.module';
 
 
 @Module({
@@ -33,8 +34,10 @@ import { FirebaseModule } from '@providers/services/firebase/firebase.module';
     PlansModule,
     UsersModule,
     CustomersModule,
+    SubscriptionsModule,
     // ClientsModule,
-    AuthModule
+    AuthModule,
+    PaymentsModule
   ],
   controllers: [],
   providers: [],

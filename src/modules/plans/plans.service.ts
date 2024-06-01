@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreatePlanDto } from './dto/create-plan.dto';
-import { UpdatePlanDto } from './dto/update-plan.dto';
+import { CreatePlanDto } from '@modules/plans/dto/create-plan.dto';
+import { UpdatePlanDto } from '@modules/plans/dto/update-plan.dto';
 import { Plan, PlanDocument } from '@modules/plans/entities/plan.entity';
-import { ConfigService } from '@nestjs/config';
 import { AppService } from '@modules/app.service';
 
 @Injectable()
