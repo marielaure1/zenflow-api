@@ -37,6 +37,7 @@
       "@middleware/*": ["./src/common/middleware/*"],
       "@pipes/*": ["./src/common/pipes/*"],
       "@serializers/*": ["./src/common/serializers/*"],
+      "@entities/*": ["./src/common/entities/*"],
       /*
       * Générale
       */

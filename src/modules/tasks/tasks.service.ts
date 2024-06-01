@@ -1,26 +1,32 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTaskDto } from './dto/create-task.dto';
-import { UpdateTaskDto } from './dto/update-task.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Task, TaskDocument } from '@modules/tasks/entities/task.entity';
+import { CreateTaskDto } from '@modules/tasks/dto/create-task.dto';
+import { UpdateTaskDto } from '@modules/tasks/dto/update-task.dto';
 
 @Injectable()
 export class TasksService {
-  create(createTaskDto: CreateTaskDto) {
-    return 'This action adds a new task';
+  constructor(@InjectModel(Task.name) private taskModel: Model<TaskDocument>) {}
+
+  async create(createTaskDto: CreateTaskDto): Promise<Task> {
+    const createdTask = new this.taskModel(createTaskDto);
+    return createdTask.save();
   }
 
-  findAll() {
-    return `This action returns all tasks`;
+  async findAll(): Promise<Task[]> {
+    return this.taskModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} task`;
+  async findOne(id: string): Promise<Task> {
+    return this.taskModel.findById(id).exec();
   }
 
-  update(id: number, updateTaskDto: UpdateTaskDto) {
-    return `This action updates a #${id} task`;
+  async update(id: string, updateTaskDto: UpdateTaskDto): Promise<Task> {
+    return this.taskModel.findByIdAndUpdate(id, updateTaskDto, { new: true }).exec();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} task`;
+  async remove(id: string): Promise<Task> {
+    return this.taskModel.findByIdAndDelete(id).exec();
   }
 }
