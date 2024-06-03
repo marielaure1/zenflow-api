@@ -1,34 +1,18 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { TaskCategoriesService } from './tasks-categories.service';
-import { CreateTaskCategoryDto } from './dto/create-tasks-category.dto';
-import { UpdateTaskCategoryDto } from './dto/update-tasks-category.dto';
+import { TaskCategoriesService } from '@modules/tasks-categories/tasks-categories.service';
+import { CreateTaskCategoryDto } from '@modules/tasks-categories/dto/create-tasks-category.dto';
+import { UpdateTaskCategoryDto } from '@modules/tasks-categories/dto/update-tasks-category.dto';
+import ResponsesHelper from "@helpers/responses.helpers";
+import { AppController } from '@modules/app.controller';
+import { TaskCategory } from '@modules/tasks-categories/entities/tasks-category.entity';
 
-@Controller('task-categories')
-export class TaskCategoriesController {
-  constructor(private readonly taskCategoriesService: TaskCategoriesService) {}
+@Controller('tasks-categories')
+export class TaskCategoriesController extends AppController<TaskCategoriesService, TaskCategory, CreateTaskCategoryDto, UpdateTaskCategoryDto>{
 
-  @Post()
-  create(@Body() createTaskCategoryDto: CreateTaskCategoryDto) {
-    return this.taskCategoriesService.create(createTaskCategoryDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.taskCategoriesService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.taskCategoriesService.findOne(id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTaskCategoryDto: UpdateTaskCategoryDto) {
-    return this.taskCategoriesService.update(id, updateTaskCategoryDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.taskCategoriesService.remove(id);
+  constructor(
+      private readonly taskCategoriesService: TaskCategoriesService,
+  ) {
+      super(taskCategoriesService, "tasksCategories");
+      this.responsesHelper = new ResponsesHelper();
   }
 }

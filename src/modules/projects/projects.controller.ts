@@ -6,7 +6,7 @@ import { UpdateProjectDto } from './dto/update-project.dto';
 import { AppController } from '@modules/app.controller';
 import { Project } from './entities/project.entity';
 @Controller('projects')
-export class ProjectsController  extends AppController<ProjectsService, Project, CreateProjectDto, UpdateProjectDto>{
+export class ProjectsController extends AppController<ProjectsService, Project, CreateProjectDto, UpdateProjectDto>{
 
   constructor(
       private readonly projectsService: ProjectsService,
