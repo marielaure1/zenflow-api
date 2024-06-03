@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { TaskCategoriesService } from './task-categories.service';
-import { CreateTaskCategoryDto } from './dto/create-task-category.dto';
-import { UpdateTaskCategoryDto } from './dto/update-task-category.dto';
+import { TaskCategoriesService } from './tasks-categories.service';
+import { CreateTaskCategoryDto } from './dto/create-tasks-category.dto';
+import { UpdateTaskCategoryDto } from './dto/update-tasks-category.dto';
 
 @Controller('task-categories')
 export class TaskCategoriesController {

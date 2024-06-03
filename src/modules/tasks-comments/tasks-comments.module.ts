@@ -1,9 +1,13 @@
 import { Module } from '@nestjs/common';
-import { TasksCommentsService } from './tasks-comments.service';
-import { TasksCommentsController } from './tasks-comments.controller';
+import { TaskCommentsService } from './tasks-comments.service';
+import { TaskCommentsController } from './tasks-comments.controller';
+import { UsersModule } from '@modules/users/users.module';
+import { TasksModule } from '@modules/tasks/tasks.module';
 
 @Module({
-  controllers: [TasksCommentsController],
-  providers: [TasksCommentsService],
+  controllers: [TaskCommentsController],
+  providers: [TaskCommentsService],
+  imports: [TasksCommentsModule, UsersModule, TasksModule],
+  exports: [TasksCommentsModule]
 })
 export class TasksCommentsModule {}

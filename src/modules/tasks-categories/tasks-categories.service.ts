@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { TaskCategory, TaskCategoryDocument } from './entities/task-category.entity';
-import { CreateTaskCategoryDto } from './dto/create-task-category.dto';
-import { UpdateTaskCategoryDto } from './dto/update-task-category.dto';
+import { TaskCategory, TaskCategoryDocument } from './entities/tasks-category.entity';
+import { CreateTaskCategoryDto } from './dto/create-tasks-category.dto';
+import { UpdateTaskCategoryDto } from './dto/update-tasks-category.dto';
 
 @Injectable()
 export class TaskCategoriesService {

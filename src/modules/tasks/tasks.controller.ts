@@ -2,33 +2,17 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { TasksService } from '@modules/tasks/tasks.service';
 import { CreateTaskDto } from '@modules/tasks/dto/create-task.dto';
 import { UpdateTaskDto } from '@modules/tasks/dto/update-task.dto';
+import { AppController } from '@modules/app.controller';
+import ResponsesHelper from "@helpers/responses.helpers";
+import { Task } from '@modules/tasks/entities/task.entity';
 
 @Controller('tasks')
-export class TasksController {
-  constructor(private readonly tasksService: TasksService) {}
+export class TasksController extends AppController<TasksService, Task, CreateTaskDto, UpdateTaskDto>{
 
-  @Post()
-  create(@Body() createTaskDto: CreateTaskDto) {
-    return this.tasksService.create(createTaskDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.tasksService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.tasksService.findOne(id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto) {
-    return this.tasksService.update(id, updateTaskDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.tasksService.remove(id);
+  constructor(
+      private readonly tasksService: TasksService,
+  ) {
+      super(tasksService, "tasks");
+      this.responsesHelper = new ResponsesHelper();
   }
 }

@@ -1,30 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Project, ProjectDocument } from './entities/project.entity';
+import { Project, ProjectDocument } from '@modules/projects/entities/project.entity';
+import { CreateProjectDto } from '@modules/projects/dto/create-project.dto';
+import { UpdateProjectDto } from '@modules/projects/dto/update-project.dto';
+import { AppService } from '@modules/app.service';
 
 @Injectable()
-export class ProjectsService {
-  constructor(@InjectModel(Project.name) private projectModel: Model<ProjectDocument>) {}
-
-  async create(createProjectDto: any): Promise<Project> {
-    const createdProject = new this.projectModel(createProjectDto);
-    return createdProject.save();
-  }
-
-  async findAll(): Promise<Project[]> {
-    return this.projectModel.find().exec();
-  }
-
-  async findOne(id: string): Promise<Project> {
-    return this.projectModel.findById(id).exec();
-  }
-
-  async update(id: string, updateProjectDto: any): Promise<Project> {
-    return this.projectModel.findByIdAndUpdate(id, updateProjectDto, { new: true }).exec();
-  }
-
-  async remove(id: string): Promise<Project> {
-    return this.projectModel.findByIdAndDelete(id).exec();
+export class ProjectsService extends AppService<ProjectDocument, CreateProjectDto, UpdateProjectDto>{
+  
+  constructor(@InjectModel(Project.name) private projectsModel: Model<ProjectDocument>) {
+    super(projectsModel);
   }
 }

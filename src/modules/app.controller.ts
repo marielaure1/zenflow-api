@@ -15,6 +15,7 @@ import { AppService } from '@modules/app.service';
 import { Response } from 'express';
 import ResponsesHelper from "@helpers/responses.helpers";
 import { log } from 'console';
+import { ValidationError } from 'class-validator';
 @Controller()
 export abstract class AppController<Service extends AppService<AppModel, CreateDto, UpdateDto>, AppModel, CreateDto, UpdateDto> {
   private readonly schema :string;
@@ -38,18 +39,29 @@ export abstract class AppController<Service extends AppService<AppModel, CreateD
         method: "Post",
         code: HttpStatus.CREATED,
         subject: this.schema,
-        data
+        data,
       });
     } catch (error) {
-      console.error("AppController > create : ", error);
-      return this.responsesHelper.getResponse({
-        res,
-        path: "create",
-        method: "Post",
-        code: HttpStatus.INTERNAL_SERVER_ERROR, 
-        subject: this.schema,
-        data: error.message
-      });
+      if (Array.isArray(error) && error[0] instanceof ValidationError) {
+        return this.responsesHelper.getResponse({
+          res,
+          path: "create",
+          method: "Post",
+          code: HttpStatus.UNPROCESSABLE_ENTITY,
+          subject: this.schema,
+          data: error, 
+        });
+      } else {
+        console.error("AppController > create : ", error);
+        return this.responsesHelper.getResponse({
+          res,
+          path: "create",
+          method: "Post",
+          code: HttpStatus.INTERNAL_SERVER_ERROR,
+          subject: this.schema,
+          data: error.message,
+        });
+      }
     }
   }
 
@@ -57,24 +69,38 @@ export abstract class AppController<Service extends AppService<AppModel, CreateD
   async findAll(@Res() res: Response) {
     try {
       const data = await this.service.findAll();
+      if (!data || data.length === 0) {
+        throw new Error("Not Found");
+      }
       return this.responsesHelper.getResponse({
         res,
         path: "findAll",
         method: "Get",
         code: HttpStatus.OK,
         subject: this.schema,
-        data
+        data,
       });
     } catch (error) {
-      console.error("AppController > findAll : ", error);
-      return this.responsesHelper.getResponse({
-        res,
-        path: "findAll",
-        method: "Get",
-        code: HttpStatus.INTERNAL_SERVER_ERROR,
-        subject: this.schema,
-        data: error.message
-      });
+      if (error.message === "Not Found") {
+        return this.responsesHelper.getResponse({
+          res,
+          path: "findAll",
+          method: "Get",
+          code: HttpStatus.NOT_FOUND,
+          subject: this.schema,
+          data: error.message,
+        });
+      } else {
+        console.error("AppController > findAll : ", error);
+        return this.responsesHelper.getResponse({
+          res,
+          path: "findAll",
+          method: "Get",
+          code: HttpStatus.INTERNAL_SERVER_ERROR,
+          subject: this.schema,
+          data: error.message,
+        });
+      }
     }
   }
 
@@ -82,24 +108,38 @@ export abstract class AppController<Service extends AppService<AppModel, CreateD
   async findOne(@Param('id') id: string, @Res() res: Response) {
     try {
       const data = await this.service.findOne(id);
+      if (!data) {
+        throw new Error("Not Found");
+      }
       return this.responsesHelper.getResponse({
         res,
         path: "findOne",
         method: "Get",
         code: HttpStatus.OK,
         subject: this.schema,
-        data
+        data,
       });
     } catch (error) {
-      console.error("AppController > findOne : ", error);
-      return this.responsesHelper.getResponse({
-        res,
-        path: "findOne",
-        method: "Get",
-        code: HttpStatus.INTERNAL_SERVER_ERROR,
-        subject: this.schema,
-        data: error.message
-      });
+      if (error.message === "Not Found") {
+        return this.responsesHelper.getResponse({
+          res,
+          path: "findOne",
+          method: "Get",
+          code: HttpStatus.NOT_FOUND,
+          subject: this.schema,
+          data: error.message,
+        });
+      } else {
+        console.error("AppController > findOne : ", error);
+        return this.responsesHelper.getResponse({
+          res,
+          path: "findOne",
+          method: "Get",
+          code: HttpStatus.INTERNAL_SERVER_ERROR,
+          subject: this.schema,
+          data: error.message,
+        });
+      }
     }
   }
 
@@ -107,24 +147,47 @@ export abstract class AppController<Service extends AppService<AppModel, CreateD
   async update(@Param('id') id: string, @Body() updateDto: UpdateDto, @Res() res: Response) {
     try {
       const data = await this.service.update(id, updateDto);
+      if (!data) {
+        throw new Error("Not Found");
+      }
       return this.responsesHelper.getResponse({
         res,
         path: "update",
         method: "Put",
         code: HttpStatus.OK,
         subject: this.schema,
-        data
+        data,
       });
     } catch (error) {
-      console.error("AppController > update : ", error);
-      return this.responsesHelper.getResponse({
-        res,
-        path: "update",
-        method: "Put",
-        code: HttpStatus.INTERNAL_SERVER_ERROR,
-        subject: this.schema,
-        data: error.message
-      });
+      if (Array.isArray(error) && error[0] instanceof ValidationError) {
+        return this.responsesHelper.getResponse({
+          res,
+          path: "update",
+          method: "Put",
+          code: HttpStatus.UNPROCESSABLE_ENTITY,
+          subject: this.schema,
+          data: error,
+        });
+      } else if (error.message === "Not Found") {
+        return this.responsesHelper.getResponse({
+          res,
+          path: "update",
+          method: "Put",
+          code: HttpStatus.NOT_FOUND,
+          subject: this.schema,
+          data: error.message,
+        });
+      } else {
+        console.error("AppController > update : ", error);
+        return this.responsesHelper.getResponse({
+          res,
+          path: "update",
+          method: "Put",
+          code: HttpStatus.INTERNAL_SERVER_ERROR,
+          subject: this.schema,
+          data: error.message,
+        });
+      }
     }
   }
   
@@ -132,29 +195,27 @@ export abstract class AppController<Service extends AppService<AppModel, CreateD
   @Delete(':id')
   async remove(@Param('id') id: string, @Res() res: Response) {
     try {
-
       const isFind = await this.service.findOne(id);
-
-      if(!isFind){
+      if (!isFind) {
         return this.responsesHelper.getResponse({
           res,
           path: "remove",
           method: "Delete",
           code: HttpStatus.NOT_FOUND,
           subject: this.schema,
-          data: {}
+          data: {},
         });
       }
 
-      const remove = await this.service.remove(id);
-      
+      await this.service.remove(id); 
+
       return this.responsesHelper.getResponse({
         res,
         path: "remove",
         method: "Delete",
         code: HttpStatus.OK,
         subject: this.schema,
-        data: { remove }
+        data: { removed: true }, 
       });
     } catch (error) {
       console.error("AppController > remove : ", error);
@@ -164,7 +225,7 @@ export abstract class AppController<Service extends AppService<AppModel, CreateD
         method: "Delete",
         code: HttpStatus.INTERNAL_SERVER_ERROR,
         subject: this.schema,
-        data: error.message
+        data: error.message,
       });
     }
   }

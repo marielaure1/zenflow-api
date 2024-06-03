@@ -2,8 +2,8 @@ import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { User } from '@modules/users/entities/user.entity';
 import { Task } from '@modules/tasks/entities/task.entity';
-import { Category } from '@modules/categories/entities/category.entity';
-import { CustomField } from '@modules/projects/entities/custom-fields.entity';
+import { TaskCategory } from '@modules/tasks-categories/entities/tasks-category.entity';
+import { CustomField } from '@entities/custom-fields.entity';
 
 export type ProjectDocument = Project & Document;
 
@@ -22,14 +22,15 @@ export class Project {
   @Prop({ type: Types.ObjectId, ref: User.name, required: true })
   ownerId: Types.ObjectId;
 
-  @Prop({ type: Types.ObjectId, ref: User.name, required: true })
-  clientId: Types.ObjectId;
+  // @Prop({ type: Types.ObjectId, ref: Client.name })
+  // clientId?: Types.ObjectId;
 
-  @Prop({ type: [{ type: Types.ObjectId, ref: Task.name }] })
+  @Prop({ type: [{ type: Types.ObjectId, ref: "Task" }] })
   tasks?: Types.ObjectId[];
 
-  @Prop({ type: [{ type: Types.ObjectId, ref: Category.name }] })
+  @Prop({ type: [{ type: Types.ObjectId, ref: TaskCategory.name }] })
   categoryIds?: Types.ObjectId[];
+
 
   @Prop({ type: Map, of: CustomFieldSchema })
   customFields?: Map<string, CustomField>;

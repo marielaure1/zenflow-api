@@ -1,5 +1,6 @@
 import { IsString, IsNotEmpty, IsObject, IsOptional, IsArray, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
+import { CustomFieldDto } from '@dtos/custom-field.dto';
 
 export class CreateProjectDto {
   @IsString()
@@ -14,9 +15,9 @@ export class CreateProjectDto {
   @IsNotEmpty()
   ownerId: string;
 
-  @IsString()
-  @IsNotEmpty()
-  clientId: string;
+  // @IsString()
+  // @IsOptional()
+  // clientId?: string;
 
   @IsOptional()
   @IsArray()
@@ -30,5 +31,5 @@ export class CreateProjectDto {
   @IsObject()
   @ValidateNested({ each: true })
   @Type(() => CustomFieldDto)
-  customFields?: Record<string, CustomFieldDto>;
+  customFields?: CustomFieldDto;
 }

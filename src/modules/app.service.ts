@@ -36,7 +36,7 @@ export abstract class AppService<AppModel, CreateDto, UpdateDto> {
   }
 
   async update(id: string, updateDto: UpdateDto): Promise<AppModel> {
-    return this.appModel.findByIdAndUpdate(id, updateDto).exec();
+    return await this.appModel.findByIdAndUpdate(id, updateDto, { new: true });
   }
 
   async remove(id: string): Promise<void> {

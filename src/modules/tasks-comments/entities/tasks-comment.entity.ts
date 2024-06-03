@@ -12,7 +12,7 @@ export class TaskComment {
   @Prop({ required: true })
   content: string;
 
-  @Prop({ type: Types.ObjectId, ref: Task.name, required: true })
+  @Prop({ type: Types.ObjectId, ref: "Task", required: true })
   taskId: Types.ObjectId;
 
   @Prop({ type: Types.ObjectId, ref: User.name, required: true })

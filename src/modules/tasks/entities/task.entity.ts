@@ -46,7 +46,7 @@ export class Task {
   @Prop({ type: Map, of: CustomFieldSchema })
   customFields?: Map<string, CustomField>;
 
-  @Prop({ type: Types.ObjectId, ref: Task.name })
+  @Prop({ type: Types.ObjectId, ref: "Task"})
   parentTaskId?: Types.ObjectId;
 
   @Prop({ type: [{ type: Types.ObjectId, ref: Task.name }] })

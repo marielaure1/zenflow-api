@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { TasksCategoriesService } from './tasks-categories.service';
-import { TasksCategoriesController } from './tasks-categories.controller';
+import { TaskCategoriesService } from './tasks-categories.service';
+import { TaskCategoriesController } from './tasks-categories.controller';
 
 @Module({
-  controllers: [TasksCategoriesController],
-  providers: [TasksCategoriesService],
+  controllers: [TaskCategoriesController],
+  providers: [TaskCategoriesService],
 })
 export class TasksCategoriesModule {}

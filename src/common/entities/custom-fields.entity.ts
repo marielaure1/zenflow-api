@@ -8,7 +8,7 @@ class CustomField {
     type: string;
   
     @Prop({ required: true })
-    value: any;
+    value?: string;
   
     @Prop({ required: true })
     position: number;
