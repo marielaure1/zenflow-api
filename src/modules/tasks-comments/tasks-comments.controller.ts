@@ -4,11 +4,10 @@ import { CreateTaskCommentDto } from '@modules/tasks-comments/dto/create-tasks-c
 import { UpdateTaskCommentDto } from '@modules/tasks-comments/dto/update-tasks-comment.dto';
 import { AppController } from '@modules/app.controller';
 import ResponsesHelper from "@helpers/responses.helpers";
-import { TaskCategory } from '@modules/tasks-categories/entities/tasks-category.entity';
-import { CreateTaskCategoryDto } from '@modules/tasks-categories/dto/create-tasks-category.dto';
-import { UpdateTaskCategoryDto } from '@modules/tasks-categories/dto/update-tasks-category.dto';
+import { TaskComment } from '@modules/tasks-comments/entities/tasks-comment.entity';
+
 @Controller('tasks-comments')
-export class TaskCommentsController extends AppController<TaskCommentsService, TaskCategory, CreateTaskCategoryDto, UpdateTaskCategoryDto>{
+export class TaskCommentsController extends AppController<TaskCommentsService, TaskComment, CreateTaskCommentDto, UpdateTaskCommentDto>{
 
   constructor(
       private readonly taskCommentsService: TaskCommentsService,

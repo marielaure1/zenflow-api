@@ -1,6 +1,6 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-import { User } from '@modules/users/entities/user.entity';
+import { Customer } from '@modules/customers/entities/customer.entity';
 import { Project } from '@modules/projects/entities/project.entity';
 import { TaskComment } from '@modules/tasks-comments/entities/tasks-comment.entity';
 import { TimeEntry, TimeEntrySchema } from './time-entry.entity';
@@ -19,10 +19,10 @@ export class Task {
   @Prop({ required: true })
   description: string;
 
-  @Prop({ type: Types.ObjectId, ref: Project.name, required: true })
-  projectId: Types.ObjectId;
+  @Prop({ type: Types.ObjectId, ref: Project.name })
+  projectId?: Types.ObjectId;
 
-  @Prop({ type: Types.ObjectId, ref: User.name })
+  @Prop({ type: Types.ObjectId, ref: Customer.name })
   assigneeId: Types.ObjectId;
 
   @Prop({ required: true })
@@ -53,7 +53,7 @@ export class Task {
   subTasks?: Types.ObjectId[];
 
   @Prop({ type: [{ type: Types.ObjectId, ref: TaskCategory.name }] })
-  categoryIds?: Types.ObjectId[];
+  taskCategoryIds?: Types.ObjectId[];
 
   @Prop()
   section: string;

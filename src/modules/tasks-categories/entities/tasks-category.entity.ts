@@ -1,5 +1,6 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Project } from '@modules/projects/entities/project.entity';
+import { Document, Types } from 'mongoose';
 
 export type TaskCategoryDocument = TaskCategory & Document;
 
@@ -12,6 +13,9 @@ export class TaskCategory {
 
   @Prop({ required: true })
   description: string;
+
+  @Prop({ type: Types.ObjectId, ref: "Project", required: true })
+  projectId: Types.ObjectId;
 
   createdAt?: Date;
   updatedAt?: Date;
