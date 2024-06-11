@@ -42,5 +42,9 @@ export abstract class AppService<AppModel, CreateDto, UpdateDto> {
   async remove(id: string): Promise<void> {
     await this.appModel.findByIdAndDelete(id).exec();
   }
+
+  async findWhere(where: object): Promise<AppModel[]> {
+    return this.appModel.find(where).populate(this.populate).exec();
+  }
 }
 

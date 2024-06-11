@@ -12,4 +12,5 @@ export class TaskCategoriesService extends AppService<TaskCategoryDocument, Crea
   constructor(@InjectModel(TaskCategory.name) private taskCategoryModel: Model<TaskCategoryDocument>) {
     super(taskCategoryModel);
   }
+
 }

@@ -34,6 +34,9 @@ export class Task {
   @Prop()
   priority: string;
 
+  @Prop({default: false})
+  completed: boolean;
+
   @Prop({ type: [{ type: Types.ObjectId, ref: TaskComment.name }] })
   comments?: Types.ObjectId[];
 
@@ -52,11 +55,8 @@ export class Task {
   @Prop({ type: [{ type: Types.ObjectId, ref: Task.name }] })
   subTasks?: Types.ObjectId[];
 
-  @Prop({ type: [{ type: Types.ObjectId, ref: TaskCategory.name }] })
-  taskCategoryIds?: Types.ObjectId[];
-
-  @Prop()
-  section: string;
+  @Prop({ type: Types.ObjectId, ref: TaskCategory.name})
+  taskCategoryId?: Types.ObjectId;
 
   @Prop()
   order: number;

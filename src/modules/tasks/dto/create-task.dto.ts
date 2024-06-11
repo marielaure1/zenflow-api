@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsOptional, IsObject, IsArray, ValidateNested, IsDate, IsNumber } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsObject, IsArray, ValidateNested, IsDate, IsNumber, IsBoolean } from 'class-validator';
 import { Type } from 'class-transformer';
 import { CustomFieldDto } from '@dtos/custom-field.dto';
 import { FlagDto } from '@dtos/flag.dto';
@@ -15,7 +15,7 @@ export class CreateTaskDto {
 
   @IsString()
   @IsOptional()
-  projectId?: string;
+  taskCategoryId?: string;
 
   @IsOptional()
   @IsString()
@@ -24,6 +24,10 @@ export class CreateTaskDto {
   @IsString()
   @IsNotEmpty()
   status: string;
+
+  @IsBoolean()
+  @IsOptional()
+  completed?: boolean;
 
   @IsOptional()
   @IsDate()

@@ -146,10 +146,16 @@ export abstract class AppController<Service extends AppService<AppModel, CreateD
   @Put(':id')
   async update(@Param('id') id: string, @Body() updateDto: UpdateDto, @Res() res: Response) {
     try {
+      console.log("updateDto",updateDto);
+      
       const data = await this.service.update(id, updateDto);
       if (!data) {
         throw new Error("Not Found");
       }
+
+
+      console.log(data);
+      
       return this.responsesHelper.getResponse({
         res,
         path: "update",
