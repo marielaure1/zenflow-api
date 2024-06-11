@@ -2,7 +2,7 @@ import { Controller, Post, Body, Res, HttpStatus, Param, Get, Put, Delete, Req, 
 import { CustomersService } from '@modules/customers/customers.service';
 import { CreateCustomerDto } from '@modules/customers/dto/create-customer.dto';
 import { UpdateCustomerDto } from '@modules/customers/dto/update-customer.dto';
-import { Customer } from '@modules/customers/entities/customer.entity';
+import { Customer, CustomerDocument } from '@modules/customers/entities/customer.entity';
 import { AppController } from '@modules/app.controller';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from "express";
@@ -17,7 +17,7 @@ import { log } from 'console';
 
 @ApiTags('customers')
 @Controller('customers')
-export class CustomersController extends AppController<CustomersService, Customer, CreateCustomerDto, UpdateCustomerDto>{
+export class CustomersController extends AppController<CustomerDocument, CreateCustomerDto, UpdateCustomerDto>{
 
   constructor(
       private readonly customersService: CustomersService,

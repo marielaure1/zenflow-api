@@ -6,12 +6,12 @@ import { TasksService } from "@modules/tasks/tasks.service";
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { AppController } from '@modules/app.controller';
-import { Project } from './entities/project.entity';
+import { Project, ProjectDocument } from './entities/project.entity';
 import { Response } from "express";
 import { log } from "console";
 
 @Controller('projects')
-export class ProjectsController extends AppController<ProjectsService, Project, CreateProjectDto, UpdateProjectDto>{
+export class ProjectsController extends AppController<ProjectDocument, CreateProjectDto, UpdateProjectDto>{
 
   constructor(
       private readonly projectsService: ProjectsService,
@@ -19,7 +19,6 @@ export class ProjectsController extends AppController<ProjectsService, Project, 
       private readonly tasksService: TasksService,
   ) {
       super(projectsService, "projects");
-      this.responsesHelper = new ResponsesHelper();
   }
 
   @Get(":id/tasks-categories")

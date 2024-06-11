@@ -21,8 +21,8 @@ export class CreateProjectDto {
   ownerId: string;
 
   @IsString()
-  @IsNotEmpty()
-  teamId: string;
+  @IsOptional()
+  teamId?: string;
 
   @IsString()
   @IsOptional()

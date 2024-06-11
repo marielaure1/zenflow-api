@@ -5,10 +5,10 @@ import { CreateTaskCategoryDto } from '@modules/tasks-categories/dto/create-task
 import { UpdateTaskCategoryDto } from '@modules/tasks-categories/dto/update-tasks-category.dto';
 import ResponsesHelper from "@helpers/responses.helpers";
 import { AppController } from '@modules/app.controller';
-import { TaskCategory } from '@modules/tasks-categories/entities/tasks-category.entity';
+import { TaskCategory, TaskCategoryDocument } from '@modules/tasks-categories/entities/tasks-category.entity';
 import { Response } from "express";
 @Controller('tasks-categories')
-export class TaskCategoriesController extends AppController<TaskCategoriesService, TaskCategory, CreateTaskCategoryDto, UpdateTaskCategoryDto>{
+export class TaskCategoriesController extends AppController<TaskCategoryDocument, CreateTaskCategoryDto, UpdateTaskCategoryDto>{
 
   constructor(
       private readonly taskCategoriesService: TaskCategoriesService,

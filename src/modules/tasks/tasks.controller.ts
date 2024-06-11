@@ -4,10 +4,10 @@ import { CreateTaskDto } from '@modules/tasks/dto/create-task.dto';
 import { UpdateTaskDto } from '@modules/tasks/dto/update-task.dto';
 import { AppController } from '@modules/app.controller';
 import ResponsesHelper from "@helpers/responses.helpers";
-import { Task } from '@modules/tasks/entities/task.entity';
+import { Task, TaskDocument } from '@modules/tasks/entities/task.entity';
 
 @Controller('tasks')
-export class TasksController extends AppController<TasksService, Task, CreateTaskDto, UpdateTaskDto>{
+export class TasksController extends AppController<TaskDocument, CreateTaskDto, UpdateTaskDto>{
 
   constructor(
       private readonly tasksService: TasksService,

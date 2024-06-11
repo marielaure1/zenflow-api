@@ -4,10 +4,10 @@ import { CreateTaskCommentDto } from '@modules/tasks-comments/dto/create-tasks-c
 import { UpdateTaskCommentDto } from '@modules/tasks-comments/dto/update-tasks-comment.dto';
 import { AppController } from '@modules/app.controller';
 import ResponsesHelper from "@helpers/responses.helpers";
-import { TaskComment } from '@modules/tasks-comments/entities/tasks-comment.entity';
+import { TaskComment, TaskCommentDocument } from '@modules/tasks-comments/entities/tasks-comment.entity';
 
 @Controller('tasks-comments')
-export class TaskCommentsController extends AppController<TaskCommentsService, TaskComment, CreateTaskCommentDto, UpdateTaskCommentDto>{
+export class TaskCommentsController extends AppController<TaskCommentDocument, CreateTaskCommentDto, UpdateTaskCommentDto>{
 
   constructor(
       private readonly taskCommentsService: TaskCommentsService,

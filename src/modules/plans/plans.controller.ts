@@ -3,7 +3,7 @@ import { PlansStripeService } from '@providers/services/stripe/services/plans.st
 import { PlansService } from '@modules/plans/plans.service';
 import { CreatePlanDto } from '@modules/plans/dto/create-plan.dto';
 import { UpdatePlanDto } from '@modules/plans/dto/update-plan.dto';
-import { Plan } from '@modules/plans/entities/plan.entity';
+import { Plan, PlanDocument } from '@modules/plans/entities/plan.entity';
 import { AppController } from '@modules/app.controller';
 import { ApiTags } from '@nestjs/swagger';
 import ResponsesHelper from "@helpers/responses.helpers";
@@ -12,7 +12,7 @@ import { Response } from 'express';
 
 @ApiTags('plans')
 @Controller('plans')
-export class PlansController extends AppController<PlansService, Plan, CreatePlanDto, CreatePlanDto>{
+export class PlansController extends AppController<PlanDocument, CreatePlanDto, CreatePlanDto>{
   public responsesHelper: ResponsesHelper;
   
   constructor(

@@ -6,6 +6,7 @@ import { TaskComment } from '@modules/tasks-comments/entities/tasks-comment.enti
 import { TimeEntry, TimeEntrySchema } from './time-entry.entity';
 import { CustomField, CustomFieldSchema } from '@entities/custom-fields.entity';
 import { TaskCategory } from '@modules/tasks-categories/entities/tasks-category.entity';
+import { Priority } from '@enums/priority.enum';
 
 export type TaskDocument = Task & Document;
 
@@ -29,10 +30,10 @@ export class Task {
   status: string;
 
   @Prop()
-  dueDate: Date;
+  dueDate?: Date;
 
-  @Prop()
-  priority: string;
+  @Prop({enum: Priority})
+  priority?: string;
 
   @Prop({default: false})
   completed: boolean;

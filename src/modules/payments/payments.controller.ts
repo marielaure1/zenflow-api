@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Inject, Res, Req, Ht
 import { PaymentsService } from '@modules/payments/payments.service';
 import { CreatePaymentDto } from '@modules/payments/dto/create-payment.dto';
 import { UpdatePaymentDto } from '@modules/payments/dto/update-payment.dto';
-import { Payment } from '@modules/payments/entities/payment.entity';
+import { Payment, PaymentDocument } from '@modules/payments/entities/payment.entity';
 import { AppController } from '@modules/app.controller';
 import { ApiTags } from '@nestjs/swagger';
 import ResponsesHelper from "@helpers/responses.helpers";
@@ -15,7 +15,7 @@ import {CreateCheckoutSessionDto} from "@modules/payments/dto/create-checkout-se
 
 @ApiTags('payments')
 @Controller('payments')
-export class PaymentsController extends AppController<PaymentsService, Payment, CreatePaymentDto, CreatePaymentDto>{
+export class PaymentsController extends AppController<PaymentDocument, CreatePaymentDto, CreatePaymentDto>{
   public responsesHelper: ResponsesHelper;
   
   constructor(
