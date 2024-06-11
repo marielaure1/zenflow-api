@@ -10,20 +10,20 @@ import {
   Res,
   HttpStatus
 } from '@nestjs/common';
-import { Model, Document } from 'mongoose';
+import { Document } from 'mongoose';
 import { AppService } from '@modules/app.service';
 import { Response } from 'express';
 import ResponsesHelper from "@helpers/responses.helpers";
-import { log } from 'console';
 import { ValidationError } from 'class-validator';
+
 @Controller()
-export abstract class AppController<Service extends AppService<AppModel, CreateDto, UpdateDto>, AppModel, CreateDto, UpdateDto> {
-  private readonly schema :string;
+export abstract class AppController<AppModel extends Document, CreateDto, UpdateDto> {
+  private readonly schema: string;
   public responsesHelper: ResponsesHelper;
-  
+
   constructor(
-    private readonly service: Service,
-    schema :string
+    private readonly service: AppService<AppModel, CreateDto, UpdateDto>,
+    schema: string
   ) {
     this.schema = schema;
     this.responsesHelper = new ResponsesHelper();
@@ -49,7 +49,7 @@ export abstract class AppController<Service extends AppService<AppModel, CreateD
           method: "Post",
           code: HttpStatus.UNPROCESSABLE_ENTITY,
           subject: this.schema,
-          data: error, 
+          data: error,
         });
       } else {
         console.error("AppController > create : ", error);
@@ -146,16 +146,10 @@ export abstract class AppController<Service extends AppService<AppModel, CreateD
   @Put(':id')
   async update(@Param('id') id: string, @Body() updateDto: UpdateDto, @Res() res: Response) {
     try {
-      console.log("updateDto",updateDto);
-      
       const data = await this.service.update(id, updateDto);
       if (!data) {
         throw new Error("Not Found");
       }
-
-
-      console.log(data);
-      
       return this.responsesHelper.getResponse({
         res,
         path: "update",
@@ -196,7 +190,6 @@ export abstract class AppController<Service extends AppService<AppModel, CreateD
       }
     }
   }
-  
 
   @Delete(':id')
   async remove(@Param('id') id: string, @Res() res: Response) {
