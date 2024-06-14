@@ -1,26 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { CreateClientDto } from './dto/create-client.dto';
-import { UpdateClientDto } from './dto/update-client.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Client, ClientDocument } from '@modules/clients/entities/client.entity';
+import { CreateClientDto } from '@modules/clients/dto/create-client.dto';
+import { UpdateClientDto } from '@modules/clients/dto/update-client.dto';
+import { AppService } from '@modules/app.service';
 
 @Injectable()
-export class ClientsService {
-  create(createClientDto: CreateClientDto) {
-    return 'This action adds a new client';
-  }
+export class ClientsService extends AppService<ClientDocument, CreateClientDto, UpdateClientDto>{
 
-  findAll() {
-    return `This action returns all clients`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} client`;
-  }
-
-  update(id: number, updateClientDto: UpdateClientDto) {
-    return `This action updates a #${id} client`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} client`;
+  constructor(@InjectModel(Client.name) private clientModel: Model<ClientDocument>) {
+    super(clientModel);
   }
 }

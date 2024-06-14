@@ -2,14 +2,15 @@ import { CustomField } from '@entities/custom-fields.entity';
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type ClientDocument = Client & Document;
+export type ProspectDocument = Prospect & Document;
 
 const CustomFieldSchema = SchemaFactory.createForClass(CustomField);
+
 
 @Schema({
   timestamps: true
 })
-export class Client {
+export class Prospect {
   @Prop({ required: true })
   name: string;
 
@@ -25,6 +26,24 @@ export class Client {
   @Prop({ required: true })
   status: string;
 
+  @Prop()
+  lastContactDate?: Date;
+
+  @Prop()
+  marketSegment?: string;
+
+  @Prop()
+  needs?: string;
+
+  @Prop()
+  leadSource?: string;
+
+  @Prop()
+  companySize?: string;
+
+  @Prop()
+  estimatedBudget?: number;
+
   @Prop({ type: Map, of: CustomFieldSchema })
   customFields?: Map<string, CustomField>;
 
@@ -32,4 +51,4 @@ export class Client {
   updatedAt?: Date;
 }
 
-export const ClientSchema = SchemaFactory.createForClass(Client);
+export const ProspectSchema = SchemaFactory.createForClass(Prospect);

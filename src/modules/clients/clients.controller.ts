@@ -1,34 +1,20 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import ResponsesHelper from "@helpers/responses.helpers";
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus } from '@nestjs/common';
 import { ClientsService } from './clients.service';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
+import { AppController } from '@modules/app.controller';
+import { Client, ClientDocument } from './entities/client.entity';
+import { Response } from "express";
+import { log } from "console";
 
 @Controller('clients')
-export class ClientsController {
-  constructor(private readonly clientsService: ClientsService) {}
+export class ClientsController extends AppController<ClientDocument, CreateClientDto, UpdateClientDto>{
 
-  @Post()
-  create(@Body() createClientDto: CreateClientDto) {
-    return this.clientsService.create(createClientDto);
+  constructor(
+      private readonly clientsService: ClientsService
+  ) {
+      super(clientsService, "clients");
   }
 
-  @Get()
-  findAll() {
-    return this.clientsService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.clientsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateClientDto: UpdateClientDto) {
-    return this.clientsService.update(+id, updateClientDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.clientsService.remove(+id);
-  }
 }

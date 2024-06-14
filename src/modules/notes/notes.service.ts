@@ -1,26 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { CreateNoteDto } from './dto/create-note.dto';
-import { UpdateNoteDto } from './dto/update-note.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Note, NoteDocument } from '@modules/notes/entities/note.entity';
+import { CreateNoteDto } from '@modules/notes/dto/create-note.dto';
+import { UpdateNoteDto } from '@modules/notes/dto/update-note.dto';
+import { AppService } from '@modules/app.service';
 
 @Injectable()
-export class NotesService {
-  create(createNoteDto: CreateNoteDto) {
-    return 'This action adds a new note';
-  }
+export class NotesService extends AppService<NoteDocument, CreateNoteDto, UpdateNoteDto>{
 
-  findAll() {
-    return `This action returns all notes`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} note`;
-  }
-
-  update(id: number, updateNoteDto: UpdateNoteDto) {
-    return `This action updates a #${id} note`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} note`;
+  constructor(@InjectModel(Note.name) private noteModel: Model<NoteDocument>) {
+    super(noteModel);
   }
 }

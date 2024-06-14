@@ -1,20 +1,20 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type NoteDocument = Note & Document;
+export type NoteFolderDocument = NoteFolder & Document;
 
 @Schema({
   timestamps: true
 })
-export class Note {
+export class NoteFolder {
   @Prop({ required: true })
-  title: string;
+  name: string;
 
   @Prop({ required: true })
-  content: string;
+  description: string;
 
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-export const NoteSchema = SchemaFactory.createForClass(Note);
+export const NoteFolderSchema = SchemaFactory.createForClass(NoteFolder);
