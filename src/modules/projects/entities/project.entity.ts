@@ -12,8 +12,7 @@ export type ProjectDocument = Project & Document;
 const CustomFieldSchema = SchemaFactory.createForClass(CustomField);
 
 @Schema({
-  timestamps: true,
-  collection: 'prj_project'
+  timestamps: true
 })
 export class Project {
   @Prop({ required: true })
