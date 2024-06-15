@@ -1,7 +1,7 @@
 enum UserStatut{
     USER = "USER",
     ADMIN = "ADMIN",
-    SUPERADMIN = "SUPERADMIN"
+    MEGAADMIN = "MEGA_ADMIN"
 }
 
 export default UserStatut;
