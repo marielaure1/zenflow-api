@@ -7,7 +7,7 @@ import { TasksModule } from '@modules/tasks/tasks.module';
 @Module({
   controllers: [TaskCommentsController],
   providers: [TaskCommentsService],
-  imports: [TaskCommentsModule, UsersModule, TasksModule],
+  imports: [UsersModule, TasksModule],
   exports: [TaskCommentsModule]
 })
 export class TaskCommentsModule {}

@@ -11,11 +11,9 @@ import settings from "@constants/settings";
 
 // MODULES
 import { AuthModule } from '@modules/auth/auth.module';
-
-
 // import { ChatsModule } from '@modules/chats/chats.module';
 import { ClientsModule } from '@modules/clients/clients.module';
-import { CustomFieldModule } from '@modules/custom-fields/custom-fields.module';
+import { CustomFieldsModule } from '@modules/custom-fields/custom-fields.module';
 import { CustomersModule } from '@modules/customers/customers.module';
 // import { ForumsModule } from '@modules/forums/forums.module';
 // import { LogsModule } from '@modules/logs/logs.module';
@@ -57,18 +55,37 @@ import { UsersModule } from '@modules/users/users.module';
     FirebaseModule.forRootAsync(),
     DatabaseModule,
     StripeModule,
+    AuthModule,
+    // ChatsModule,
+    ClientsModule,
+    CustomFieldsModule,
+    CustomersModule,
+    // ForumsModule,
+    // LogsModule,
+    // MemberModule,
+    // MessageModule,
+    // NoteFoldersModule,
+    // NotesModule,
+    // NoteTagsModule,
+    // NotificationsModule,
+    PaymentsModule,
+    // PermissionsModule,
+    // PermissionCategoriesModule,
+    // PermissionUsersModule,
+    // PlanningEventsModule,
+    PlansModule,
+    // PostsModule,
     ProjectsModule,
+    // ProspectsModule,
+    // ResourcesModule,
+    // SettingsModule,
+    SubscriptionsModule,
     TasksModule,
     TaskCategoriesModule,
     TaskCommentsModule,
-    // TeamModule,
-    PlansModule,
-    UsersModule,
-    CustomersModule,
-    SubscriptionsModule,
-    ClientsModule,
-    AuthModule,
-    PaymentsModule
+    // TeamsModule,
+    // ThreadsModule,
+    UsersModule
   ],
   controllers: [],
   providers: [],

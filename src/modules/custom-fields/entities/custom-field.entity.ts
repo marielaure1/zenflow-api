@@ -13,7 +13,7 @@ export class CustomField {
   @Prop({ required: true })
   type: string;
 
-  @Prop()
+  @Prop({ default: [] })
   options?: Array<Object>;
 
   @Prop()
@@ -22,8 +22,11 @@ export class CustomField {
   @Prop({ required: true })
   schema: string;
 
-  @Prop({ type: [{ type: Types.ObjectId }] })
+  @Prop()
   schemaIds?: Types.ObjectId[];
+
+  @Prop({ type: Types.ObjectId, ref: "Customer", required: true })
+  ownerId: Types.ObjectId;
 
   createdAt?: Date;
   updatedAt?: Date;

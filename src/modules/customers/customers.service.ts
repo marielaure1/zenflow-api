@@ -13,7 +13,8 @@ export class CustomersService extends AppService<CustomerDocument, CreateCustome
     super(customersModel, ["user"]);
   }
 
-  async findOneByUser(id){
+  async findOneByUser(id: string){
+    
     const me = await this.customersModel.findOne({
       user: id
     });

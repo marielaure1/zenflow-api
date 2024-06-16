@@ -15,6 +15,7 @@ import { AppService } from '@modules/app.service';
 import { Response } from 'express';
 import ResponsesHelper from "@helpers/responses.helpers";
 import { ValidationError } from 'class-validator';
+import { log } from 'console';
 
 @Controller()
 export abstract class AppController<AppModel extends Document, CreateDto, UpdateDto> {
@@ -31,6 +32,8 @@ export abstract class AppController<AppModel extends Document, CreateDto, Update
 
   @Post()
   async create(@Body() createDto: CreateDto, @Res() res: Response) {
+    console.log(createDto);
+    
     try {
       const data = await this.service.create(createDto);
       return this.responsesHelper.getResponse({

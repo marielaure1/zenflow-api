@@ -44,10 +44,8 @@ export class CustomersController extends AppController<CustomerDocument, CreateC
   @Get("me")
   @UseGuards(AuthGuard)
   async findMe(@Res() res: Response, @Req() req: Request) {
-    
-   
-    const userReq = req['user'];
 
+    const userReq = req['user'];
     const user = await this.usersService.findOneByFirebaseUid(userReq.uid);
     const customer = await this.customersService.findOneByUser(user._id);
 

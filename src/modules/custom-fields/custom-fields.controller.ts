@@ -14,7 +14,7 @@ export class CustomFieldsController extends AppController<CustomFieldDocument, C
   constructor(
       private readonly customFieldsService: CustomFieldsService
   ) {
-      super(customFieldsService, "custom-field");
+      super(customFieldsService, "custom-fields");
   }
 
 }

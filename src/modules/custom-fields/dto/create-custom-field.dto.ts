@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsOptional, IsObject, IsArray, ValidateNested, IsDate, IsNumber } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsArray } from 'class-validator';
 import { Types } from 'mongoose';
 
 export class CreateCustomFieldDto {
@@ -14,15 +14,19 @@ export class CreateCustomFieldDto {
   @IsArray()
   options?: Array<Object>;
 
-  @IsString()
   @IsOptional()
+  @IsString()
   position?: number;
 
   @IsString()
+  @IsNotEmpty()
   schema: string;
+
+  @IsString()
+  @IsNotEmpty()
+  ownerId: string;
 
   @IsOptional()
   @IsArray()
   schemaIds?: Types.ObjectId[];
 }
-
