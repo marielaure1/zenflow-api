@@ -12,11 +12,12 @@ export abstract class AppService<AppModel extends Document, CreateDto, UpdateDto
   async create(createDto: CreateDto): Promise<AppModel> {
     try {
       const { relations, ...data } = createDto as any;
-      const createdModel = await this.appModel.create({
+      const createdModel = new this.appModel({
         ...data,
         createdAt: new Date(),
         updatedAt: new Date()
       });
+      await createdModel.save();
 
       if (relations) {
         await this.addMultipleRelations(createdModel._id, relations);
@@ -30,17 +31,18 @@ export abstract class AppService<AppModel extends Document, CreateDto, UpdateDto
   }
 
   async findAll(): Promise<AppModel[]> {
-    return this.appModel.find().populate(this.populate);
+    return this.appModel.find().populate(this.populate).exec();
   }
 
   async findOne(id: string): Promise<AppModel> {
-    return this.populateModel(await this.appModel.findById(id).populate(this.populate));
+    const model = await this.appModel.findById(id).populate(this.populate).exec();
+    return this.populateModel(model);
   }
 
   async update(id: string, updateDto: UpdateDto): Promise<AppModel> {
     try {
       const { relations, ...data } = updateDto as any;
-      const updatedModel = await this.appModel.findByIdAndUpdate(id, data, { new: true }).populate(this.populate);
+      const updatedModel = await this.appModel.findByIdAndUpdate(id, data, { new: true }).populate(this.populate).exec();
 
       if (relations) {
         await this.addMultipleRelations(id, relations);
@@ -58,7 +60,26 @@ export abstract class AppService<AppModel extends Document, CreateDto, UpdateDto
   }
 
   async findWhere(where: object): Promise<AppModel[]> {
-    return this.appModel.find(where).populate(this.populate);
+    return this.appModel.find(where).populate(this.populate).exec();
+  }
+
+  async updateMany(where: object, updateDto: UpdateDto): Promise<any> {
+    try {
+      const { relations, ...data } = updateDto as any;
+      const result = await this.appModel.updateMany(where, data).exec();
+
+      if (relations) {
+        const updatedModels = await this.appModel.find(where).exec();
+        for (const model of updatedModels) {
+          await this.addMultipleRelations(model._id, relations);
+        }
+      }
+
+      return result;
+    } catch (error) {
+      console.error("AppService > updateMany : ", error);
+      throw error;
+    }
   }
 
   protected async populateModel(model: AppModel): Promise<AppModel> {

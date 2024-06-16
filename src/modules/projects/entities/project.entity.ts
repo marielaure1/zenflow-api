@@ -1,8 +1,8 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-import { User } from '@modules/users/entities/user.entity';
+import { Customer } from '@modules/customers/entities/customer.entity';
 import { Task } from '@modules/tasks/entities/task.entity';
-import { TaskCategory } from '@modules/tasks-categories/entities/tasks-category.entity';
+import { TaskCategorie } from '@modules/task-categories/entities/task-categorie.entity';
 import { CustomField } from '@entities/custom-fields.entity';
 import { Milestone, MilestoneSchema } from '@entities/milestones.entity';
 import { Priority } from '@enums/priority.enum';
@@ -27,7 +27,7 @@ export class Project {
   @Prop({ enum: Priority })
   priority?: string;
 
-  @Prop({ type: Types.ObjectId, ref: "User", required: true })
+  @Prop({ type: Types.ObjectId, ref: "Customer", required: true })
   ownerId: Types.ObjectId;
 
   @Prop({ type: Types.ObjectId, ref: "Team" })

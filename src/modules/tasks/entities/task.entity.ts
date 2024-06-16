@@ -2,10 +2,10 @@ import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { Customer } from '@modules/customers/entities/customer.entity';
 import { Project } from '@modules/projects/entities/project.entity';
-import { TaskComment } from '@modules/tasks-comments/entities/tasks-comment.entity';
+import { TaskComment } from '@modules/task-comments/entities/task-comment.entity';
 import { TimeEntry, TimeEntrySchema } from './time-entry.entity';
 import { CustomField, CustomFieldSchema } from '@entities/custom-fields.entity';
-import { TaskCategory } from '@modules/tasks-categories/entities/tasks-category.entity';
+import { TaskCategorie } from '@modules/task-categories/entities/task-categorie.entity';
 import { Priority } from '@enums/priority.enum';
 
 export type TaskDocument = Task & Document;
@@ -56,7 +56,7 @@ export class Task {
   @Prop({ type: [{ type: Types.ObjectId, ref: Task.name }] })
   subTasks?: Types.ObjectId[];
 
-  @Prop({ type: Types.ObjectId, ref: TaskCategory.name})
+  @Prop({ type: Types.ObjectId, ref: TaskCategorie.name})
   taskCategoryId?: Types.ObjectId;
 
   @Prop()

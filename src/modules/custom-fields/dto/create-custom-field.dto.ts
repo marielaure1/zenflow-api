@@ -1,7 +1,7 @@
 import { IsString, IsNotEmpty, IsOptional, IsObject, IsArray, ValidateNested, IsDate, IsNumber } from 'class-validator';
-import { Type } from 'class-transformer';
+import { Types } from 'mongoose';
 
-export class CustomFieldDto {
+export class CreateCustomFieldDto {
   @IsString()
   @IsNotEmpty()
   name: string;
@@ -11,10 +11,18 @@ export class CustomFieldDto {
   type: string;
 
   @IsOptional()
-  value?: any;
+  @IsArray()
+  options?: Array<Object>;
 
   @IsString()
   @IsOptional()
   position?: number;
+
+  @IsString()
+  schema: string;
+
+  @IsOptional()
+  @IsArray()
+  schemaIds?: Types.ObjectId[];
 }
 

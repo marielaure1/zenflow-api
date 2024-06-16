@@ -2,12 +2,12 @@ import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Project } from '@modules/projects/entities/project.entity';
 import { Document, Types } from 'mongoose';
 
-export type TaskCategoryDocument = TaskCategory & Document;
+export type TaskCategorieDocument = TaskCategorie & Document;
 
 @Schema({
   timestamps: true
 })
-export class TaskCategory {
+export class TaskCategorie {
   @Prop({ required: true })
   name: string;
 
@@ -24,4 +24,4 @@ export class TaskCategory {
   updatedAt?: Date;
 }
 
-export const TaskCategorySchema = SchemaFactory.createForClass(TaskCategory);
+export const TaskCategorieSchema = SchemaFactory.createForClass(TaskCategorie);

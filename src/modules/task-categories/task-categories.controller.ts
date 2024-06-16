@@ -1,14 +1,14 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus, Res } from '@nestjs/common';
-import { TaskCategoriesService } from '@modules/tasks-categories/tasks-categories.service';
+import { TaskCategoriesService } from '@modules/task-categories/task-categories.service';
 import { TasksService } from '@modules/tasks/tasks.service';
-import { CreateTaskCategoryDto } from '@modules/tasks-categories/dto/create-tasks-category.dto';
-import { UpdateTaskCategoryDto } from '@modules/tasks-categories/dto/update-tasks-category.dto';
+import { CreateTaskCategorieDto } from '@modules/task-categories/dto/create-task-categorie.dto';
+import { UpdateTaskCategorieDto } from '@modules/task-categories/dto/update-task-categorie.dto';
 import ResponsesHelper from "@helpers/responses.helpers";
 import { AppController } from '@modules/app.controller';
-import { TaskCategory, TaskCategoryDocument } from '@modules/tasks-categories/entities/tasks-category.entity';
+import { TaskCategorie, TaskCategorieDocument } from '@modules/task-categories/entities/task-categorie.entity';
 import { Response } from "express";
 @Controller('tasks-categories')
-export class TaskCategoriesController extends AppController<TaskCategoryDocument, CreateTaskCategoryDto, UpdateTaskCategoryDto>{
+export class TaskCategoriesController extends AppController<TaskCategorieDocument, CreateTaskCategorieDto, UpdateTaskCategorieDto>{
 
   constructor(
       private readonly taskCategoriesService: TaskCategoriesService,

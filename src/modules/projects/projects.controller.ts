@@ -1,7 +1,7 @@
 import ResponsesHelper from "@helpers/responses.helpers";
 import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
-import { TaskCategoriesService } from "@modules/tasks-categories/tasks-categories.service";
+import { TaskCategoriesService } from "@modules/task-categories/task-categories.service";
 import { TasksService } from "@modules/tasks/tasks.service";
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';

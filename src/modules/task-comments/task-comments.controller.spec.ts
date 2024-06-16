@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TaskCommentsController } from '@modules/tasks-comments/tasks-comments.controller';
-import { TaskCommentsService } from '@modules/tasks-comments/tasks-comments.service';
+import { TaskCommentsController } from '@modules/task-comments/task-comments.controller';
+import { TaskCommentsService } from '@modules/task-comments/task-comments.service';
 
 describe('TaskCommentsController', () => {
   let controller: TaskCommentsController;

@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { TaskComment, TaskCommentDocument } from '@modules/tasks-comments/entities/tasks-comment.entity';
-import { CreateTaskCommentDto } from '@modules/tasks-comments/dto/create-tasks-comment.dto';
-import { UpdateTaskCommentDto } from '@modules/tasks-comments/dto/update-tasks-comment.dto';
+import { TaskComment, TaskCommentDocument } from '@modules/task-comments/entities/task-comment.entity';
+import { CreateTaskCommentDto } from '@modules/task-comments/dto/create-task-comment.dto';
+import { UpdateTaskCommentDto } from '@modules/task-comments/dto/update-task-comment.dto';
 import { AppService } from '@modules/app.service';
 
 @Injectable()

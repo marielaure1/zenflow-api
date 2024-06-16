@@ -7,11 +7,11 @@ class CustomField {
     @Prop({ required: true })
     type: string;
   
-    @Prop({ required: true })
+    @Prop()
     value?: string;
   
-    @Prop({ required: true })
-    position: number;
+    @Prop()
+    position?: number;
 }
 
 const CustomFieldSchema = SchemaFactory.createForClass(CustomField);

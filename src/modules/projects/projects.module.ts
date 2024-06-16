@@ -3,12 +3,12 @@ import { ProjectsService } from './projects.service';
 import { ProjectsController } from './projects.controller';
 import { TasksModule } from '@modules/tasks/tasks.module';
 import { TasksService } from '@modules/tasks/tasks.service';
-import { TasksCategoriesModule } from '@modules/tasks-categories/tasks-categories.module';
-import { TaskCategoriesService } from '@modules/tasks-categories/tasks-categories.service';
+import { TaskCategoriesModule } from '@modules/task-categories/task-categories.module';
+import { TaskCategoriesService } from '@modules/task-categories/task-categories.service';
 @Module({
   controllers: [ProjectsController],
   providers: [ProjectsService, TasksService, TaskCategoriesService],
-  imports: [TasksModule, TasksCategoriesModule],
+  imports: [TasksModule, TaskCategoriesModule],
   exports: [ProjectsModule],
 })
 export class ProjectsModule {}

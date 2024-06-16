@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { TaskCategoriesService } from '@modules/tasks-categories/tasks-categories.service';
-import { TaskCategoriesController } from '@modules/tasks-categories/tasks-categories.controller';
+import { TaskCategoriesService } from '@modules/task-categories/task-categories.service';
+import { TaskCategoriesController } from '@modules/task-categories/task-categories.controller';
 import { TasksService } from '@modules/tasks/tasks.service';
 import { TasksModule } from '@modules/tasks/tasks.module';
 
@@ -8,6 +8,6 @@ import { TasksModule } from '@modules/tasks/tasks.module';
   controllers: [TaskCategoriesController],
   providers: [TaskCategoriesService, TasksService],
   imports: [TasksModule],
-  exports: [TasksCategoriesModule]
+  exports: [TaskCategoriesModule]
 })
-export class TasksCategoriesModule {}
+export class TaskCategoriesModule {}

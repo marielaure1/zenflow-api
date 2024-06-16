@@ -1,20 +1,12 @@
 import { IsString, IsNotEmpty, IsOptional, IsObject, IsArray, ValidateNested, IsDate, IsNumber } from 'class-validator';
 import { Type } from 'class-transformer';
 
-export class CustomFieldDto {
+export class CustomFieldValueDto {
   @IsString()
   @IsNotEmpty()
-  name: string;
-
-  @IsString()
-  @IsNotEmpty()
-  type: string;
+  customFieldId: string;
 
   @IsOptional()
   value?: any;
-
-  @IsString()
-  @IsOptional()
-  position?: number;
 }
 
