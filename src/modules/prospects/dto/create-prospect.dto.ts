@@ -2,11 +2,20 @@ import { IsNotEmpty, IsEmail, IsString, IsOptional, IsDate, IsNumber, ValidateNe
 import { Type } from 'class-transformer';
 import { Prospect } from '../entities/prospect.entity';
 import { CustomFieldDto } from '@dtos/custom-field.dto';
+import { CustomFieldValueDto } from '@dtos/custom-field-value.dto';
 
 export class CreateProspectDto {
+  @IsOptional()
+  @IsString()
+  society?: string;
+
   @IsNotEmpty()
   @IsString()
-  name: string;
+  firstname: string;
+
+  @IsNotEmpty()
+  @IsString()
+  lastName: string;
 
   @IsNotEmpty()
   @IsEmail()
@@ -49,9 +58,13 @@ export class CreateProspectDto {
   @IsNumber()
   estimatedBudget?: number;
 
+  @IsString()
+  @IsNotEmpty()
+  ownerId: string;
+
   @IsOptional()
   @IsObject()
   @ValidateNested({ each: true })
-  @Type(() => CustomFieldDto)
-  customFields?: CustomFieldDto;
+  @Type(() => CustomFieldValueDto)
+  customFields?: CustomFieldValueDto;
 }

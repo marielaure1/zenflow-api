@@ -25,8 +25,6 @@ export class FirebaseService {
 
   async verifyToken(token: string): Promise<admin.auth.DecodedIdToken> {
     try {
-
-      console.log(token);
       return await admin.auth().verifyIdToken(token);
     } catch (error) {
       throw new Error('Invalid token');

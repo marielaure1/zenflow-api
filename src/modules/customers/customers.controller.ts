@@ -11,6 +11,8 @@ import { FirebaseService } from '@providers/services/firebase/firebase.service';
 import ResponsesHelper from "@helpers/responses.helpers";
 import {AuthGuard} from "@guards/auth.guard";
 import { log } from 'console';
+import RoleEnum from '@enums/role.enum';
+import { Roles } from '@decorators/roles.decorator';
 // import { Roles } from '@decorators/roles.decorator';
 // import { Ownership } from '@decorators/ownership.decorator';
 // import { log } from 'console';
@@ -43,12 +45,12 @@ export class CustomersController extends AppController<CustomerDocument, CreateC
 
   @Get("me")
   @UseGuards(AuthGuard)
+  // @Roles(RoleEnum.ADMIN)
   async findMe(@Res() res: Response, @Req() req: Request) {
 
-    const userReq = req['user'];
-    const user = await this.usersService.findOneByFirebaseUid(userReq.uid);
-    const customer = await this.customersService.findOneByUser(user._id);
-
+    const user = req['user'];
+    const customer = req['customer'];
+    
     return this.responsesHelper.getResponse({
       res,
       path: "findMe",

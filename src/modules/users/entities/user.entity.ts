@@ -1,7 +1,7 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import UserStatut from "@modules/users/enum/user-statut.enum";
-import UserRole from "@modules/users/enum/user-role.enum";
+import RoleEnum from "@enums/role.enum";
 import { PermissionUser } from "@modules/permissions-users/entities/permissions-user.entity";
 
 export type UserDocument = User & Document;
@@ -22,8 +22,8 @@ export class User {
   @Prop()
   token?: string;
 
-  @Prop({ default: UserRole.USER, enum: UserRole })
-  role: UserRole;
+  @Prop({ default: RoleEnum.USER, enum: RoleEnum })
+  role: RoleEnum;
 
   @Prop({ type: [{ type: Types.ObjectId, ref: PermissionUser.name }] })
   permissions?: PermissionUser[];

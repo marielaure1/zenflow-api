@@ -19,7 +19,7 @@ export class Client {
   @Prop({ required: true })
   firstName: string;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true })
   email: string;
 
   @Prop({ required: true })

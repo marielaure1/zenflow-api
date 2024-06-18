@@ -36,12 +36,9 @@ export class SubscriptionsController {
       
       
       const isFindUsers = await this.usersService.findOne(getCustomer.user._id?.toString());
-      console.log(isFindUsers);
       
       const isFindPlan = await this.plansService.findOne(createSubscriptionDto?.plan.toString());
 
-      console.log(isFindPlan);
-      
       const stripeSubscription = await this.stripeSubscriptionsService.createSubscription({
         customer: getCustomer.stripeCustomerId,
         items: [{ plan: isFindPlan.stripePlanId }],

@@ -32,8 +32,7 @@ export abstract class AppController<AppModel extends Document, CreateDto, Update
 
   @Post()
   async create(@Body() createDto: CreateDto, @Res() res: Response) {
-    console.log(createDto);
-    
+  
     try {
       const data = await this.service.create(createDto);
       return this.responsesHelper.getResponse({

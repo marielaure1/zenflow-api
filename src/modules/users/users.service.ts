@@ -16,8 +16,6 @@ export class UsersService extends AppService<UserDocument, CreateUserDto, Create
 
   async findOneByFirebaseUid(uid: string){
     const me = await this.usersModel.findOne({uid}).exec();
-    console.log("me", me);
-    
     return me;
   }
 

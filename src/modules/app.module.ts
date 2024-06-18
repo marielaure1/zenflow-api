@@ -31,7 +31,7 @@ import { PaymentsModule } from '@modules/payments/payments.module';
 import { PlansModule } from '@modules/plans/plans.module';
 // import { PostsModule } from '@modules/posts/posts.module';
 import { ProjectsModule } from '@modules/projects/projects.module';
-// import { ProspectsModule } from '@modules/prospects/prospects.module';
+import { ProspectsModule } from '@modules/prospects/prospects.module';
 // import { ResourcesModule } from '@modules/resources/resources.module';
 // import { SettingsModule } from '@modules/settings/settings.module';
 import { SubscriptionsModule } from '@modules/subscriptions/subscriptions.module';
@@ -76,7 +76,7 @@ import { UsersModule } from '@modules/users/users.module';
     PlansModule,
     // PostsModule,
     ProjectsModule,
-    // ProspectsModule,
+    ProspectsModule,
     // ResourcesModule,
     // SettingsModule,
     SubscriptionsModule,

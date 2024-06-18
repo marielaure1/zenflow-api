@@ -1,12 +1,18 @@
-import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext, UnauthorizedException, ForbiddenException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { FirebaseService } from '@providers/services/firebase/firebase.service';
+import { UsersService } from '@modules/users/users.service';
+import { CustomersService } from '@modules/customers/customers.service';
+import RoleEnum from '@enums/role.enum'; // Assurez-vous que le chemin est correct
+import { ROLES_KEY } from '@decorators/roles.decorator'; // Assurez-vous que le chemin est correct
 import { log } from 'console';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     private readonly firebaseService: FirebaseService,
+    private readonly usersService: UsersService,
+    private readonly customersService: CustomersService,
     private readonly reflector: Reflector
   ) {}
 
@@ -19,31 +25,46 @@ export class AuthGuard implements CanActivate {
     }
 
     const token = authHeader.split(' ')[1];
-
-    console.log(token);
     
 
     try {
       const decodedToken = await this.firebaseService.verifyToken(token);
-      request['user'] = decodedToken;
+      request['firebase-user'] = decodedToken;
 
-        // const handler = context.getHandler();
-      // const roles = this.reflector.get<string[]>('roles', handler);
-      // const requiresOwnership = this.reflector.get<boolean>('ownership', handler);
+      const user = await this.usersService.findOneByFirebaseUid(decodedToken.uid);
+      request['user'] = user;
 
-      // if (roles && !roles.includes(decodedToken.role)) {
-      //   throw new UnauthorizedException('Insufficient role');
+      const customer = await this.customersService.findOneByUser(user._id);
+      request['customer'] = customer;
+      // const roles = this.reflector.get<RoleEnum[]>(ROLES_KEY, context.getHandler());
+      // if (!roles) {
+      //   return true;
       // }
 
-      // if (requiresOwnership && request.params.id && request['user'].uid !== request.params.id) {
-      //   throw new UnauthorizedException('You do not own this resource');
+      // const user = await this.usersService.findOneByFirebaseUid(decodedToken.uid);
+
+      // console.log(roles);
+      // console.log(user);
+      
+      // const userRole = user.role;
+      // if (!this.hasRole(userRole, roles)) {
+      //   throw new ForbiddenException('You do not have permission to access this resource');
       // }
 
       return true;
     } catch (error) {
-      console.log("erro", error);
-      
       throw new UnauthorizedException('Invalid token');
     }
+  }
+
+  private hasRole(userRole: RoleEnum, roles: RoleEnum[]): boolean {
+    const roleHierarchy = {
+      [RoleEnum.USER]: [RoleEnum.USER],
+      [RoleEnum.ADMIN]: [RoleEnum.USER, RoleEnum.ADMIN],
+      [RoleEnum.MEGAADMIN]: [RoleEnum.USER, RoleEnum.ADMIN, RoleEnum.MEGAADMIN],
+    };
+
+    const allowedRoles = roleHierarchy[userRole] || [];
+    return roles.some(role => allowedRoles.includes(role));
   }
 }

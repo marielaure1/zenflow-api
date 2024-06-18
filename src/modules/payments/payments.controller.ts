@@ -29,13 +29,7 @@ export class PaymentsController extends AppController<PaymentDocument, CreatePay
   @Post('create-checkout-session')
   async createCheckoutSession(@Body() createCheckoutSessionDto: CreateCheckoutSessionDto, @Res() res: Response, @Req() req: Request) {
     const test = createCheckoutSessionDto;
-
-    console.log("createCheckoutSessionDto",test);
-    
     const createEphemeralKey = await this.paymentsStripeService.createEphemeralKey(test.customerId)
-
-    console.log(createEphemeralKey);
-    
     const paymentIntent = await this.paymentsStripeService.createPaymentIntent({
       amount: test.amount,
       currency: test.currency,
@@ -44,9 +38,6 @@ export class PaymentsController extends AppController<PaymentDocument, CreatePay
         enabled: true,
       },
     });
-
-    console.log(paymentIntent);
-    
     return this.responsesHelper.getResponse({
       res,
       path: "createCheckoutSession",

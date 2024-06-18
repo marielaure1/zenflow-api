@@ -25,7 +25,7 @@ import { Payment, PaymentSchema } from '@modules/payments/entities/payment.entit
 import { Plan, PlanSchema } from '@modules/plans/entities/plan.entity';
 // import { Post, PostSchema } from '@modules/posts/entities/post.entity';
 import { Project, ProjectSchema } from '@modules/projects/entities/project.entity';
-// import { Prospect, ProspectSchema } from '@modules/prospects/entities/prospect.entity';
+import { Prospect, ProspectSchema } from '@modules/prospects/entities/prospect.entity';
 // import { Resource, ResourceSchema } from '@modules/resources/entities/resource.entity';
 // import { Setting, SettingSchema } from '@modules/settings/entities/setting.entity';
 import { Subscription, SubscriptionSchema } from '@modules/subscriptions/entities/subscription.entity';
@@ -61,7 +61,7 @@ import { User, UserSchema } from '@modules/users/entities/user.entity';
       { name: Plan.name, schema: PlanSchema },
       // { name: Post.name, schema: PostSchema },
       { name: Project.name, schema: ProjectSchema },
-      // { name: Prospect.name, schema: ProspectSchema },
+      { name: Prospect.name, schema: ProspectSchema },
       // { name: Resource.name, schema: ResourceSchema },
       // { name: Setting.name, schema: SettingSchema },
       { name: Subscription.name, schema: SubscriptionSchema },

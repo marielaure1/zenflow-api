@@ -103,9 +103,7 @@ export class MembersController extends AppController<MemberDocument, CreateMembe
       // Flatten the array of arrays into a single array of tasks
       const allTasks = dataTasks.flat();
     
-      // Log les tâches finales après aplatissement
-      console.log('All Tasks:', allTasks);
-
+   
       return this.responsesHelper.getResponse({
         res,
         path: "findTasks",
