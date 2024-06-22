@@ -29,7 +29,7 @@ export class MembersController extends AppController<MemberDocument, CreateMembe
         throw new Error("Not Found");
       }
 
-      const dataTaskCategories = await this.taskCategoriesService.findWhere({memberId: id});
+      const dataTaskCategories = await this.taskCategoriesService.findWhere({ where: {memberId: id} });
       if (!dataTaskCategories) {
         throw new Error("Not Found");
       }
@@ -79,13 +79,13 @@ export class MembersController extends AppController<MemberDocument, CreateMembe
         throw new Error("Not Found");
       }
 
-      const dataTaskCategories = await this.taskCategoriesService.findWhere({memberId: id});
+      const dataTaskCategories = await this.taskCategoriesService.findWhere({where: {memberId: id}});
       if (!dataTaskCategories) {
         throw new Error("Not Found");
       }
 
       const tasksPromises = dataTaskCategories.map( category => {
-        return this.tasksService.findWhere({ taskCategoryId: category._id.toString() });
+        return this.tasksService.findWhere({where: { taskCategoryId: category._id.toString() }});
       });
     
       const dataTasks = await Promise.all(tasksPromises);

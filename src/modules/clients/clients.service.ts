@@ -12,4 +12,5 @@ export class ClientsService extends AppService<ClientDocument, CreateClientDto, 
   constructor(@InjectModel(Client.name) private clientModel: Model<ClientDocument>) {
     super(clientModel);
   }
+  
 }

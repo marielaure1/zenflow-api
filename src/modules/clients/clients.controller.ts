@@ -1,5 +1,6 @@
+import { UpdateCustomFieldDto } from '@modules/custom-fields/dto/update-custom-field.dto';
 import ResponsesHelper from "@helpers/responses.helpers";
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus, UseGuards, Req, Put } from '@nestjs/common';
 import { ClientsService } from './clients.service';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
@@ -28,7 +29,7 @@ export class ClientsController extends AppController<ClientDocument, CreateClien
     const customer = req['customer'];
  
     try {
-      const data = await this.clientsService.findWhere({ownerId: customer._id.toString() });
+      const data = await this.clientsService.findWhere({where: {ownerId: customer._id.toString() }});
       if (!data || data.length === 0) {
         throw new Error("Not Found");
       }
@@ -71,11 +72,12 @@ export class ClientsController extends AppController<ClientDocument, CreateClien
 
     try {
       const data = await this.customsFieldsService.findWhere({
-        ownerId: customer._id.toString(),
-        schema: 'Clients',
-      });
-
-      // console.log(data);
+        where: {
+          ownerId: customer._id.toString(),
+          schema: 'Clients',
+        },
+        sort: "position"
+      })
       
 
       if (!data || data.length === 0) {
@@ -120,11 +122,13 @@ export class ClientsController extends AppController<ClientDocument, CreateClien
 
     try {
       const data = await this.customsFieldsService.findWhere({
-        ownerId: customer._id.toString(),
-        schema: 'Clients',
-        $or: [
-          {schemaIds: null}
-        ]  
+        where: {
+          ownerId: customer._id.toString(),
+          schema: 'Clients',
+          $or: [
+            {schemaIds: null}
+          ]  
+        }
       });
 
       if (!data || data.length === 0) {
@@ -159,6 +163,42 @@ export class ClientsController extends AppController<ClientDocument, CreateClien
           data: error.message,
         });
       }
+    }
+  }
+
+  @Put("me/custom-fields")
+  @UseGuards(AuthGuard)
+  async updatePositions(@Body() updateCustomFieldDtos: UpdateCustomFieldDto[], @Res() res: Response, @Req() req: Request) {
+    const customer = req['customer'];
+    
+    try {
+      const result = await this.customsFieldsService.updatePositions(updateCustomFieldDtos);
+      const data = await this.customsFieldsService.findWhere({
+        where: {
+          ownerId: customer._id.toString(),
+          schema: 'Clients',
+        },
+        sort: "position"
+      })
+
+      return this.responsesHelper.getResponse({
+        res,
+        path: "updatePositions",
+        method: "Put",
+        code: HttpStatus.OK,
+        subject: "clients",
+        data: data,
+      });
+    } catch (error) {
+      console.error('ClientsController > updatePositions : ', error);
+      return this.responsesHelper.getResponse({
+        res,
+        path: "updatePositions",
+        method: "Put",
+        code: HttpStatus.INTERNAL_SERVER_ERROR,
+        subject: "clients",
+        data: error.message,
+      });
     }
   }
 

@@ -26,7 +26,9 @@ export class ProspectsController extends AppController<ProspectDocument, CreateP
     const customer = req['customer'];
  
     try {
-      const data = await this.prospectsService.findWhere({ownerId: customer._id.toString() });
+      const data = await this.prospectsService.findWhere({
+        where: {ownerId: customer._id.toString() }
+      });
       if (!data || data.length === 0) {
         throw new Error("Not Found");
       }
@@ -111,8 +113,10 @@ export class ProspectsController extends AppController<ProspectDocument, CreateP
 
     try {
       const data = await this.customsFieldsService.findWhere({
-        ownerId: customer._id.toString(),
-        schema: 'Clients',
+        where: {
+          ownerId: customer._id.toString(),
+          schema: 'Clients',
+        }
       });
 
       // console.log(data);
@@ -160,11 +164,13 @@ export class ProspectsController extends AppController<ProspectDocument, CreateP
 
     try {
       const data = await this.customsFieldsService.findWhere({
-        ownerId: customer._id.toString(),
-        schema: 'Clients',
-        $or: [
-          {schemaIds: null}
-        ]  
+        where: {
+          ownerId: customer._id.toString(),
+          schema: 'Clients',
+          $or: [
+            {schemaIds: null}
+          ]  
+        }
       });
 
       if (!data || data.length === 0) {

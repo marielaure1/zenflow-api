@@ -60,8 +60,8 @@ export abstract class AppService<AppModel extends Document, CreateDto, UpdateDto
     await this.appModel.findByIdAndDelete(id).exec();
   }
 
-  async findWhere(where: object): Promise<AppModel[]> {
-    return this.appModel.find(where).populate(this.populate).exec();
+  async findWhere({ where, sort }: { where: object, sort?: string }): Promise<AppModel[]> {
+    return this.appModel.find(where).sort(sort).populate(this.populate).exec();
   }
 
   async updateMany(where: object, updateDto: UpdateDto): Promise<any> {

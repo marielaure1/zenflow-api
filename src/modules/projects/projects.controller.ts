@@ -32,7 +32,7 @@ export class ProjectsController extends AppController<ProjectDocument, CreatePro
         throw new Error("Not Found");
       }
 
-      const dataTaskCategories = await this.taskCategoriesService.findWhere({projectId: id});
+      const dataTaskCategories = await this.taskCategoriesService.findWhere({where: {projectId: id}});
       if (!dataTaskCategories) {
         throw new Error("Not Found");
       }
@@ -82,13 +82,13 @@ export class ProjectsController extends AppController<ProjectDocument, CreatePro
         throw new Error("Not Found");
       }
 
-      const dataTaskCategories = await this.taskCategoriesService.findWhere({projectId: id});
+      const dataTaskCategories = await this.taskCategoriesService.findWhere({where: {projectId: id}});
       if (!dataTaskCategories) {
         throw new Error("Not Found");
       }
 
       const tasksPromises = dataTaskCategories.map( category => {
-        return this.tasksService.findWhere({ taskCategoryId: category._id.toString() });
+        return this.tasksService.findWhere({where: { taskCategoryId: category._id.toString() }});
       });
     
       const dataTasks = await Promise.all(tasksPromises);
@@ -143,7 +143,7 @@ export class ProjectsController extends AppController<ProjectDocument, CreatePro
     const customer = req['customer'];
  
     try {
-      const data = await this.projectsService.findWhere({ownerId: customer._id.toString() });
+      const data = await this.projectsService.findWhere({where: {ownerId: customer._id.toString() }});
       if (!data || data.length === 0) {
         throw new Error("Not Found");
       }
@@ -186,8 +186,10 @@ export class ProjectsController extends AppController<ProjectDocument, CreatePro
 
     try {
       const data = await this.customsFieldsService.findWhere({
-        ownerId: customer._id.toString(),
-        schema: 'Clients',
+        where: {
+          ownerId: customer._id.toString(),
+          schema: 'Clients',
+        }
       });
 
       // console.log(data);
@@ -235,11 +237,13 @@ export class ProjectsController extends AppController<ProjectDocument, CreatePro
 
     try {
       const data = await this.customsFieldsService.findWhere({
-        ownerId: customer._id.toString(),
-        schema: 'Clients',
-        $or: [
-          {schemaIds: null}
-        ]  
+        where: {
+          ownerId: customer._id.toString(),
+          schema: 'Clients',
+          $or: [
+            {schemaIds: null}
+          ]  
+        }
       });
 
       if (!data || data.length === 0) {

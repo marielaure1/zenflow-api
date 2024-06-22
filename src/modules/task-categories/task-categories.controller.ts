@@ -26,7 +26,7 @@ export class TaskCategoriesController extends AppController<TaskCategorieDocumen
         throw new Error("Not Found");
       }
 
-      const dataTasks = await this.tasksService.findWhere({taskCategoryId: id});
+      const dataTasks = await this.tasksService.findWhere({where: {taskCategoryId: id}});
       if (!dataTasks) {
         throw new Error("Not Found");
       }
