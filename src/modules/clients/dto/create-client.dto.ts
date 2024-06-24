@@ -1,6 +1,6 @@
 import { CustomFieldValueDto } from '@dtos/custom-field-value.dto';
 import { Type } from 'class-transformer';
-import { IsNotEmpty, IsEmail, IsString, IsOptional, IsObject, ValidateNested } from 'class-validator';
+import { IsNotEmpty, IsEmail, IsString, IsOptional, IsObject, ValidateNested, IsNumber, IsDate } from 'class-validator';
 
 export class CreateClientDto {
   @IsOptional()
@@ -36,8 +36,33 @@ export class CreateClientDto {
   ownerId: string;
 
   @IsOptional()
+  @IsDate()
+  @Type(() => Date)
+  lastContactDate?: Date;
+
+  @IsOptional()
+  @IsString()
+  marketSegment?: string;
+
+  @IsOptional()
+  @IsString()
+  needs?: string;
+
+  @IsOptional()
+  @IsString()
+  leadSource?: string;
+
+  @IsOptional()
+  @IsString()
+  companySize?: string;
+
+  @IsOptional()
+  @IsNumber()
+  estimatedBudget?: number;
+
+  @IsOptional()
   @IsObject()
   @ValidateNested({ each: true })
   @Type(() => CustomFieldValueDto)
-  customFields?: CustomFieldValueDto;
+  customFieldValues?: CustomFieldValueDto;
 }

@@ -32,6 +32,7 @@ export abstract class AppController<AppModel extends Document, CreateDto, Update
 
   @Post()
   async create(@Body() createDto: CreateDto, @Res() res: Response) {
+  console.log("createDto", createDto);
   
     try {
       const data = await this.service.create(createDto);
@@ -161,6 +162,8 @@ export abstract class AppController<AppModel extends Document, CreateDto, Update
         data,
       });
     } catch (error) {
+      console.log(error);
+      
       if (Array.isArray(error) && error[0] instanceof ValidationError) {
         return this.responsesHelper.getResponse({
           res,

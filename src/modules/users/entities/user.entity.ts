@@ -10,11 +10,6 @@ export type UserDocument = User & Document;
   timestamps: true
 })
 export class User {
-  @Prop({ required: true, unique: true })
-  email: string;
-
-  @Prop({ required: true })
-  password: string;
 
   @Prop({ required: true, default: UserStatut.NOTVERIFIED, enum: UserStatut })
   status: UserStatut;

@@ -2,6 +2,7 @@ import { IsString, IsNotEmpty, IsObject, IsOptional, IsArray, ValidateNested } f
 import { Type } from 'class-transformer';
 import { CustomFieldDto } from '@dtos/custom-field.dto';
 import { MilestoneDto } from '@dtos/milestones.dto'; 
+import { CustomFieldValueDto } from '@dtos/custom-field-value.dto';
 
 export class CreateProjectDto {
   @IsString()
@@ -28,6 +29,10 @@ export class CreateProjectDto {
   @IsOptional()
   priority?: string;
 
+  @IsString()
+  @IsOptional()
+  status?: string;
+
   @IsOptional()
   @IsArray()
   milestoneIds?: string[];
@@ -51,6 +56,6 @@ export class CreateProjectDto {
   @IsOptional()
   @IsObject()
   @ValidateNested({ each: true })
-  @Type(() => CustomFieldDto)
-  customFields?: CustomFieldDto;
+  @Type(() => CustomFieldValueDto)
+  customFieldValues?: CustomFieldValueDto;
 }

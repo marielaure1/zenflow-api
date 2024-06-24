@@ -10,9 +10,10 @@ import { UsersService } from '@modules/users/users.service';
 import { FirebaseService } from '@providers/services/firebase/firebase.service';
 import ResponsesHelper from "@helpers/responses.helpers";
 import {AuthGuard} from "@guards/auth.guard";
-import { log } from 'console';
 import RoleEnum from '@enums/role.enum';
 import { Roles } from '@decorators/roles.decorator';
+import { UpdateAuthDto } from '@modules/auth/dto/update-auth-customer.dto';
+import { UpdateUserDto } from '@modules/users/dto/update-user.dto';
 // import { Roles } from '@decorators/roles.decorator';
 // import { Ownership } from '@decorators/ownership.decorator';
 // import { log } from 'console';
@@ -61,12 +62,109 @@ export class CustomersController extends AppController<CustomerDocument, CreateC
     });
   } 
  
-  // @Get(':id')
-  // // @Roles('admin')
-  // // @Ownership()
-  // async findOne(@Param('id') id: string, @Res() res: Response) {
-  //   return super.findOne(id, res);
+  // @Put("me")
+  // @UseGuards(AuthGuard)
+  // // @Roles(RoleEnum.ADMIN)
+  // async updateMe(@Res() res: Response, @Req() req: Request, @Body() updateAuthDto: UpdateAuthDto) {
+
+  //   const user = req['user'];
+  //   const customer = req['customer'];
+    
+  //   try {
+  //     const result = await this.customersService.update(customer._id, updateAuthDto);
+  //     const data = await this.customersService.findWhere({
+  //       where: {
+  //         ownerId: customer._id.toString(),
+  //         schema: updateAuthDto.schema,
+  //       },
+  //       sort: "position"
+  //     })
+
+  //     return this.responsesHelper.getResponse({
+  //       res,
+  //       path: "updateMe",
+  //       method: "Put",
+  //       code: HttpStatus.OK,
+  //       subject: "customer",
+  //       data: data,
+  //     });
+  //   } catch (error) {
+  //     console.error('CustomerController > updateMe : ', error);
+  //     return this.responsesHelper.getResponse({
+  //       res,
+  //       path: "updateMe",
+  //       method: "Put",
+  //       code: HttpStatus.INTERNAL_SERVER_ERROR,
+  //       subject: "customer",
+  //       data: error.message,
+  //     });
+  //   }
   // }
+
+  @Put("me/email")
+  @UseGuards(AuthGuard)
+  // @Roles(RoleEnum.ADMIN)
+  async updateMeEmail(@Res() res: Response, @Req() req: Request, @Body() updateAuthDto: UpdateAuthDto) {
+
+    const user = req['user'];
+    const customer = req['customer'];
+    
+    try {
+      const userData = await this.usersService.findOne(user._id);
+      const result = await this.firebaseService.updateEmailUser(userData.uid, updateAuthDto.email);
+
+      return this.responsesHelper.getResponse({
+        res,
+        path: "updateMeEmail",
+        method: "Put",
+        code: HttpStatus.OK,
+        subject: "customer",
+        data: result,
+      });
+    } catch (error) {
+      console.error('CustomerController > updateMeEmail : ', error);
+      return this.responsesHelper.getResponse({
+        res,
+        path: "updateMeEmail",
+        method: "Put",
+        code: HttpStatus.INTERNAL_SERVER_ERROR,
+        subject: "customer",
+        data: error.message,
+      });
+    }
+  }
+
+  @Put("me/password")
+  @UseGuards(AuthGuard)
+  // @Roles(RoleEnum.ADMIN)
+  async updateMePassword(@Res() res: Response, @Req() req: Request, @Body() updateAuthDto: UpdateAuthDto) {
+    const user = req['user'];
+    const customer = req['customer'];
+    
+    try {
+      const userData = await this.usersService.findOne(user._id);
+      const result = await this.firebaseService.updatePasswordUser(userData.uid, updateAuthDto.password);
+      
+      return this.responsesHelper.getResponse({
+        res,
+        path: "updateMePassword",
+        method: "Put",
+        code: HttpStatus.OK,
+        subject: "customer",
+        data: result,
+      });
+    } catch (error) {
+      console.error('CustomerController > updateMePassword : ', error);
+      return this.responsesHelper.getResponse({
+        res,
+        path: "updateMePassword",
+        method: "Put",
+        code: HttpStatus.INTERNAL_SERVER_ERROR,
+        subject: "customer",
+        data: error.message,
+      });
+    }
+  }
 
   @Put(':id')
   // @Roles('admin')

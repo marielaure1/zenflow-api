@@ -26,9 +26,7 @@ export class ProspectsController extends AppController<ProspectDocument, CreateP
     const customer = req['customer'];
  
     try {
-      const data = await this.prospectsService.findWhere({
-        where: {ownerId: customer._id.toString() }
-      });
+      const data = await this.prospectsService.findWhere({where: {ownerId: customer._id.toString() }});
       if (!data || data.length === 0) {
         throw new Error("Not Found");
       }
@@ -51,157 +49,13 @@ export class ProspectsController extends AppController<ProspectDocument, CreateP
           data: error.message,
         });
       } else {
-        console.error("AppController > findAll : ", error);
+        console.error("AppController > findAllOwner : ", error);
         return this.responsesHelper.getResponse({
           res,
           path: "findAllOwner",
           method: "Get",
           code: HttpStatus.INTERNAL_SERVER_ERROR,
           subject: "prospects",
-          data: error.message,
-        });
-      }
-    }
-  }
-
-  // @Get("me")
-  // @UseGuards(AuthGuard)
-  // async findAllOwner(@Res() res: Response, @Req() req: Request) {
-  //   const customer = req['customer'];
- 
-  //   try {
-  //     const data = await this.clientsService.findWhere({ownerId: customer._id.toString() });
-  //     if (!data || data.length === 0) {
-  //       throw new Error("Not Found");
-  //     }
-  //     return this.responsesHelper.getResponse({
-  //       res,
-  //       path: "findAllOwner",
-  //       method: "Get",
-  //       code: HttpStatus.OK,
-  //       subject: "clients",
-  //       data,
-  //     });
-  //   } catch (error) {
-  //     if (error.message === "Not Found") {
-  //       return this.responsesHelper.getResponse({
-  //         res,
-  //         path: "findAllOwner",
-  //         method: "Get",
-  //         code: HttpStatus.NOT_FOUND,
-  //         subject: "clients",
-  //         data: error.message,
-  //       });
-  //     } else {
-  //       console.error("AppController > findAll : ", error);
-  //       return this.responsesHelper.getResponse({
-  //         res,
-  //         path: "findAllOwner",
-  //         method: "Get",
-  //         code: HttpStatus.INTERNAL_SERVER_ERROR,
-  //         subject: "clients",
-  //         data: error.message,
-  //       });
-  //     }
-  //   }
-  // }
-
-  @Get("me/custom-fields")
-  @UseGuards(AuthGuard)
-  async findAllOwnerCustomsFields(@Res() res: Response, @Req() req: Request) {
-    const customer = req['customer'];
-
-    try {
-      const data = await this.customsFieldsService.findWhere({
-        where: {
-          ownerId: customer._id.toString(),
-          schema: 'Clients',
-        }
-      });
-
-      // console.log(data);
-      
-
-      if (!data || data.length === 0) {
-        throw new Error("Not Found");
-      }
-      return this.responsesHelper.getResponse({
-        res,
-        path: "findAllOwnerCustomsFields",
-        method: "Get",
-        code: HttpStatus.OK,
-        subject: "clients",
-        data,
-      });
-    } catch (error) {
-      if (error.message === "Not Found") {
-        return this.responsesHelper.getResponse({
-          res,
-          path: "findAllOwnerCustomsFields",
-          method: "Get",
-          code: HttpStatus.NOT_FOUND,
-          subject: "clients",
-          data: error.message,
-        });
-      } else {
-        console.error("ClientsController > findAllOwnerCustomsFields : ", error);
-        return this.responsesHelper.getResponse({
-          res,
-          path: "findAllOwnerCustomsFields",
-          method: "Get",
-          code: HttpStatus.INTERNAL_SERVER_ERROR,
-          subject: "clients",
-          data: error.message,
-        });
-      }
-    }
-  }
-
-  @Get(":id/me/custom-fields")
-  @UseGuards(AuthGuard)
-  async findOneOwnerCustomsFields(@Res() res: Response, @Req() req: Request, @Param('id') id: string) {
-    const customer = req['customer'];
-
-    try {
-      const data = await this.customsFieldsService.findWhere({
-        where: {
-          ownerId: customer._id.toString(),
-          schema: 'Clients',
-          $or: [
-            {schemaIds: null}
-          ]  
-        }
-      });
-
-      if (!data || data.length === 0) {
-        throw new Error("Not Found");
-      }
-      return this.responsesHelper.getResponse({
-        res,
-        path: "findAllOwnerCustomsFields",
-        method: "Get",
-        code: HttpStatus.OK,
-        subject: "clients",
-        data,
-      });
-    } catch (error) {
-      if (error.message === "Not Found") {
-        return this.responsesHelper.getResponse({
-          res,
-          path: "findAllOwnerCustomsFields",
-          method: "Get",
-          code: HttpStatus.NOT_FOUND,
-          subject: "clients",
-          data: error.message,
-        });
-      } else {
-        console.error("ClientsController > findAllOwnerCustomsFields : ", error);
-        return this.responsesHelper.getResponse({
-          res,
-          path: "findAllOwnerCustomsFields",
-          method: "Get",
-          code: HttpStatus.INTERNAL_SERVER_ERROR,
-          subject: "clients",
           data: error.message,
         });
       }

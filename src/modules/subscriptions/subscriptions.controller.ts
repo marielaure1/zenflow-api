@@ -1,4 +1,4 @@
-import { Controller, Post, Put, Delete, Param, Body, Res, HttpStatus, Inject } from '@nestjs/common';
+import { Controller, Post, Put, Delete, Param, Body, Res, HttpStatus, Inject, Get, UseGuards, Req } from '@nestjs/common';
 import { SubscriptionsService } from '@modules/subscriptions/subscriptions.service';
 import { CustomersStripeService } from '@providers/services/stripe/services/customers.stripe.service';
 import { SubscriptionsStripeService } from '@providers/services/stripe/services/subscriptions.stripe.service';
@@ -11,6 +11,7 @@ import { CustomersService } from "@modules/customers/customers.service";
 import { UsersService } from '@modules/users/users.service';
 import { PlansService } from '@modules/plans/plans.service';
 import { log } from 'console';
+import { AuthGuard } from '@guards/auth.guard';
 
 @ApiTags('subscriptions')
 @Controller('subscriptions')
@@ -77,6 +78,86 @@ export class SubscriptionsController {
         subject: "subscriptions",
         data: error.message
       });
+    }
+  }
+
+  @Get("me")
+  @UseGuards(AuthGuard)
+  async findMySubscription(@Res() res: Response, @Req() req: Request) {
+    const customer = req['customer'];
+ 
+    try {
+      const data = await this.subscriptionsService.findWhere({where: {customer: customer._id.toString() }});
+      if (!data || data.length === 0) {
+        throw new Error("Not Found");
+      }
+      return this.responsesHelper.getResponse({
+        res,
+        path: "findMySubscription",
+        method: "Get",
+        code: HttpStatus.OK,
+        subject: "subscriptions",
+        data: data[0],
+      });
+    } catch (error) {
+      if (error.message === "Not Found") {
+        return this.responsesHelper.getResponse({
+          res,
+          path: "findMySubscription",
+          method: "Get",
+          code: HttpStatus.NOT_FOUND,
+          subject: "subscriptions",
+          data: error.message,
+        });
+      } else {
+        console.error("AppController > findMySubscription : ", error);
+        return this.responsesHelper.getResponse({
+          res,
+          path: "findMySubscription",
+          method: "Get",
+          code: HttpStatus.INTERNAL_SERVER_ERROR,
+          subject: "subscriptions",
+          data: error.message,
+        });
+      }
+    }
+  }
+
+  @Delete('cancel-subscription/:subscriptionId')
+  async cancelSubscription(@Param('subscriptionId') subscriptionId: string, @Res() res: any) {
+    try {
+      const cancelSubscription = await this.stripeSubscriptionsService.cancelSubscription(subscriptionId);
+
+      return this.responsesHelper.getResponse({
+        res,
+        path: "cancelSubscription",
+        method: "Delete",
+        code: HttpStatus.OK,
+        subject: "subscriptions",
+        data: cancelSubscription,
+      });
+      
+    } catch (error) {
+      console.error("AppController > cancelSubscription : ", error);
+      if (error.message === "Not Found") {
+        return this.responsesHelper.getResponse({
+          res,
+          path: "cancelSubscription",
+          method: "Delete",
+          code: HttpStatus.NOT_FOUND,
+          subject: "subscriptions",
+          data: error.message,
+        });
+      } else {
+        return this.responsesHelper.getResponse({
+          res,
+          path: "cancelSubscription",
+          method: "Delete",
+          code: HttpStatus.INTERNAL_SERVER_ERROR,
+          subject: "subscriptions",
+          data: error.message,
+        });
+      }
     }
   }
 

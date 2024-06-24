@@ -31,11 +31,29 @@ export class Client {
   @Prop({ required: true })
   status: string;
 
+  @Prop()
+  lastContactDate?: Date;
+
+  @Prop()
+  marketSegment?: string;
+
+  @Prop()
+  needs?: string;
+
+  @Prop()
+  leadSource?: string;
+
+  @Prop()
+  companySize?: string;
+
+  @Prop()
+  estimatedBudget?: number;
+
   @Prop({ type: Types.ObjectId, ref: "Customer", required: true })
   ownerId: Types.ObjectId;
 
   @Prop({ type: Map, of: CustomFieldValueSchema })
-  customFieldValue?: Map<string, CustomFieldValue>;
+  customFieldValues?: Map<string, CustomFieldValue>;
 
   createdAt?: Date;
   updatedAt?: Date;

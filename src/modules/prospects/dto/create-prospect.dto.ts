@@ -66,5 +66,5 @@ export class CreateProspectDto {
   @IsObject()
   @ValidateNested({ each: true })
   @Type(() => CustomFieldValueDto)
-  customFields?: CustomFieldValueDto;
+  customFieldValues?: CustomFieldValueDto;
 }

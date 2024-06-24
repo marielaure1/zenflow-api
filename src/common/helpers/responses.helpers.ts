@@ -63,7 +63,7 @@ export default class Responses {
         }
         
         const message = `${params.subject} ${action} ${success ? "with success" : `failed: ${codeMessage}, ${!success ? params.data : ""}`}`;
-        console.log(`[${success ? "Success" : "Error"}] ${params.subject.toUpperCase()} > (${params.path} => code : ${params.code}, message: ${message})`);
+        // console.log(`[${success ? "Success" : "Error"}] ${params.subject.toUpperCase()} > (${params.path} => code : ${params.code}, message: ${message})`);
 
         return params.res.status(params.code).json({
             code: params.code,

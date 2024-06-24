@@ -3,13 +3,12 @@ import { Document, Types } from 'mongoose';
 import { Customer } from '@modules/customers/entities/customer.entity';
 import { Task } from '@modules/tasks/entities/task.entity';
 import { TaskCategorie } from '@modules/task-categories/entities/task-categorie.entity';
-import { CustomField } from '@entities/custom-fields.entity';
 import { Milestone, MilestoneSchema } from '@entities/milestones.entity';
 import { Priority } from '@enums/priority.enum';
+import { StatusEnum } from '@enums/status.enum';
+import { CustomFieldValue, CustomFieldValueSchema } from '@entities/custom-field-value.entity';
 
 export type ProjectDocument = Project & Document;
-
-const CustomFieldSchema = SchemaFactory.createForClass(CustomField);
 
 @Schema({
   timestamps: true
@@ -23,6 +22,9 @@ export class Project {
 
   @Prop()
   picture?: string;
+
+  @Prop({ enum: StatusEnum })
+  status?: string;
 
   @Prop({ enum: Priority })
   priority?: string;
@@ -48,8 +50,8 @@ export class Project {
   @Prop({ type: [{ type: Types.ObjectId, ref: "Category" }] })
   categoryIds?: Types.ObjectId[];
 
-  @Prop({ type: Map, of: CustomFieldSchema })b
-  customFields?: Map<string, CustomField>;
+  @Prop({ type: Map, of: CustomFieldValueSchema })
+  customFieldValue?: Map<string, CustomFieldValue>;
 
   createdAt?: Date;
   updatedAt?: Date;

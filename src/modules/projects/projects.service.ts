@@ -10,6 +10,6 @@ import { AppService } from '@modules/app.service';
 export class ProjectsService extends AppService<ProjectDocument, CreateProjectDto, UpdateProjectDto>{
 
   constructor(@InjectModel(Project.name) private projectModel: Model<ProjectDocument>) {
-    super(projectModel, ['taskCategoryId', 'projectCategoryIds']);
+    super(projectModel);
   }
 }

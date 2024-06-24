@@ -84,15 +84,26 @@ export class FirebaseService {
     }
   }
   
-  async updateEmailUser(uid: string, updateUserEmailDto: UpdateUserEmailDto) {
+  async updateEmailUser(uid: string, email: string) {
     try {
-      const { email } = updateUserEmailDto;
       const userRecord = await admin.auth().updateUser(uid, {
         email
       });
       return userRecord;
     } catch (error) {
       console.error('Error updating user email:', error);
+      this.handleFirebaseError(error);
+    }
+  }
+
+  async updatePasswordUser(uid: string, password: string) {
+    try {
+      const userRecord = await admin.auth().updateUser(uid, {
+        password,
+      });
+      return userRecord;
+    } catch (error) {
+      console.error('Error updating user password:', error);
       this.handleFirebaseError(error);
     }
   }
@@ -106,8 +117,6 @@ export class FirebaseService {
       this.handleFirebaseError(error);
     }
   }
-
-
  
   private handleFirebaseError(error: any) {
     switch (error.code) {

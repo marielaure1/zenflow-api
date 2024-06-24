@@ -4,20 +4,7 @@ import regex from "@constants/regex";
 import UserStatut from "@modules/users/enum/user-statut.enum";
 import RoleEnum from "@enums/role.enum";
 
-export class CreateUserDto extends User {
-  @IsNotEmpty()
-  @IsEmail()
-  email: string;
-
-  @IsNotEmpty()
-  @Length(8, 20)
-  @Matches(regex.password)
-  password: string;
-
-  @IsNotEmpty()
-  @Length(8, 20)
-  @Matches(regex.password)
-  passwordConfirm: string;
+export class CreateUserDto {
 
   @IsEmpty()
   status: UserStatut;
@@ -27,4 +14,13 @@ export class CreateUserDto extends User {
 
   @IsOptional()
   token?: string;
+
+  @IsNotEmpty()
+  email: string;
+
+  @IsNotEmpty()
+  uid?: string;
+
+  @IsNotEmpty()
+  password: string;
 }

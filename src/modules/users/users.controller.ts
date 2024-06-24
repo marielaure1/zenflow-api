@@ -22,63 +22,63 @@ export class UsersController extends AppController<UserDocument, CreateUserDto, 
 
   }
 
-  @Patch('email/:id')
-  async updateEmail(@Param('id') id: string, @Body() updateUserEmailDto: UpdateUserEmailDto, @Res() res: Response) {
+  // @Patch('email/:id')
+  // async updateEmail(@Param('id') id: string, @Body() updateUserEmailDto: UpdateUserEmailDto, @Res() res: Response) {
 
-    try {
+  //   try {
 
-      const isFind = await this.usersService.findOne(id);
-      const update = await this.usersService.updateEmail(id, updateUserEmailDto);
+  //     const isFind = await this.usersService.findOne(id);
+  //     const update = await this.usersService.updateEmail(id, updateUserEmailDto);
 
-      const isFindFirebaseUsers = await this.firebaseService.getUser(isFind["uid"]);
-      const updateFirebaseUsers = await this.firebaseService.updateEmailUser(isFind["uid"], updateUserEmailDto);
+  //     const isFindFirebaseUsers = await this.firebaseService.getUser(isFind["uid"]);
+  //     const updateFirebaseUsers = await this.firebaseService.updateEmailUser(isFind["uid"], updateUserEmailDto);
 
-      return this.responsesHelper.getResponse({
-        res,
-        path: "update",
-        method: "Patch",
-        code: HttpStatus.OK,
-        subject: "users",
-        data: { update, updateFirebaseUsers }
-      });
-    } catch (error) {
-      console.error("UsersController > updateEmail : ", error);
-      return this.responsesHelper.getResponse({
-        res,
-        path: "update",
-        method: "Patch",
-        code: HttpStatus.INTERNAL_SERVER_ERROR,
-        subject: "users",
-        data: error.message
-      });
-    }
-  }
+  //     return this.responsesHelper.getResponse({
+  //       res,
+  //       path: "update",
+  //       method: "Patch",
+  //       code: HttpStatus.OK,
+  //       subject: "users",
+  //       data: { update, updateFirebaseUsers }
+  //     });
+  //   } catch (error) {
+  //     console.error("UsersController > updateEmail : ", error);
+  //     return this.responsesHelper.getResponse({
+  //       res,
+  //       path: "update",
+  //       method: "Patch",
+  //       code: HttpStatus.INTERNAL_SERVER_ERROR,
+  //       subject: "users",
+  //       data: error.message
+  //     });
+  //   }
+  // }
 
-  @Patch('password/:id')
-  async updatePassword(@Param('id') id: string, @Body() updateUserPasswordDto: UpdateUserPasswordDto, @Res() res: Response) {
-    try {
+  // @Patch('password/:id')
+  // async updatePassword(@Param('id') id: string, @Body() updateUserPasswordDto: UpdateUserPasswordDto, @Res() res: Response) {
+  //   try {
 
-      const isFind = await this.usersService.findOne(id);
-      const update = await this.usersService.updatePassword(id, updateUserPasswordDto);
+  //     const isFind = await this.usersService.findOne(id);
+  //     const update = await this.usersService.updatePassword(id, updateUserPasswordDto);
       
-      return this.responsesHelper.getResponse({
-        res,
-        path: "update",
-        method: "Patch",
-        code: HttpStatus.OK,
-        subject: "users",
-        data: { update }
-      });
-    } catch (error) {
-      console.error("UsersController > updatePassword : ", error);
-      return this.responsesHelper.getResponse({
-        res,
-        path: "update",
-        method: "Patch",
-        code: HttpStatus.INTERNAL_SERVER_ERROR,
-        subject: "users",
-        data: error.message
-      });
-    }
-  }
+  //     return this.responsesHelper.getResponse({
+  //       res,
+  //       path: "update",
+  //       method: "Patch",
+  //       code: HttpStatus.OK,
+  //       subject: "users",
+  //       data: { update }
+  //     });
+  //   } catch (error) {
+  //     console.error("UsersController > updatePassword : ", error);
+  //     return this.responsesHelper.getResponse({
+  //       res,
+  //       path: "update",
+  //       method: "Patch",
+  //       code: HttpStatus.INTERNAL_SERVER_ERROR,
+  //       subject: "users",
+  //       data: error.message
+  //     });
+  //   }
+  // }
 }
