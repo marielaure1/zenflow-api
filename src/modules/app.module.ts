@@ -1,12 +1,12 @@
 // CONFIGS
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from '@modules/app.controller';
 import { AppService } from '@modules/app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from '@config/database/mongoose/mongoose.module';
 import { StripeModule } from '@providers/services/stripe/stripe.module';
-import { FirebaseModule } from '@providers/services/firebase/firebase.module';
+// import { FirebaseModule } from '@providers/services/firebase/firebase.module';
 import settings from "@constants/settings";
 
 // MODULES
@@ -42,6 +42,9 @@ import { TaskCommentsModule } from '@modules/task-comments/task-comments.module'
 // import { ThreadsModule } from '@modules/threads/threads.module';
 import { UsersModule } from '@modules/users/users.module';
 import { SupabaseModule } from '@providers/services/supabase/supabase.module';
+import { AuthMiddleware } from '@middleware/auth/auth.middleware';
+import { CustomersController } from './customers/customers.controller';
+import { ClientsController } from './clients/clients.controller';
 
 
 
@@ -53,7 +56,7 @@ import { SupabaseModule } from '@providers/services/supabase/supabase.module';
       isGlobal: true,
       envFilePath: '.env'
     }),
-    FirebaseModule.forRootAsync(),
+    // FirebaseModule.forRootAsync(),
     DatabaseModule,
     SupabaseModule,
     StripeModule,
@@ -93,4 +96,10 @@ import { SupabaseModule } from '@providers/services/supabase/supabase.module';
   providers: [],
   exports: [AppModule]
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleware)
+      .forRoutes(CustomersController, ClientsController);
+  }
+}

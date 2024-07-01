@@ -15,9 +15,5 @@ import { AuthMiddleware } from '@middleware/auth/auth.middleware';
   exports: [CustomersModule]
 })
 export class CustomersModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(AuthMiddleware)
-      .forRoutes(CustomersController);
-  }
+  
 }

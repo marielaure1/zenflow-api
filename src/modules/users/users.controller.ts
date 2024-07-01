@@ -6,7 +6,7 @@ import { UpdateUserEmailDto } from '@modules/users/dto/update-user-email.dto';
 import { User, UserDocument } from '@modules/users/entities/user.entity';
 import { AppController } from '@modules/app.controller';
 import { ApiTags } from '@nestjs/swagger';
-import { FirebaseService } from '@providers/services/firebase/firebase.service';
+// import { FirebaseService } from '@providers/services/firebase/firebase.service';
 import { Response } from "express";
 
 @ApiTags('users')
@@ -15,7 +15,7 @@ export class UsersController extends AppController<UserDocument, CreateUserDto, 
   
   
   constructor(
-    private readonly firebaseService: FirebaseService,
+    // private readonly firebaseService: FirebaseService,
       private readonly usersService: UsersService
   ) {
       super(usersService, "users");

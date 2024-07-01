@@ -1,8 +1,8 @@
 import { Injectable, NestMiddleware, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Request, Response, NextFunction } from 'express';
-import { FirebaseService } from '@providers/services/firebase/firebase.service';
-import { log } from 'console';
+// import { FirebaseService } from '@providers/services/firebase/firebase.service';
+// import { log } from 'console';
 import { SupabaseService } from '@providers/services/supabase/supabase.service';
 
 @Injectable()

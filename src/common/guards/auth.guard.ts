@@ -1,6 +1,6 @@
 import { Injectable, CanActivate, ExecutionContext, UnauthorizedException, ForbiddenException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { FirebaseService } from '@providers/services/firebase/firebase.service';
+// import { FirebaseService } from '@providers/services/firebase/firebase.service';
 import { UsersService } from '@modules/users/users.service';
 import { CustomersService } from '@modules/customers/customers.service';
 import RoleEnum from '@enums/role.enum'; 
@@ -10,10 +10,10 @@ import { OWNERSHIP_KEY } from '@decorators/ownership.decorator';
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
-    private readonly firebaseService: FirebaseService,
-    private readonly usersService: UsersService,
-    private readonly customersService: CustomersService,
-    private readonly reflector: Reflector
+    // private readonly firebaseService: FirebaseService,
+    // private readonly usersService: UsersService,
+    // private readonly customersService: CustomersService,
+    // private readonly reflector: Reflector
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -21,25 +21,25 @@ export class AuthGuard implements CanActivate {
 
     try {
 
-      const user = await this.usersService.findOneByFirebaseUid(request["user_firebase"].uid);
-      request['user'] = user;
+      // const user = await this.usersService.findOneByFirebaseUid(request["user_firebase"].uid);
+      // request['user'] = user;
 
-      const customer = await this.customersService.findOneByUser(user._id);
-      request['customer'] = customer;
+      // const customer = await this.customersService.findOneByUser(user._id);
+      // request['customer'] = customer;
 
-      const ownership = this.reflector.get(OWNERSHIP_KEY, context.getHandler());
+      // const ownership = this.reflector.get(OWNERSHIP_KEY, context.getHandler());
 
-      const roles = this.reflector.get<RoleEnum[]>(ROLES_KEY, context.getHandler());
+      // const roles = this.reflector.get<RoleEnum[]>(ROLES_KEY, context.getHandler());
       
-      if (!roles || ownership) {
-        return true;
-      }
+      // if (!roles || ownership) {
+      //   return true;
+      // }
       
-      const userRole = user.role;
+      // const userRole = user.role;
       
-      if (!this.hasRole(userRole, roles)) {
-        throw new ForbiddenException('You do not have permission to access this resource');
-      }
+      // if (!this.hasRole(userRole, roles)) {
+      //   throw new ForbiddenException('You do not have permission to access this resource');
+      // }
 
       return true;
     } catch (error) {
