@@ -83,8 +83,6 @@ export class CustomFieldsController extends AppController<CustomFieldDocument, C
           ]  
         }
       });
-
-      console.log(data);
       
 
       if (!data || data.length === 0) {

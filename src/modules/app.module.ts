@@ -41,6 +41,7 @@ import { TaskCommentsModule } from '@modules/task-comments/task-comments.module'
 // import { TeamsModule } from '@modules/teams/teams.module';
 // import { ThreadsModule } from '@modules/threads/threads.module';
 import { UsersModule } from '@modules/users/users.module';
+import { SupabaseModule } from '@providers/services/supabase/supabase.module';
 
 
 
@@ -54,6 +55,7 @@ import { UsersModule } from '@modules/users/users.module';
     }),
     FirebaseModule.forRootAsync(),
     DatabaseModule,
+    SupabaseModule,
     StripeModule,
     AuthModule,
     // ChatsModule,

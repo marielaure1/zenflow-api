@@ -12,6 +12,10 @@ import { AuthGuard } from "@guards/auth.guard";
 import { CustomField } from "@entities/custom-fields.entity";
 import { CustomersService } from "@modules/customers/customers.service";
 import { CustomFieldsService } from "@modules/custom-fields/custom-fields.service";
+import { AuthMiddleware } from '@middleware/auth/auth.middleware';
+import { Roles } from '@decorators/roles.decorator';
+import RoleEnum from '@enums/role.enum';
+import { Ownership } from '@decorators/ownership.decorator';
 
 @Controller('clients')
 export class ClientsController extends AppController<ClientDocument, CreateClientDto, UpdateClientDto>{
@@ -23,11 +27,14 @@ export class ClientsController extends AppController<ClientDocument, CreateClien
       super(clientsService, "clients");
   }
 
-  @Get("me")
+  // 
+  @Ownership()
+  @Roles(RoleEnum.ADMIN)
   @UseGuards(AuthGuard)
+  @Get("me")
   async findAllOwner(@Res() res: Response, @Req() req: Request) {
     const customer = req['customer'];
- 
+
     try {
       const data = await this.clientsService.findWhere({where: {ownerId: customer._id.toString() }});
       if (!data || data.length === 0) {
@@ -113,5 +120,6 @@ export class ClientsController extends AppController<ClientDocument, CreateClien
   //     }
   //   }
   // }
+
 
 }

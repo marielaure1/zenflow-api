@@ -9,6 +9,9 @@ import { Response } from "express";
 import { log } from "console";
 import { AuthGuard } from "@guards/auth.guard";
 import { CustomFieldsService } from "@modules/custom-fields/custom-fields.service";
+import { Ownership } from "@decorators/ownership.decorator";
+import { Roles } from "@decorators/roles.decorator";
+import RoleEnum from "@enums/role.enum";
 
 @Controller('prospects')
 export class ProspectsController extends AppController<ProspectDocument, CreateProspectDto, UpdateProspectDto>{
@@ -20,11 +23,13 @@ export class ProspectsController extends AppController<ProspectDocument, CreateP
       super(prospectsService, "prospects");
   }
 
-  @Get("me")
+  @Ownership()
+  @Roles(RoleEnum.ADMIN)
   @UseGuards(AuthGuard)
+  @Get("me")
   async findAllOwner(@Res() res: Response, @Req() req: Request) {
     const customer = req['customer'];
- 
+
     try {
       const data = await this.prospectsService.findWhere({where: {ownerId: customer._id.toString() }});
       if (!data || data.length === 0) {

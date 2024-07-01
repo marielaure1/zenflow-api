@@ -1,6 +1,6 @@
 import { CustomersService } from '@modules/customers/customers.service';
 import { CreateCustomerDto } from '@modules/customers/dto/create-customer.dto';
-import { Controller, Get, Post, Body, Res, HttpStatus} from '@nestjs/common';
+import { Controller, Get, Post, Body, Res, HttpStatus, Param} from '@nestjs/common';
 import { FirebaseService } from '@providers/services/firebase/firebase.service';
 import { CustomersStripeService } from '@providers/services/stripe/services/customers.stripe.service';
 import { CreateUserDto } from '@modules/users/dto/create-user.dto';
@@ -22,20 +22,6 @@ export class AuthController {
     this.responsesHelper = new ResponsesHelper();
   }
 
-  @Get('users')
-  async getUsers() {
-    const auth = this.firebaseService.getAuth();
-    const users = await auth.listUsers();
-    return users;
-  }
-
-  @Get('data')
-  async getData() {
-    const firestore = this.firebaseService.getFirestore();
-    const snapshot = await firestore.collection('user').get();
-    return snapshot.docs.map(doc => doc.data());
-  }
-
   @Post("register")
   async register(@Body() CreateAuthDto :CreateAuthDto, @Res() res: Response){
     try {
@@ -55,6 +41,35 @@ export class AuthController {
           firestore,
           user,
           customers
+        }
+      });
+    } catch (error) {
+      console.error("AuthController > register : ", error);
+
+      return this.responsesHelper.getResponse({
+        res,
+        path: "register",
+        method: "Post",
+        code: HttpStatus.INTERNAL_SERVER_ERROR,
+        subject: "auth",
+        data: error.message
+      });
+    }
+  }
+
+  @Get("verif-token/:token")
+  async verifToken(@Param('token') token: string, @Res() res: Response){
+    try {
+    
+      const isTokenExpired = await this.firebaseService.verifyToken(token)
+      return this.responsesHelper.getResponse({
+        res,
+        path: "create",
+        method: "Post",
+        code: HttpStatus.CREATED,
+        subject: "auth",
+        data: {
+          isTokenExpired
         }
       });
     } catch (error) {

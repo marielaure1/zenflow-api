@@ -15,12 +15,9 @@ export class CustomFieldsService extends AppService<CustomFieldDocument, CreateC
   }
 
   async updatePositions(updateCustomFieldDtos: UpdateCustomFieldDto[]): Promise<any> {
-
-    // console.log(updateCustomFieldDtos);
     
     const updatePromises = updateCustomFieldDtos.map((dto, index) => {
-      console.log(dto, index + 1);
-      
+
       return this.customFieldModel.updateOne(
         { _id: dto._id }, 
         { $set: { position: index + 1 } }

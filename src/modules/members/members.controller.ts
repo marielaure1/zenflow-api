@@ -90,17 +90,12 @@ export class MembersController extends AppController<MemberDocument, CreateMembe
     
       const dataTasks = await Promise.all(tasksPromises);
     
-      // Log les tâches récupérées pour chaque catégorie
+    
       dataTasks.forEach((tasks, index) => {
         console.log(`Tasks for category ${dataTaskCategories[index]._id}:`, tasks);
       });
     
-      // Vérifiez si au moins une tâche a été trouvée
-      // if (dataTasks.length === 0 || dataTasks.every(tasks => tasks.length === 0)) {
-      //   throw new Error("Not Found");
-      // }
-    
-      // Flatten the array of arrays into a single array of tasks
+      
       const allTasks = dataTasks.flat();
     
    

@@ -1,4 +1,5 @@
-import { Module } from '@nestjs/common';
+import { Module, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
+import { AuthMiddleware } from "@middleware/auth/auth.middleware";
 import { ClientsService } from './clients.service';
 import { ClientsController } from './clients.controller';
 import { UsersService } from '@modules/users/users.service';
@@ -14,4 +15,10 @@ import { CustomFieldsModule } from '@modules/custom-fields/custom-fields.module'
   providers: [ClientsService, UsersService, CustomersService, CustomFieldsService],
   exports: [ClientsModule]
 })
-export class ClientsModule {}
+export class ClientsModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleware)
+      .forRoutes(ClientsController);
+  }
+}

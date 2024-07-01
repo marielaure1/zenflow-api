@@ -11,9 +11,11 @@ import { FirebaseService } from '@providers/services/firebase/firebase.service';
 import ResponsesHelper from "@helpers/responses.helpers";
 import {AuthGuard} from "@guards/auth.guard";
 import RoleEnum from '@enums/role.enum';
-import { Roles } from '@decorators/roles.decorator';
+import { Roles, ROLES_KEY } from '@decorators/roles.decorator';
 import { UpdateAuthDto } from '@modules/auth/dto/update-auth-customer.dto';
 import { UpdateUserDto } from '@modules/users/dto/update-user.dto';
+import { Ownership } from '@decorators/ownership.decorator';
+import { log } from 'console';
 // import { Roles } from '@decorators/roles.decorator';
 // import { Ownership } from '@decorators/ownership.decorator';
 // import { log } from 'console';
@@ -33,7 +35,7 @@ export class CustomersController extends AppController<CustomerDocument, CreateC
 
 
   @Post()
-  // @Roles('admin')
+  @Roles(RoleEnum.ADMIN)
   async create(@Body() createCustomerDto: CreateCustomerDto, @Res() res: Response) {
     return super.create(createCustomerDto, res);
   }
@@ -44,14 +46,17 @@ export class CustomersController extends AppController<CustomerDocument, CreateC
     return super.findAll(res);
   }
 
-  @Get("me")
+  @Ownership()
   @UseGuards(AuthGuard)
-  // @Roles(RoleEnum.ADMIN)
+  @Get("me")
   async findMe(@Res() res: Response, @Req() req: Request) {
 
     const user = req['user'];
     const customer = req['customer'];
+
+    console.log(user);
     
+
     return this.responsesHelper.getResponse({
       res,
       path: "findMe",
@@ -139,11 +144,14 @@ export class CustomersController extends AppController<CustomerDocument, CreateC
   // @Roles(RoleEnum.ADMIN)
   async updateMePassword(@Res() res: Response, @Req() req: Request, @Body() updateAuthDto: UpdateAuthDto) {
     const user = req['user'];
-    const customer = req['customer'];
+
+    console.log(user);
     
+    // const customer = req['customer'];
+    const result = 1;
     try {
-      const userData = await this.usersService.findOne(user._id);
-      const result = await this.firebaseService.updatePasswordUser(userData.uid, updateAuthDto.password);
+      // const userData = await this.usersService.findOne(user._id);
+      // const result = await this.firebaseService.updatePasswordUser(userData.uid, updateAuthDto.password);
       
       return this.responsesHelper.getResponse({
         res,
