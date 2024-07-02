@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { log } from 'console';
-import { Model, Document, Types } from 'mongoose';
+import { Model, Document } from 'mongoose';
 
 @Injectable()
 export abstract class AppService<AppModel extends Document, CreateDto, UpdateDto> {
@@ -12,18 +11,12 @@ export abstract class AppService<AppModel extends Document, CreateDto, UpdateDto
 
   async create(createDto: CreateDto): Promise<AppModel> {
     try {
-      const { relations, ...data } = createDto as any;
       const createdModel = new this.appModel({
-        ...data,
+        ...createDto,
         createdAt: new Date(),
         updatedAt: new Date()
       });
       await createdModel.save();
-
-      if (relations) {
-        await this.addMultipleRelations(createdModel._id, relations);
-      }
-
       return this.populateModel(createdModel);
     } catch (error) {
       console.error("AppService > create : ", error);
@@ -42,13 +35,7 @@ export abstract class AppService<AppModel extends Document, CreateDto, UpdateDto
 
   async update(id: string, updateDto: UpdateDto): Promise<AppModel> {
     try {
-      const { relations, ...data } = updateDto as any;
-      const updatedModel = await this.appModel.findByIdAndUpdate(id, data, { new: true }).populate(this.populate).exec();
-
-      if (relations) {
-        await this.addMultipleRelations(id, relations);
-      }
-
+      const updatedModel = await this.appModel.findByIdAndUpdate(id, updateDto, { new: true }).populate(this.populate).exec();
       return this.populateModel(updatedModel);
     } catch (error) {
       console.error("AppService > update : ", error);
@@ -66,17 +53,7 @@ export abstract class AppService<AppModel extends Document, CreateDto, UpdateDto
 
   async updateMany(where: object, updateDto: UpdateDto): Promise<any> {
     try {
-      const { relations, ...data } = updateDto as any;
-      const result = await this.appModel.updateMany(where, data).exec();
-
-      if (relations) {
-        const updatedModels = await this.appModel.find(where).exec();
-        for (const model of updatedModels) {
-          await this.addMultipleRelations(model._id, relations);
-        }
-      }
-
-      return result;
+      return await this.appModel.updateMany(where, updateDto).exec();
     } catch (error) {
       console.error("AppService > updateMany : ", error);
       throw error;
@@ -85,49 +62,5 @@ export abstract class AppService<AppModel extends Document, CreateDto, UpdateDto
 
   protected async populateModel(model: AppModel): Promise<AppModel> {
     return model;
-  }
-
-  protected async addRelation(parentId: string, relatedId: string, relationField: string): Promise<AppModel> {
-    const parent = await this.findOne(parentId);
-    if (!parent[relationField]) {
-      parent[relationField] = [];
-    }
-    if (!parent[relationField].includes(Types.ObjectId.createFromHexString(relatedId))) {
-      parent[relationField].push(Types.ObjectId.createFromHexString(relatedId));
-      await parent.save();
-    }
-    return parent;
-  }
-
-  protected async removeRelation(parentId: string, relatedId: string, relationField: string): Promise<AppModel> {
-    const parent = await this.findOne(parentId);
-    parent[relationField] = parent[relationField].filter(id => id.toString() !== relatedId);
-    await parent.save();
-    return parent;
-  }
-
-  protected async addMultipleRelations(parentId: string, relations: { [key: string]: string[] }): Promise<AppModel> {
-    const parent = await this.findOne(parentId);
-    for (const [relationField, relatedIds] of Object.entries(relations)) {
-      if (!parent[relationField]) {
-        parent[relationField] = [];
-      }
-      for (const relatedId of relatedIds) {
-        if (!parent[relationField].includes(Types.ObjectId.createFromHexString(relatedId))) {
-          parent[relationField].push(Types.ObjectId.createFromHexString(relatedId));
-        }
-      }
-    }
-    await parent.save();
-    return parent;
-  }
-
-  protected async removeMultipleRelations(parentId: string, relations: { [key: string]: string[] }): Promise<AppModel> {
-    const parent = await this.findOne(parentId);
-    for (const [relationField, relatedIds] of Object.entries(relations)) {
-      parent[relationField] = parent[relationField].filter(id => !relatedIds.includes(id.toString()));
-    }
-    await parent.save();
-    return parent;
   }
 }

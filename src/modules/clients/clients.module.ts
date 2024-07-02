@@ -17,4 +17,10 @@ import { SupabaseModule } from '@providers/services/supabase/supabase.module';
   providers: [ClientsService, UsersService, CustomersService, CustomFieldsService, SupabaseService],
   exports: [ClientsModule]
 })
-export class ClientsModule {}
+export class ClientsModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleware)
+      .forRoutes(ClientsController);
+  }
+}

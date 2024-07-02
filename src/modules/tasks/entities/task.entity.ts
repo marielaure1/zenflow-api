@@ -2,7 +2,6 @@ import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { Customer } from '@modules/customers/entities/customer.entity';
 import { Project } from '@modules/projects/entities/project.entity';
-import { TaskComment } from '@modules/task-comments/entities/task-comment.entity';
 import { TimeEntry, TimeEntrySchema } from './time-entry.entity';
 import { CustomField, CustomFieldSchema } from '@entities/custom-fields.entity';
 import { TaskCategorie } from '@modules/task-categories/entities/task-categorie.entity';
@@ -37,10 +36,7 @@ export class Task {
 
   @Prop({default: false})
   completed: boolean;
-
-  @Prop({ type: [{ type: Types.ObjectId, ref: TaskComment.name }] })
-  comments?: Types.ObjectId[];
-
+  
   @Prop({ type: [{ title: String, color: String }] })
   flags?: { title: string; color: string }[];
 

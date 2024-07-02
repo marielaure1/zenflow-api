@@ -23,7 +23,7 @@ export class CustomersStripeService {
     return customer;
   }
 
-  async updateCustomer(customerId: string, updateData: Stripe.CustomerUpdateParams): Promise<Stripe.Customer> {
+  async updateCustomer(customerId: string, updateData: any): Promise<Stripe.Customer> {
     const customer = await this.stripe.customers.update(customerId, updateData);
     return customer;
   }

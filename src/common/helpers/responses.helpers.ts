@@ -8,6 +8,7 @@ interface ResponsesProps {
     code: number;
     subject: string;
     data: any;
+    message?: string;
 }
 
 export default class Responses {
@@ -15,7 +16,7 @@ export default class Responses {
         let success = false;
         let codeMessage = "";
         let action = "";
-    
+
         if (params.code === 200 || params.code === 201) {
             success = true;
             codeMessage = "success";
@@ -61,8 +62,8 @@ export default class Responses {
             default:
                 action = "client error";
         }
-        
-        const message = success ? `${params.subject} ${action} ${ "with success"}` : codeMessage;
+
+        const message = params.message || (success ? `${params.subject} ${action} with success` : `${params.subject} ${codeMessage}`);
         console.log(`[${success ? "Success" : "Error"}] ${params.subject.toUpperCase()} > (${params.path} => code : ${params.code}, message: ${message})`);
 
         return params.res.status(params.code).json({
@@ -70,7 +71,7 @@ export default class Responses {
             success,
             message,
             datas: {
-              [params.subject]: params.data
+                [params.subject]: params.data
             }
         });
     }

@@ -1,0 +1,2976 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/clients": {
+      "post": {
+        "operationId": "ClientsController_create",
+        "summary": "Create a new client",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateClientDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The client has been successfully created."
+          },
+          "400": {
+            "description": "Bad Request."
+          }
+        },
+        "tags": [
+          "clients"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "ClientsController_findAll",
+        "summary": "Get all clients",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Return all clients."
+          },
+          "404": {
+            "description": "Clients not found."
+          }
+        },
+        "tags": [
+          "clients"
+        ]
+      }
+    },
+    "/clients/{id}": {
+      "get": {
+        "operationId": "ClientsController_findOne",
+        "summary": "Get a client by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return a client."
+          },
+          "404": {
+            "description": "Client not found."
+          }
+        },
+        "tags": [
+          "clients"
+        ]
+      },
+      "put": {
+        "operationId": "ClientsController_update",
+        "summary": "Update a client by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateClientDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The client has been successfully updated."
+          },
+          "404": {
+            "description": "Client not found."
+          }
+        },
+        "tags": [
+          "clients"
+        ]
+      },
+      "delete": {
+        "operationId": "ClientsController_remove",
+        "summary": "Delete a client by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The client has been successfully deleted."
+          },
+          "404": {
+            "description": "Client not found."
+          }
+        },
+        "tags": [
+          "clients"
+        ]
+      }
+    },
+    "/clients/me": {
+      "get": {
+        "operationId": "ClientsController_findAllOwner",
+        "summary": "Get all clients for the current owner",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Return all clients for the current owner."
+          },
+          "404": {
+            "description": "Clients not found."
+          }
+        },
+        "tags": [
+          "clients"
+        ]
+      }
+    },
+    "/users": {
+      "post": {
+        "operationId": "UsersController_create",
+        "summary": "Create a new user",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The user has been successfully created."
+          },
+          "400": {
+            "description": "Bad Request."
+          }
+        },
+        "tags": [
+          "users"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "UsersController_findAll",
+        "summary": "Get all users",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Return all users."
+          },
+          "404": {
+            "description": "Users not found."
+          }
+        },
+        "tags": [
+          "users"
+        ]
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "operationId": "UsersController_findOne",
+        "summary": "Get a user by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return a user."
+          },
+          "404": {
+            "description": "User not found."
+          }
+        },
+        "tags": [
+          "users"
+        ]
+      },
+      "put": {
+        "operationId": "UsersController_update",
+        "summary": "Update a user by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The user has been successfully updated."
+          },
+          "404": {
+            "description": "User not found."
+          }
+        },
+        "tags": [
+          "users"
+        ]
+      },
+      "delete": {
+        "operationId": "UsersController_remove",
+        "summary": "Delete a user by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The user has been successfully deleted."
+          },
+          "404": {
+            "description": "User not found."
+          }
+        },
+        "tags": [
+          "users"
+        ]
+      }
+    },
+    "/customers": {
+      "post": {
+        "operationId": "CustomersController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCustomerDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "customers"
+        ]
+      },
+      "get": {
+        "operationId": "CustomersController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "customers"
+        ]
+      }
+    },
+    "/customers/register": {
+      "post": {
+        "operationId": "CustomersController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAuthDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "customers"
+        ]
+      }
+    },
+    "/customers/{id}": {
+      "get": {
+        "operationId": "CustomersController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "customers"
+        ]
+      },
+      "put": {
+        "operationId": "CustomersController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "customers"
+        ]
+      },
+      "delete": {
+        "operationId": "CustomersController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "customers"
+        ]
+      }
+    },
+    "/custom-fields": {
+      "post": {
+        "operationId": "CustomFieldsController_create",
+        "summary": "Create a new custom field",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCustomFieldDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The custom field has been successfully created."
+          },
+          "400": {
+            "description": "Bad Request."
+          }
+        },
+        "tags": [
+          "custom-fields"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "CustomFieldsController_findAll",
+        "summary": "Get all custom fields",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Return all custom fields."
+          },
+          "404": {
+            "description": "Custom fields not found."
+          }
+        },
+        "tags": [
+          "custom-fields"
+        ]
+      }
+    },
+    "/custom-fields/{id}": {
+      "get": {
+        "operationId": "CustomFieldsController_findOne",
+        "summary": "Get a custom field by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return a custom field."
+          },
+          "404": {
+            "description": "Custom field not found."
+          }
+        },
+        "tags": [
+          "custom-fields"
+        ]
+      },
+      "put": {
+        "operationId": "CustomFieldsController_update",
+        "summary": "Update a custom field by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCustomFieldDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The custom field has been successfully updated."
+          },
+          "404": {
+            "description": "Custom field not found."
+          }
+        },
+        "tags": [
+          "custom-fields"
+        ]
+      },
+      "delete": {
+        "operationId": "CustomFieldsController_remove",
+        "summary": "Delete a custom field by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The custom field has been successfully deleted."
+          },
+          "404": {
+            "description": "Custom field not found."
+          }
+        },
+        "tags": [
+          "custom-fields"
+        ]
+      }
+    },
+    "/custom-fields/me/{schema}": {
+      "get": {
+        "operationId": "CustomFieldsController_findAllOwnerCustomsFields",
+        "summary": "Get all custom fields for the current owner and schema",
+        "parameters": [
+          {
+            "name": "schema",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return all custom fields for the current owner and schema."
+          },
+          "404": {
+            "description": "Custom fields not found."
+          }
+        },
+        "tags": [
+          "custom-fields"
+        ]
+      },
+      "put": {
+        "operationId": "CustomFieldsController_updatePositions",
+        "summary": "Update positions of custom fields for the current owner and schema",
+        "parameters": [
+          {
+            "name": "schema",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The positions of the custom fields have been successfully updated."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        },
+        "tags": [
+          "custom-fields"
+        ]
+      }
+    },
+    "/custom-fields/{id}/me/{schema}": {
+      "get": {
+        "operationId": "CustomFieldsController_findOneOwnerCustomsFields",
+        "summary": "Get a specific custom field for the current owner and schema",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "schema",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return the custom field for the current owner and schema."
+          },
+          "404": {
+            "description": "Custom field not found."
+          }
+        },
+        "tags": [
+          "custom-fields"
+        ]
+      }
+    },
+    "/supabase/webhook": {
+      "post": {
+        "operationId": "SupabaseController_webhook",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/notes": {
+      "post": {
+        "operationId": "NotesController_create",
+        "summary": "Create a new note",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateNoteDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The note has been successfully created."
+          },
+          "400": {
+            "description": "Bad Request."
+          }
+        },
+        "tags": [
+          "notes"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "NotesController_findAll",
+        "summary": "Get all notes",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Return all notes."
+          },
+          "404": {
+            "description": "Notes not found."
+          }
+        },
+        "tags": [
+          "notes"
+        ]
+      }
+    },
+    "/notes/{id}": {
+      "get": {
+        "operationId": "NotesController_findOne",
+        "summary": "Get a note by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return a note."
+          },
+          "404": {
+            "description": "Note not found."
+          }
+        },
+        "tags": [
+          "notes"
+        ]
+      },
+      "put": {
+        "operationId": "NotesController_update",
+        "summary": "Update a note by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateNoteDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The note has been successfully updated."
+          },
+          "404": {
+            "description": "Note not found."
+          }
+        },
+        "tags": [
+          "notes"
+        ]
+      },
+      "delete": {
+        "operationId": "NotesController_remove",
+        "summary": "Delete a note by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The note has been successfully deleted."
+          },
+          "404": {
+            "description": "Note not found."
+          }
+        },
+        "tags": [
+          "notes"
+        ]
+      }
+    },
+    "/notes/me": {
+      "get": {
+        "operationId": "NotesController_findAllOwner",
+        "summary": "Get all notes for the current owner",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Return all notes for the current owner."
+          },
+          "404": {
+            "description": "Notes not found."
+          }
+        },
+        "tags": [
+          "notes"
+        ]
+      }
+    },
+    "/payments/create-checkout-session": {
+      "post": {
+        "operationId": "PaymentsController_createCheckoutSession",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCheckoutSessionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "payments"
+        ]
+      }
+    },
+    "/payments": {
+      "post": {
+        "operationId": "PaymentsController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "payments"
+        ]
+      },
+      "get": {
+        "operationId": "PaymentsController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "payments"
+        ]
+      }
+    },
+    "/payments/{id}": {
+      "get": {
+        "operationId": "PaymentsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "payments"
+        ]
+      },
+      "put": {
+        "operationId": "PaymentsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "payments"
+        ]
+      },
+      "delete": {
+        "operationId": "PaymentsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "payments"
+        ]
+      }
+    },
+    "/plans": {
+      "post": {
+        "operationId": "PlansController_create",
+        "summary": "Create a new plan",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePlanDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The plan has been successfully created."
+          },
+          "400": {
+            "description": "Bad Request."
+          }
+        },
+        "tags": [
+          "plans"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "PlansController_findAll",
+        "summary": "Get all plans",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Return all plans."
+          },
+          "404": {
+            "description": "Plans not found."
+          }
+        },
+        "tags": [
+          "plans"
+        ]
+      }
+    },
+    "/plans/{id}": {
+      "put": {
+        "operationId": "PlansController_update",
+        "summary": "Update a plan by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePlanDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The plan has been successfully updated."
+          },
+          "404": {
+            "description": "Plan not found."
+          }
+        },
+        "tags": [
+          "plans"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "PlansController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "plans"
+        ]
+      },
+      "get": {
+        "operationId": "PlansController_findOne",
+        "summary": "Get a plan by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return a plan."
+          },
+          "404": {
+            "description": "Plan not found."
+          }
+        },
+        "tags": [
+          "plans"
+        ]
+      }
+    },
+    "/projects": {
+      "post": {
+        "operationId": "ProjectsController_create",
+        "summary": "Create a new project",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The project has been successfully created."
+          },
+          "400": {
+            "description": "Bad Request."
+          }
+        },
+        "tags": [
+          "projects"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "ProjectsController_findAll",
+        "summary": "Get all projects",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Return all projects."
+          },
+          "404": {
+            "description": "Projects not found."
+          }
+        },
+        "tags": [
+          "projects"
+        ]
+      }
+    },
+    "/projects/{id}": {
+      "get": {
+        "operationId": "ProjectsController_findOne",
+        "summary": "Get a project by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return a project."
+          },
+          "404": {
+            "description": "Project not found."
+          }
+        },
+        "tags": [
+          "projects"
+        ]
+      },
+      "put": {
+        "operationId": "ProjectsController_update",
+        "summary": "Update a project by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProjectDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The project has been successfully updated."
+          },
+          "404": {
+            "description": "Project not found."
+          }
+        },
+        "tags": [
+          "projects"
+        ]
+      },
+      "delete": {
+        "operationId": "ProjectsController_remove",
+        "summary": "Delete a project by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The project has been successfully deleted."
+          },
+          "404": {
+            "description": "Project not found."
+          }
+        },
+        "tags": [
+          "projects"
+        ]
+      }
+    },
+    "/projects/{id}/tasks-categories": {
+      "get": {
+        "operationId": "ProjectsController_findTasksCategories",
+        "summary": "Get tasks categories for a project by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return tasks categories for the project."
+          },
+          "404": {
+            "description": "Project or tasks categories not found."
+          }
+        },
+        "tags": [
+          "projects"
+        ]
+      }
+    },
+    "/projects/{id}/tasks": {
+      "get": {
+        "operationId": "ProjectsController_findTasks",
+        "summary": "Get tasks for a project by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return tasks for the project."
+          },
+          "404": {
+            "description": "Project or tasks not found."
+          }
+        },
+        "tags": [
+          "projects"
+        ]
+      }
+    },
+    "/projects/me": {
+      "get": {
+        "operationId": "ProjectsController_findAllOwner",
+        "summary": "Get all projects for the current owner",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Return all projects for the current owner."
+          },
+          "404": {
+            "description": "Projects not found."
+          }
+        },
+        "tags": [
+          "projects"
+        ]
+      }
+    },
+    "/tasks": {
+      "post": {
+        "operationId": "TasksController_create",
+        "summary": "Create a new task",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTaskDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The task has been successfully created."
+          },
+          "400": {
+            "description": "Bad Request."
+          }
+        },
+        "tags": [
+          "tasks"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "TasksController_findAll",
+        "summary": "Get all tasks",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Return all tasks."
+          },
+          "404": {
+            "description": "Tasks not found."
+          }
+        },
+        "tags": [
+          "tasks"
+        ]
+      }
+    },
+    "/tasks/{id}": {
+      "get": {
+        "operationId": "TasksController_findOne",
+        "summary": "Get a task by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return a task."
+          },
+          "404": {
+            "description": "Task not found."
+          }
+        },
+        "tags": [
+          "tasks"
+        ]
+      },
+      "put": {
+        "operationId": "TasksController_update",
+        "summary": "Update a task by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTaskDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The task has been successfully updated."
+          },
+          "404": {
+            "description": "Task not found."
+          }
+        },
+        "tags": [
+          "tasks"
+        ]
+      },
+      "delete": {
+        "operationId": "TasksController_remove",
+        "summary": "Delete a task by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The task has been successfully deleted."
+          },
+          "404": {
+            "description": "Task not found."
+          }
+        },
+        "tags": [
+          "tasks"
+        ]
+      }
+    },
+    "/tasks-categories": {
+      "post": {
+        "operationId": "TaskCategoriesController_create",
+        "summary": "Create a new task category",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTaskCategorieDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The task category has been successfully created."
+          },
+          "400": {
+            "description": "Bad Request."
+          }
+        },
+        "tags": [
+          "tasks-categories"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "TaskCategoriesController_findAll",
+        "summary": "Get all task categories",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Return all task categories."
+          },
+          "404": {
+            "description": "Task categories not found."
+          }
+        },
+        "tags": [
+          "tasks-categories"
+        ]
+      }
+    },
+    "/tasks-categories/{id}": {
+      "get": {
+        "operationId": "TaskCategoriesController_findOne",
+        "summary": "Get a task category by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return a task category."
+          },
+          "404": {
+            "description": "Task category not found."
+          }
+        },
+        "tags": [
+          "tasks-categories"
+        ]
+      },
+      "put": {
+        "operationId": "TaskCategoriesController_update",
+        "summary": "Update a task category by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTaskCategorieDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The task category has been successfully updated."
+          },
+          "404": {
+            "description": "Task category not found."
+          }
+        },
+        "tags": [
+          "tasks-categories"
+        ]
+      },
+      "delete": {
+        "operationId": "TaskCategoriesController_remove",
+        "summary": "Delete a task category by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The task category has been successfully deleted."
+          },
+          "404": {
+            "description": "Task category not found."
+          }
+        },
+        "tags": [
+          "tasks-categories"
+        ]
+      }
+    },
+    "/tasks-categories/{id}/tasks": {
+      "get": {
+        "operationId": "TaskCategoriesController_findTasks",
+        "summary": "Get all tasks for a specific task category",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return all tasks for the specified task category."
+          },
+          "404": {
+            "description": "Tasks not found."
+          }
+        },
+        "tags": [
+          "tasks-categories"
+        ]
+      }
+    },
+    "/prospects": {
+      "post": {
+        "operationId": "ProspectsController_create",
+        "summary": "Create a new prospect",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProspectDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The prospect has been successfully created."
+          },
+          "400": {
+            "description": "Bad Request."
+          }
+        },
+        "tags": [
+          "prospects"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "ProspectsController_findAll",
+        "summary": "Get all prospects",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Return all prospects."
+          },
+          "404": {
+            "description": "Prospects not found."
+          }
+        },
+        "tags": [
+          "prospects"
+        ]
+      }
+    },
+    "/prospects/{id}": {
+      "get": {
+        "operationId": "ProspectsController_findOne",
+        "summary": "Get a prospect by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return a prospect."
+          },
+          "404": {
+            "description": "Prospect not found."
+          }
+        },
+        "tags": [
+          "prospects"
+        ]
+      },
+      "put": {
+        "operationId": "ProspectsController_update",
+        "summary": "Update a prospect by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProspectDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The prospect has been successfully updated."
+          },
+          "404": {
+            "description": "Prospect not found."
+          }
+        },
+        "tags": [
+          "prospects"
+        ]
+      },
+      "delete": {
+        "operationId": "ProspectsController_remove",
+        "summary": "Delete a prospect by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The prospect has been successfully deleted."
+          },
+          "404": {
+            "description": "Prospect not found."
+          }
+        },
+        "tags": [
+          "prospects"
+        ]
+      }
+    },
+    "/prospects/me": {
+      "get": {
+        "operationId": "ProspectsController_findAllOwner",
+        "summary": "Get all prospects for the current owner",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Return all prospects for the current owner."
+          },
+          "404": {
+            "description": "Prospects not found."
+          }
+        },
+        "tags": [
+          "prospects"
+        ]
+      }
+    },
+    "/subscriptions": {
+      "post": {
+        "operationId": "SubscriptionsController_create",
+        "summary": "Create a new subscription",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSubscriptionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The subscription has been successfully created."
+          },
+          "400": {
+            "description": "Bad Request."
+          }
+        },
+        "tags": [
+          "subscriptions"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "SubscriptionsController_findAll",
+        "summary": "Get all subscriptions",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Return all subscriptions."
+          },
+          "404": {
+            "description": "Subscriptions not found."
+          }
+        },
+        "tags": [
+          "subscriptions"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/subscriptions/{id}": {
+      "get": {
+        "operationId": "SubscriptionsController_findOne",
+        "summary": "Get a subscription by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return a subscription."
+          },
+          "404": {
+            "description": "Subscription not found."
+          }
+        },
+        "tags": [
+          "subscriptions"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "SubscriptionsController_update",
+        "summary": "Update a subscription by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSubscriptionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The subscription has been successfully updated."
+          },
+          "404": {
+            "description": "Subscription not found."
+          }
+        },
+        "tags": [
+          "subscriptions"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "SubscriptionsController_delete",
+        "summary": "Delete a subscription by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The subscription has been successfully deleted."
+          },
+          "404": {
+            "description": "Subscription not found."
+          }
+        },
+        "tags": [
+          "subscriptions"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/subscriptions/me": {
+      "get": {
+        "operationId": "SubscriptionsController_findMySubscription",
+        "summary": "Get the subscription of the current user",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Return the subscription of the current user."
+          },
+          "404": {
+            "description": "Subscription not found."
+          }
+        },
+        "tags": [
+          "subscriptions"
+        ]
+      }
+    },
+    "/subscriptions/cancel-subscription/{subscriptionId}": {
+      "delete": {
+        "operationId": "SubscriptionsController_cancelSubscription",
+        "summary": "Cancel a subscription by id",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The subscription has been successfully canceled."
+          },
+          "404": {
+            "description": "Subscription not found."
+          }
+        },
+        "tags": [
+          "subscriptions"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Api ZenFlow",
+    "description": "Api for a CRM/Forum application with modules.",
+    "version": "1.0.0",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "ZenFlow",
+      "description": ""
+    }
+  ],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "CustomFieldValueDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateClientDto": {
+        "type": "object",
+        "properties": {
+          "society": {
+            "type": "string",
+            "description": "The society of the client"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "The first name of the client"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "The last name of the client"
+          },
+          "email": {
+            "type": "string",
+            "description": "The email of the client"
+          },
+          "phone": {
+            "type": "string",
+            "description": "The phone number of the client"
+          },
+          "address": {
+            "type": "string",
+            "description": "The address of the client"
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the client"
+          },
+          "ownerId": {
+            "type": "string",
+            "description": "The owner ID of the client"
+          },
+          "lastContactDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "The last contact date of the client"
+          },
+          "marketSegment": {
+            "type": "string",
+            "description": "The market segment of the client"
+          },
+          "needs": {
+            "type": "string",
+            "description": "The needs of the client"
+          },
+          "leadSource": {
+            "type": "string",
+            "description": "The lead source of the client"
+          },
+          "companySize": {
+            "type": "string",
+            "description": "The company size of the client"
+          },
+          "estimatedBudget": {
+            "type": "number",
+            "description": "The estimated budget of the client"
+          },
+          "customFieldValues": {
+            "description": "The custom field values of the client",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CustomFieldValueDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "firstName",
+          "lastName",
+          "email",
+          "phone",
+          "address",
+          "status",
+          "ownerId"
+        ]
+      },
+      "UpdateClientDto": {
+        "type": "object",
+        "properties": {
+          "society": {
+            "type": "string",
+            "description": "The society of the client"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "The first name of the client"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "The last name of the client"
+          },
+          "email": {
+            "type": "string",
+            "description": "The email of the client"
+          },
+          "phone": {
+            "type": "string",
+            "description": "The phone number of the client"
+          },
+          "address": {
+            "type": "string",
+            "description": "The address of the client"
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the client"
+          },
+          "ownerId": {
+            "type": "string",
+            "description": "The owner ID of the client"
+          },
+          "lastContactDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "The last contact date of the client"
+          },
+          "marketSegment": {
+            "type": "string",
+            "description": "The market segment of the client"
+          },
+          "needs": {
+            "type": "string",
+            "description": "The needs of the client"
+          },
+          "leadSource": {
+            "type": "string",
+            "description": "The lead source of the client"
+          },
+          "companySize": {
+            "type": "string",
+            "description": "The company size of the client"
+          },
+          "estimatedBudget": {
+            "type": "number",
+            "description": "The estimated budget of the client"
+          },
+          "customFieldValues": {
+            "description": "The custom field values of the client",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CustomFieldValueDto"
+              }
+            ]
+          }
+        }
+      },
+      "CreateUserDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "The status of the user",
+            "enum": [
+              "Verified",
+              "NotVerified",
+              "Suspended",
+              "Banned"
+            ]
+          },
+          "role": {
+            "type": "string",
+            "description": "The role of the user",
+            "enum": [
+              "USER",
+              "ADMIN",
+              "MEGA_ADMIN"
+            ]
+          },
+          "token": {
+            "type": "string",
+            "description": "The token of the user"
+          },
+          "uid": {
+            "type": "string",
+            "description": "The UID of the user"
+          }
+        }
+      },
+      "UpdateUserDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "The status of the user",
+            "enum": [
+              "Verified",
+              "NotVerified",
+              "Suspended",
+              "Banned"
+            ]
+          },
+          "role": {
+            "type": "string",
+            "description": "The role of the user",
+            "enum": [
+              "USER",
+              "ADMIN",
+              "MEGA_ADMIN"
+            ]
+          },
+          "token": {
+            "type": "string",
+            "description": "The token of the user"
+          },
+          "uid": {
+            "type": "string",
+            "description": "The UID of the user"
+          }
+        }
+      },
+      "CreateCustomerDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateAuthDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "The status of the user",
+            "enum": [
+              "Verified",
+              "NotVerified",
+              "Suspended",
+              "Banned"
+            ]
+          },
+          "role": {
+            "type": "string",
+            "description": "The role of the user",
+            "enum": [
+              "USER",
+              "ADMIN",
+              "MEGA_ADMIN"
+            ]
+          },
+          "token": {
+            "type": "string",
+            "description": "The token of the user"
+          },
+          "uid": {
+            "type": "string",
+            "description": "The UID of the user"
+          }
+        }
+      },
+      "ObjectId": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateCustomFieldDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the custom field"
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of the custom field"
+          },
+          "options": {
+            "description": "The options for the custom field",
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "position": {
+            "type": "number",
+            "description": "The position of the custom field"
+          },
+          "schema": {
+            "type": "string",
+            "description": "The schema of the custom field"
+          },
+          "ownerId": {
+            "type": "string",
+            "description": "The owner ID of the custom field"
+          },
+          "schemaIds": {
+            "description": "The schema IDs associated with the custom field",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ObjectId"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "type",
+          "schema",
+          "ownerId"
+        ]
+      },
+      "UpdateCustomFieldDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the custom field"
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of the custom field"
+          },
+          "options": {
+            "description": "The options for the custom field",
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "position": {
+            "type": "number",
+            "description": "The position of the custom field"
+          },
+          "schema": {
+            "type": "string",
+            "description": "The schema of the custom field"
+          },
+          "ownerId": {
+            "type": "string",
+            "description": "The owner ID of the custom field"
+          },
+          "schemaIds": {
+            "description": "The schema IDs associated with the custom field",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ObjectId"
+            }
+          }
+        }
+      },
+      "CreateNoteDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "The title of the note"
+          },
+          "content": {
+            "type": "string",
+            "description": "The content of the note"
+          }
+        },
+        "required": [
+          "title",
+          "content"
+        ]
+      },
+      "UpdateNoteDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "The title of the note"
+          },
+          "content": {
+            "type": "string",
+            "description": "The content of the note"
+          }
+        }
+      },
+      "CreateCheckoutSessionDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreatePlanDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the plan"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the plan"
+          },
+          "amount": {
+            "type": "number",
+            "description": "The amount of the plan"
+          },
+          "currency": {
+            "type": "string",
+            "description": "The currency of the plan"
+          },
+          "interval": {
+            "type": "string",
+            "description": "The interval of the plan",
+            "enum": [
+              "month",
+              "year"
+            ]
+          },
+          "stripePlanId": {
+            "type": "string",
+            "description": "The Stripe plan ID"
+          },
+          "features": {
+            "description": "The features of the plan",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "description",
+          "amount",
+          "currency",
+          "interval",
+          "features"
+        ]
+      },
+      "UpdatePlanDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the plan"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the plan"
+          },
+          "amount": {
+            "type": "number",
+            "description": "The amount of the plan"
+          },
+          "currency": {
+            "type": "string",
+            "description": "The currency of the plan"
+          },
+          "interval": {
+            "type": "string",
+            "description": "The interval of the plan",
+            "enum": [
+              "month",
+              "year"
+            ]
+          },
+          "stripePlanId": {
+            "type": "string",
+            "description": "The Stripe plan ID"
+          },
+          "features": {
+            "description": "The features of the plan",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "CreateProjectDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the project"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the project"
+          },
+          "picture": {
+            "type": "string",
+            "description": "The picture URL of the project"
+          },
+          "ownerId": {
+            "type": "string",
+            "description": "The ID of the project owner"
+          },
+          "teamId": {
+            "type": "string",
+            "description": "The ID of the team associated with the project"
+          },
+          "priority": {
+            "type": "string",
+            "description": "The priority level of the project"
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the project"
+          },
+          "milestoneIds": {
+            "description": "The IDs of the milestones associated with the project",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "noteIds": {
+            "description": "The IDs of the notes associated with the project",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "clientId": {
+            "type": "string",
+            "description": "The ID of the client associated with the project"
+          },
+          "taskCategoryId": {
+            "description": "The IDs of the task categories associated with the project",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "categoryIds": {
+            "description": "The IDs of the categories associated with the project",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "customFieldValues": {
+            "description": "Custom field values associated with the project",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CustomFieldValueDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "description",
+          "ownerId"
+        ]
+      },
+      "UpdateProjectDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the project"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the project"
+          },
+          "picture": {
+            "type": "string",
+            "description": "The picture URL of the project"
+          },
+          "ownerId": {
+            "type": "string",
+            "description": "The ID of the project owner"
+          },
+          "teamId": {
+            "type": "string",
+            "description": "The ID of the team associated with the project"
+          },
+          "priority": {
+            "type": "string",
+            "description": "The priority level of the project"
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the project"
+          },
+          "milestoneIds": {
+            "description": "The IDs of the milestones associated with the project",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "noteIds": {
+            "description": "The IDs of the notes associated with the project",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "clientId": {
+            "type": "string",
+            "description": "The ID of the client associated with the project"
+          },
+          "taskCategoryId": {
+            "description": "The IDs of the task categories associated with the project",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "categoryIds": {
+            "description": "The IDs of the categories associated with the project",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "customFieldValues": {
+            "description": "Custom field values associated with the project",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CustomFieldValueDto"
+              }
+            ]
+          }
+        }
+      },
+      "CreateTaskDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "The title of the task"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the task"
+          },
+          "taskCategoryId": {
+            "type": "string",
+            "description": "The ID of the task category"
+          },
+          "assigneeId": {
+            "type": "string",
+            "description": "The ID of the assignee"
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the task"
+          },
+          "completed": {
+            "type": "boolean",
+            "description": "Whether the task is completed"
+          },
+          "dueDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "The due date of the task"
+          },
+          "priority": {
+            "type": "string",
+            "description": "The priority of the task"
+          },
+          "comments": {
+            "description": "Comments on the task",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "flags": {
+            "description": "Flags associated with the task",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "timeEntries": {
+            "description": "Time entries for the task",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "customFields": {
+            "type": "object",
+            "description": "Custom fields for the task"
+          },
+          "parentTaskId": {
+            "type": "string",
+            "description": "The ID of the parent task"
+          },
+          "subTasks": {
+            "description": "Sub-tasks associated with the task",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "section": {
+            "type": "string",
+            "description": "The section of the task"
+          },
+          "order": {
+            "type": "number",
+            "description": "The order of the task"
+          }
+        },
+        "required": [
+          "title",
+          "description",
+          "status"
+        ]
+      },
+      "UpdateTaskDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "The title of the task"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the task"
+          },
+          "taskCategoryId": {
+            "type": "string",
+            "description": "The ID of the task category"
+          },
+          "assigneeId": {
+            "type": "string",
+            "description": "The ID of the assignee"
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the task"
+          },
+          "completed": {
+            "type": "boolean",
+            "description": "Whether the task is completed"
+          },
+          "dueDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "The due date of the task"
+          },
+          "priority": {
+            "type": "string",
+            "description": "The priority of the task"
+          },
+          "comments": {
+            "description": "Comments on the task",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "flags": {
+            "description": "Flags associated with the task",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "timeEntries": {
+            "description": "Time entries for the task",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "customFields": {
+            "type": "object",
+            "description": "Custom fields for the task"
+          },
+          "parentTaskId": {
+            "type": "string",
+            "description": "The ID of the parent task"
+          },
+          "subTasks": {
+            "description": "Sub-tasks associated with the task",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "section": {
+            "type": "string",
+            "description": "The section of the task"
+          },
+          "order": {
+            "type": "number",
+            "description": "The order of the task"
+          }
+        }
+      },
+      "CreateTaskCategorieDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the task category"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the task category"
+          }
+        },
+        "required": [
+          "name",
+          "description"
+        ]
+      },
+      "UpdateTaskCategorieDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the task category"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the task category"
+          }
+        }
+      },
+      "CreateProspectDto": {
+        "type": "object",
+        "properties": {
+          "society": {
+            "type": "string",
+            "description": "The society of the prospect"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "The first name of the prospect"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "The last name of the prospect"
+          },
+          "email": {
+            "type": "string",
+            "description": "The email of the prospect"
+          },
+          "phone": {
+            "type": "string",
+            "description": "The phone number of the prospect"
+          },
+          "address": {
+            "type": "string",
+            "description": "The address of the prospect"
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the prospect"
+          },
+          "ownerId": {
+            "type": "string",
+            "description": "The owner ID of the prospect"
+          },
+          "lastContactDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "The last contact date of the prospect"
+          },
+          "marketSegment": {
+            "type": "string",
+            "description": "The market segment of the prospect"
+          },
+          "needs": {
+            "type": "string",
+            "description": "The needs of the prospect"
+          },
+          "leadSource": {
+            "type": "string",
+            "description": "The lead source of the prospect"
+          },
+          "companySize": {
+            "type": "string",
+            "description": "The company size of the prospect"
+          },
+          "estimatedBudget": {
+            "type": "number",
+            "description": "The estimated budget of the prospect"
+          },
+          "customFieldValues": {
+            "description": "The custom field values of the prospect",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CustomFieldValueDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "firstName",
+          "lastName",
+          "email",
+          "phone",
+          "address",
+          "status",
+          "ownerId"
+        ]
+      },
+      "UpdateProspectDto": {
+        "type": "object",
+        "properties": {
+          "society": {
+            "type": "string",
+            "description": "The society of the prospect"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "The first name of the prospect"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "The last name of the prospect"
+          },
+          "email": {
+            "type": "string",
+            "description": "The email of the prospect"
+          },
+          "phone": {
+            "type": "string",
+            "description": "The phone number of the prospect"
+          },
+          "address": {
+            "type": "string",
+            "description": "The address of the prospect"
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the prospect"
+          },
+          "ownerId": {
+            "type": "string",
+            "description": "The owner ID of the prospect"
+          },
+          "lastContactDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "The last contact date of the prospect"
+          },
+          "marketSegment": {
+            "type": "string",
+            "description": "The market segment of the prospect"
+          },
+          "needs": {
+            "type": "string",
+            "description": "The needs of the prospect"
+          },
+          "leadSource": {
+            "type": "string",
+            "description": "The lead source of the prospect"
+          },
+          "companySize": {
+            "type": "string",
+            "description": "The company size of the prospect"
+          },
+          "estimatedBudget": {
+            "type": "number",
+            "description": "The estimated budget of the prospect"
+          },
+          "customFieldValues": {
+            "description": "The custom field values of the prospect",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CustomFieldValueDto"
+              }
+            ]
+          }
+        }
+      },
+      "CreateSubscriptionDto": {
+        "type": "object",
+        "properties": {
+          "customer": {
+            "type": "string",
+            "description": "The customer ID for the subscription"
+          },
+          "plan": {
+            "type": "string",
+            "description": "The plan ID for the subscription"
+          },
+          "stripeCustomerId": {
+            "type": "string",
+            "description": "The stripe customer id"
+          },
+          "stripeSubscriptionId": {
+            "type": "string",
+            "description": "The stripe subscription id"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "The start date of the subscription"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "The end date of the subscription"
+          }
+        },
+        "required": [
+          "customer",
+          "plan"
+        ]
+      },
+      "UpdateSubscriptionDto": {
+        "type": "object",
+        "properties": {
+          "customer": {
+            "type": "string",
+            "description": "The customer ID for the subscription"
+          },
+          "plan": {
+            "type": "string",
+            "description": "The plan ID for the subscription"
+          },
+          "stripeCustomerId": {
+            "type": "string",
+            "description": "The stripe customer id"
+          },
+          "stripeSubscriptionId": {
+            "type": "string",
+            "description": "The stripe subscription id"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "The start date of the subscription"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "The end date of the subscription"
+          }
+        }
+      }
+    }
+  }
+}

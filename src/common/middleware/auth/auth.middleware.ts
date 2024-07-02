@@ -4,6 +4,7 @@ import { Request, Response, NextFunction } from 'express';
 // import { FirebaseService } from '@providers/services/firebase/firebase.service';
 // import { log } from 'console';
 import { SupabaseService } from '@providers/services/supabase/supabase.service';
+import { log } from 'console';
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
@@ -15,8 +16,6 @@ export class AuthMiddleware implements NestMiddleware {
 
   async use(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.headers.authorization;
-    console.log(authHeader);
-    
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
         throw new UnauthorizedException('Missing or invalid authentication token');
@@ -30,7 +29,11 @@ export class AuthMiddleware implements NestMiddleware {
 
     try {
       const decodedToken = await this.supabaseService.verifyToken(token);
-      req['user_firebase'] = decodedToken;
+  
+      req['user_supabase'] = decodedToken;
+
+      console.log(decodedToken);
+      
       
       next();
     } catch (err) {

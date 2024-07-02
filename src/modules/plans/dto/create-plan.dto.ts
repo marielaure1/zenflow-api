@@ -3,37 +3,39 @@ import { ApiProperty } from '@nestjs/swagger';
 import { PlanInterval } from '@modules/plans/enum/plan-interval.enum';
 
 export class CreatePlanDto {
-  @ApiProperty()
+  @ApiProperty({ description: 'The name of the plan' })
   @IsNotEmpty()
   @IsString()
-  readonly name: string;
+  name: string;
 
-  @ApiProperty()
+  @ApiProperty({ description: 'The description of the plan' })
   @IsNotEmpty()
   @IsString()
-  readonly description: string;
+  description: string;
 
-  @ApiProperty()
+  @ApiProperty({ description: 'The amount of the plan' })
   @IsNotEmpty()
   @IsNumber()
-  readonly amount: number;
+  amount: number;
 
-  @ApiProperty()
+  @ApiProperty({ description: 'The currency of the plan' })
   @IsNotEmpty()
   @IsString()
-  readonly currency: string;
+  currency: string;
 
-  @ApiProperty()
+  @ApiProperty({ description: 'The interval of the plan', enum: PlanInterval })
   @IsNotEmpty()
   @IsEnum(PlanInterval)
-  readonly interval: PlanInterval;
+  interval: PlanInterval;
 
-  @ApiProperty()
+  @ApiProperty({ description: 'The Stripe plan ID', required: false })
   @IsEmpty()
   @IsString()
-  readonly stripePlanId?: string;
+  stripePlanId?: string;
 
-  @ApiProperty()
+  @ApiProperty({ description: 'The features of the plan', type: [String] })
   @IsArray()
-  readonly features: string[];
+  features: string[];
 }
+
+export class UpdatePlanDto extends CreatePlanDto {}

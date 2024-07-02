@@ -32,7 +32,6 @@ export abstract class AppController<AppModel extends Document, CreateDto, Update
 
   @Post()
   async create(@Body() createDto: CreateDto, @Res() res: Response) {
-  
     try {
       const data = await this.service.create(createDto);
       return this.responsesHelper.getResponse({
@@ -52,6 +51,7 @@ export abstract class AppController<AppModel extends Document, CreateDto, Update
           code: HttpStatus.UNPROCESSABLE_ENTITY,
           subject: this.schema,
           data: error,
+          message: 'Validation errors occurred',
         });
       } else {
         console.error("AppController > create : ", error);
@@ -62,10 +62,12 @@ export abstract class AppController<AppModel extends Document, CreateDto, Update
           code: HttpStatus.INTERNAL_SERVER_ERROR,
           subject: this.schema,
           data: error.message,
+          message: 'An internal server error occurred',
         });
       }
     }
   }
+  
 
   @Get()
   async findAll(@Res() res: Response) {
@@ -159,6 +161,7 @@ export abstract class AppController<AppModel extends Document, CreateDto, Update
         code: HttpStatus.OK,
         subject: this.schema,
         data,
+        message: 'clients update with success'
       });
     } catch (error) {
       console.log(error);
@@ -171,6 +174,7 @@ export abstract class AppController<AppModel extends Document, CreateDto, Update
           code: HttpStatus.UNPROCESSABLE_ENTITY,
           subject: this.schema,
           data: error,
+          message: 'Validation errors occurred',
         });
       } else if (error.message === "Not Found") {
         return this.responsesHelper.getResponse({
@@ -180,6 +184,7 @@ export abstract class AppController<AppModel extends Document, CreateDto, Update
           code: HttpStatus.NOT_FOUND,
           subject: this.schema,
           data: error.message,
+          message: 'clients not found',
         });
       } else {
         console.error("AppController > update : ", error);
@@ -190,10 +195,12 @@ export abstract class AppController<AppModel extends Document, CreateDto, Update
           code: HttpStatus.INTERNAL_SERVER_ERROR,
           subject: this.schema,
           data: error.message,
+          message: 'clients internal server error',
         });
       }
     }
   }
+  
 
   @Delete(':id')
   async remove(@Param('id') id: string, @Res() res: Response) {

@@ -1,28 +1,37 @@
-import { IsString, IsNotEmpty, IsDateString, IsOptional, IsEmpty } from 'class-validator';
-import { Types } from 'mongoose';
+import { IsString, IsNotEmpty, IsOptional, IsEmpty } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateSubscriptionDto {
-  @IsNotEmpty()
+  @ApiProperty({ description: 'The customer ID for the subscription' })
   @IsString()
-  customer: Types.ObjectId;
-
   @IsNotEmpty()
-  @IsString()
-  plan: Types.ObjectId;
+  customer: string;
 
+  @ApiProperty({ description: 'The plan ID for the subscription' })
+  @IsString()
+  @IsNotEmpty()
+  plan: string;
+
+  @ApiProperty({ description: 'The stripe customer id', required: false })
   @IsEmpty()
   @IsString()
   stripeCustomerId?: string;
 
+  @ApiProperty({ description: 'The stripe subscription id', required: false })
   @IsEmpty()
   @IsString()
   stripeSubscriptionId?: string;
 
+  @ApiProperty({ description: 'The start date of the subscription', required: false })
   @IsOptional()
-  @IsDateString()
-  startDate?: Date;
+  @IsString()
+  startDate?: string;
 
+  @ApiProperty({ description: 'The end date of the subscription', required: false })
   @IsOptional()
-  @IsDateString()
-  endDate?: Date;
+  @IsString()
+  endDate?: string;
 }
+
+export class UpdateSubscriptionDto extends CreateSubscriptionDto {}
+

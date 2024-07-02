@@ -2,6 +2,8 @@ import { Controller, Post, Body, Res, HttpStatus, Param, Get, Put, Delete, Req, 
 import { CustomersService } from '@modules/customers/customers.service';
 import { CreateCustomerDto } from '@modules/customers/dto/create-customer.dto';
 import { UpdateCustomerDto } from '@modules/customers/dto/update-customer.dto';
+import { CustomersStripeService } from '@providers/services/stripe/services/customers.stripe.service';
+import { CreateAuthDto } from '@modules/users/dto/create-auth-customer.dto';
 import { Customer, CustomerDocument } from '@modules/customers/entities/customer.entity';
 import { AppController } from '@modules/app.controller';
 import { ApiTags } from '@nestjs/swagger';
@@ -12,10 +14,11 @@ import ResponsesHelper from "@helpers/responses.helpers";
 import {AuthGuard} from "@guards/auth.guard";
 import RoleEnum from '@enums/role.enum';
 import { Roles, ROLES_KEY } from '@decorators/roles.decorator';
-import { UpdateAuthDto } from '@modules/auth/dto/update-auth-customer.dto';
+import { UpdateAuthDto } from '@modules/users/dto/update-auth-customer.dto';
 import { UpdateUserDto } from '@modules/users/dto/update-user.dto';
 import { Ownership } from '@decorators/ownership.decorator';
 import { log } from 'console';
+import { SupabaseService } from '@providers/services/supabase/supabase.service';
 // import { Roles } from '@decorators/roles.decorator';
 // import { Ownership } from '@decorators/ownership.decorator';
 // import { log } from 'console';
@@ -27,7 +30,8 @@ export class CustomersController extends AppController<CustomerDocument, CreateC
   constructor(
       private readonly customersService: CustomersService,
       private readonly usersService: UsersService,
-      // private readonly firebaseService: FirebaseService,
+      private readonly supabaseService: SupabaseService,
+      private readonly customersStripeService: CustomersStripeService,
   ) {
       super(customersService, "customers");
       this.responsesHelper = new ResponsesHelper();
@@ -35,7 +39,6 @@ export class CustomersController extends AppController<CustomerDocument, CreateC
 
 
   @Post()
-  @Roles(RoleEnum.ADMIN)
   async create(@Body() createCustomerDto: CreateCustomerDto, @Res() res: Response) {
     return super.create(createCustomerDto, res);
   }
@@ -45,6 +48,41 @@ export class CustomersController extends AppController<CustomerDocument, CreateC
   async findAll(@Res() res: Response) {
     return super.findAll(res);
   }
+
+  @Post("register")
+  async register(@Body() createAuthDto :CreateAuthDto, @Res() res: Response){
+    try {
+      
+      const user = await this.usersService.create(createAuthDto);
+      const stripeCustomer = await this.customersStripeService.createCustomer({name: `${createAuthDto.firstName} ${createAuthDto.lastName}`});
+      const customers = await this.customersService.create({user, stripeCustomerId: stripeCustomer.id, ...createAuthDto});
+      
+      return this.responsesHelper.getResponse({
+        res,
+        path: "create",
+        method: "Post",
+        code: HttpStatus.CREATED,
+        subject: "auth",
+        data: {
+          user,
+          stripeCustomer,
+          customers
+        }
+      });
+    } catch (error) {
+      console.error("AuthController > register : ", error);
+
+      return this.responsesHelper.getResponse({
+        res,
+        path: "register",
+        method: "Post",
+        code: HttpStatus.INTERNAL_SERVER_ERROR,
+        subject: "auth",
+        data: error.message
+      });
+    }
+  }
+  
 
   // @Ownership()
   // @UseGuards(AuthGuard)
