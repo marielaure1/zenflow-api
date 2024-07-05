@@ -25,9 +25,6 @@ export class Task {
   @Prop({ type: Types.ObjectId, ref: Customer.name })
   assigneeId: Types.ObjectId;
 
-  @Prop({ required: true })
-  status: string;
-
   @Prop()
   dueDate?: Date;
 

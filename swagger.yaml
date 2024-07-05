@@ -82,7 +82,7 @@ paths:
         '404':
           description: Client not found.
       tags: *ref_0
-  /clients/me:
+  /clients/me/all:
     get:
       operationId: ClientsController_findAllOwner
       summary: Get all clients for the current owner
@@ -209,6 +209,27 @@ paths:
               $ref: '#/components/schemas/CreateAuthDto'
       responses:
         '201':
+          description: ''
+      tags: *ref_2
+  /customers/me:
+    get:
+      operationId: CustomersController_findMe
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_2
+    put:
+      operationId: CustomersController_updateMe
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAuthDto'
+      responses:
+        '200':
           description: ''
       tags: *ref_2
   /customers/{id}:
@@ -390,13 +411,6 @@ paths:
         '404':
           description: Custom field not found.
       tags: *ref_3
-  /supabase/webhook:
-    post:
-      operationId: SupabaseController_webhook
-      parameters: []
-      responses:
-        '201':
-          description: ''
   /notes:
     post:
       operationId: NotesController_create
@@ -752,7 +766,7 @@ paths:
         '404':
           description: Project or tasks not found.
       tags: *ref_7
-  /projects/me:
+  /projects/me/all:
     get:
       operationId: ProjectsController_findAllOwner
       summary: Get all projects for the current owner
@@ -1025,7 +1039,7 @@ paths:
         '404':
           description: Prospect not found.
       tags: *ref_10
-  /prospects/me:
+  /prospects/me/all:
     get:
       operationId: ProspectsController_findAllOwner
       summary: Get all prospects for the current owner
@@ -1336,6 +1350,23 @@ components:
         uid:
           type: string
           description: The UID of the user
+    UpdateAuthDto:
+      type: object
+      properties:
+        status:
+          type: string
+          description: The status of the user
+          enum: *ref_12
+        role:
+          type: string
+          description: The role of the user
+          enum: *ref_13
+        token:
+          type: string
+          description: The token of the user
+        uid:
+          type: string
+          description: The UID of the user
     ObjectId:
       type: object
       properties: {}
@@ -1608,9 +1639,6 @@ components:
         assigneeId:
           type: string
           description: The ID of the assignee
-        status:
-          type: string
-          description: The status of the task
         completed:
           type: boolean
           description: Whether the task is completed
@@ -1656,7 +1684,6 @@ components:
       required:
         - title
         - description
-        - status
     UpdateTaskDto:
       type: object
       properties:
@@ -1672,9 +1699,6 @@ components:
         assigneeId:
           type: string
           description: The ID of the assignee
-        status:
-          type: string
-          description: The status of the task
         completed:
           type: boolean
           description: Whether the task is completed

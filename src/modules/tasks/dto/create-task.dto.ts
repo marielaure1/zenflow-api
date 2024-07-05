@@ -26,11 +26,6 @@ export class CreateTaskDto {
   @IsString()
   assigneeId?: string;
 
-  @ApiProperty({ description: 'The status of the task' })
-  @IsString()
-  @IsNotEmpty()
-  status: string;
-
   @ApiPropertyOptional({ description: 'Whether the task is completed' })
   @IsBoolean()
   @IsOptional()

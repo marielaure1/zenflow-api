@@ -15,9 +15,9 @@ export class CustomersService extends AppService<CustomerDocument, CreateCustome
   }
 
   async findOneByUser(id: string){
-    
+
     const me = await this.customersModel.findOne({
-      user: id
+      user: id.toString()
     });
 
     return me;

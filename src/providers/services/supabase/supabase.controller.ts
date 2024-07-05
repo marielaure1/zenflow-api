@@ -13,40 +13,40 @@ export class SupabaseController {
     private readonly customersStripeService: CustomersStripeService
   ) {}
 
-  @Post("webhook")
-  async webhook(@Body() data: any) {
-    const { type, record } = data;
+  // @Post("webhook")
+  // async webhook(@Body() data: any) {
+  //   const { type, record } = data;
     
-    try {
-      switch (type) {
-        case 'INSERT':
-        console.log("INSERT event");
-        console.log(record);
+  //   try {
+  //     switch (type) {
+  //       case 'INSERT':
+  //       console.log("INSERT event");
+  //       console.log(record);
         
-          // const user = await this.usersService.create({ uid: record.uid, ...record });
-          // const stripeCustomer = await this.customersStripeService.createCustomer();
-          // const customer = await this.customersService.create();
-          break;
-        case 'UPDATE':
-          console.log("UPDATE event");
-          const user = await this.usersService.create({ uid: record.uid, ...record });
+  //         // const user = await this.usersService.create({ uid: record.uid, ...record });
+  //         // const stripeCustomer = await this.customersStripeService.createCustomer();
+  //         // const customer = await this.customersService.create();
+  //         break;
+  //       case 'UPDATE':
+  //         console.log("UPDATE event");
+  //         const user = await this.usersService.create({ uid: record.uid, ...record });
 
-          console.log(user);
+  //         console.log(user);
           
-          break;
-        case 'DELETE':
-          console.log("DELETE event");
-          await this.usersService.remove(record.id);
-          const stripeCustomer = await this.customersStripeService.createCustomer({ name: `${record.firstName} ${record.lastName}`, email: record.email });
-          const customer = await this.customersService.create({ user: user._id, stripeCustomerId: stripeCustomer.id, ...record });
-          break;
-        default:
-          throw new HttpException('Unsupported event type', HttpStatus.BAD_REQUEST);
-      }
-      return { status: 'success' };
-    } catch (error) {
-      console.error('Error processing webhook:', error);
-      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
+  //         break;
+  //       case 'DELETE':
+  //         console.log("DELETE event");
+  //         await this.usersService.remove(record.id);
+  //         const stripeCustomer = await this.customersStripeService.createCustomer({ name: `${record.firstName} ${record.lastName}`, email: record.email });
+  //         const customer = await this.customersService.create({ user: user._id, stripeCustomerId: stripeCustomer.id, ...record });
+  //         break;
+  //       default:
+  //         throw new HttpException('Unsupported event type', HttpStatus.BAD_REQUEST);
+  //     }
+  //     return { status: 'success' };
+  //   } catch (error) {
+  //     console.error('Error processing webhook:', error);
+  //     throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+  //   }
+  // }
 }

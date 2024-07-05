@@ -137,7 +137,7 @@
         ]
       }
     },
-    "/clients/me": {
+    "/clients/me/all": {
       "get": {
         "operationId": "ClientsController_findAllOwner",
         "summary": "Get all clients for the current owner",
@@ -343,6 +343,42 @@
         },
         "responses": {
           "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "customers"
+        ]
+      }
+    },
+    "/customers/me": {
+      "get": {
+        "operationId": "CustomersController_findMe",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "customers"
+        ]
+      },
+      "put": {
+        "operationId": "CustomersController_updateMe",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAuthDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
             "description": ""
           }
         },
@@ -650,17 +686,6 @@
         "tags": [
           "custom-fields"
         ]
-      }
-    },
-    "/supabase/webhook": {
-      "post": {
-        "operationId": "SupabaseController_webhook",
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        }
       }
     },
     "/notes": {
@@ -1259,7 +1284,7 @@
         ]
       }
     },
-    "/projects/me": {
+    "/projects/me/all": {
       "get": {
         "operationId": "ProjectsController_findAllOwner",
         "summary": "Get all projects for the current owner",
@@ -1712,7 +1737,7 @@
         ]
       }
     },
-    "/prospects/me": {
+    "/prospects/me/all": {
       "get": {
         "operationId": "ProspectsController_findAllOwner",
         "summary": "Get all prospects for the current owner",
@@ -2200,6 +2225,38 @@
           }
         }
       },
+      "UpdateAuthDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "The status of the user",
+            "enum": [
+              "Verified",
+              "NotVerified",
+              "Suspended",
+              "Banned"
+            ]
+          },
+          "role": {
+            "type": "string",
+            "description": "The role of the user",
+            "enum": [
+              "USER",
+              "ADMIN",
+              "MEGA_ADMIN"
+            ]
+          },
+          "token": {
+            "type": "string",
+            "description": "The token of the user"
+          },
+          "uid": {
+            "type": "string",
+            "description": "The UID of the user"
+          }
+        }
+      },
       "ObjectId": {
         "type": "object",
         "properties": {}
@@ -2580,10 +2637,6 @@
             "type": "string",
             "description": "The ID of the assignee"
           },
-          "status": {
-            "type": "string",
-            "description": "The status of the task"
-          },
           "completed": {
             "type": "boolean",
             "description": "Whether the task is completed"
@@ -2644,8 +2697,7 @@
         },
         "required": [
           "title",
-          "description",
-          "status"
+          "description"
         ]
       },
       "UpdateTaskDto": {
@@ -2666,10 +2718,6 @@
           "assigneeId": {
             "type": "string",
             "description": "The ID of the assignee"
-          },
-          "status": {
-            "type": "string",
-            "description": "The status of the task"
           },
           "completed": {
             "type": "boolean",

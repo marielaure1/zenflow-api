@@ -184,7 +184,7 @@ export class ProjectsController extends AppController<ProjectDocument, CreatePro
   @ApiResponse({ status: 200, description: 'Return all projects for the current owner.' })
   @ApiResponse({ status: 404, description: 'Projects not found.' })
   @UseGuards(AuthGuard)
-  @Get("me")
+  @Get("me/all")
   async findAllOwner(@Res() res: Response, @Req() req: Request) {
     const customer = req['customer'];
 

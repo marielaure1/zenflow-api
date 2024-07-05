@@ -84,65 +84,63 @@ export class CustomersController extends AppController<CustomerDocument, CreateC
   }
   
 
-  // @Ownership()
-  // @UseGuards(AuthGuard)
-  // @Get("me")
-  // async findMe(@Res() res: Response, @Req() req: Request) {
+  @Ownership()
+  @UseGuards(AuthGuard)
+  @Get("me")
+  async findMe(@Res() res: Response, @Req() req: Request) {
 
-  //   const user = req['user'];
-  //   const customer = req['customer'];
+    const usersupabase = req['user_supabase'];
+    const user = req['user'];
+    const customer = req['customer'];
 
-  //   console.log(user);
-    
-
-  //   return this.responsesHelper.getResponse({
-  //     res,
-  //     path: "findMe",
-  //     method: "Get",
-  //     code: HttpStatus.OK,
-  //     subject: "me",
-  //     data: { user, customer }
-  //   });
-  // } 
+    return this.responsesHelper.getResponse({
+      res,
+      path: "findMe",
+      method: "Get",
+      code: HttpStatus.OK,
+      subject: "me",
+      data: { usersupabase, user, customer }
+    });
+  } 
  
-  // // @Put("me")
-  // // @UseGuards(AuthGuard)
-  // // // @Roles(RoleEnum.ADMIN)
-  // // async updateMe(@Res() res: Response, @Req() req: Request, @Body() updateAuthDto: UpdateAuthDto) {
+  @Put("me")
+  @UseGuards(AuthGuard)
+  // @Roles(RoleEnum.ADMIN)
+  async updateMe(@Res() res: Response, @Req() req: Request, @Body() updateAuthDto: UpdateAuthDto) {
 
-  // //   const user = req['user'];
-  // //   const customer = req['customer'];
+    const user = req['user'];
+    const customer = req['customer'];
     
-  // //   try {
-  // //     const result = await this.customersService.update(customer._id, updateAuthDto);
-  // //     const data = await this.customersService.findWhere({
-  // //       where: {
-  // //         ownerId: customer._id.toString(),
-  // //         schema: updateAuthDto.schema,
-  // //       },
-  // //       sort: "position"
-  // //     })
+    try {
+      const result = await this.customersService.update(customer._id, updateAuthDto);
+      const data = await this.customersService.findWhere({
+        where: {
+          ownerId: customer._id.toString(),
+          schema: updateAuthDto.schema,
+        },
+        sort: "position"
+      })
 
-  // //     return this.responsesHelper.getResponse({
-  // //       res,
-  // //       path: "updateMe",
-  // //       method: "Put",
-  // //       code: HttpStatus.OK,
-  // //       subject: "customer",
-  // //       data: data,
-  // //     });
-  // //   } catch (error) {
-  // //     console.error('CustomerController > updateMe : ', error);
-  // //     return this.responsesHelper.getResponse({
-  // //       res,
-  // //       path: "updateMe",
-  // //       method: "Put",
-  // //       code: HttpStatus.INTERNAL_SERVER_ERROR,
-  // //       subject: "customer",
-  // //       data: error.message,
-  // //     });
-  // //   }
-  // // }
+      return this.responsesHelper.getResponse({
+        res,
+        path: "updateMe",
+        method: "Put",
+        code: HttpStatus.OK,
+        subject: "customer",
+        data: data,
+      });
+    } catch (error) {
+      console.error('CustomerController > updateMe : ', error);
+      return this.responsesHelper.getResponse({
+        res,
+        path: "updateMe",
+        method: "Put",
+        code: HttpStatus.INTERNAL_SERVER_ERROR,
+        subject: "customer",
+        data: error.message,
+      });
+    }
+  }
 
   // @Put("me/email")
   // @UseGuards(AuthGuard)

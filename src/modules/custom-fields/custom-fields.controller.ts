@@ -7,6 +7,7 @@ import { CustomField, CustomFieldDocument } from './entities/custom-field.entity
 import { Response, Request } from "express";
 import { AuthGuard } from "@guards/auth.guard";
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { log } from 'console';
 
 @ApiTags('custom-fields')
 @Controller('custom-fields')
@@ -79,6 +80,9 @@ export class CustomFieldsController extends AppController<CustomFieldDocument, C
       if (!data || data.length === 0) {
         throw new Error("Not Found");
       }
+
+      console.log("all", data);
+
       return this.responsesHelper.getResponse({
         res,
         path: "findAllOwnerCustomsFields",
@@ -114,7 +118,6 @@ export class CustomFieldsController extends AppController<CustomFieldDocument, C
   @ApiOperation({ summary: 'Get a specific custom field for the current owner and schema' })
   @ApiResponse({ status: 200, description: 'Return the custom field for the current owner and schema.' })
   @ApiResponse({ status: 404, description: 'Custom field not found.' })
-  @UseGuards(AuthGuard)
   @Get(":id/me/:schema")
   async findOneOwnerCustomsFields(@Res() res: Response, @Req() req: Request, @Param('id') id: string, @Param('schema') schema: string) {
     const customer = req['customer'];
@@ -133,6 +136,9 @@ export class CustomFieldsController extends AppController<CustomFieldDocument, C
       if (!data || data.length === 0) {
         throw new Error("Not Found");
       }
+
+      console.log("one", data);
+      
       return this.responsesHelper.getResponse({
         res,
         path: "findOneOwnerCustomsFields",

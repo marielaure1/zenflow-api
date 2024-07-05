@@ -68,7 +68,7 @@ export class ProspectsController extends AppController<ProspectDocument, CreateP
   @Ownership()
   @Roles(RoleEnum.ADMIN)
   @UseGuards(AuthGuard)
-  @Get("me")
+  @Get("me/all")
   async findAllOwner(@Res() res: Response, @Req() req: Request) {
     const customer = req['customer'];
 

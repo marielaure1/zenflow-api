@@ -5,12 +5,16 @@ import { Request, Response, NextFunction } from 'express';
 // import { log } from 'console';
 import { SupabaseService } from '@providers/services/supabase/supabase.service';
 import { log } from 'console';
+import { UsersService } from '@modules/users/users.service';
+import { CustomersService } from '@modules/customers/customers.service';
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
 
   constructor(
-    private readonly supabaseService: SupabaseService
+    private readonly supabaseService: SupabaseService,
+    private readonly usersService: UsersService,
+    private readonly customersService: CustomersService,
   ) {}
 
 
@@ -29,11 +33,13 @@ export class AuthMiddleware implements NestMiddleware {
 
     try {
       const decodedToken = await this.supabaseService.verifyToken(token);
-  
       req['user_supabase'] = decodedToken;
 
-      console.log(decodedToken);
-      
+      const user = await this.usersService.findOneBySupabaseUid(decodedToken.id);
+      req['user'] = user;
+
+      const customer = await this.customersService.findOneByUser(user._id);
+      req['customer'] = customer;
       
       next();
     } catch (err) {

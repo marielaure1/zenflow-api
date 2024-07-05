@@ -22,10 +22,6 @@ import { SubscriptionsModule } from '@modules/subscriptions/subscriptions.module
 import { TasksModule } from '@modules/tasks/tasks.module';
 import { TaskCategoriesModule } from '@modules/task-categories/task-categories.module';
 import { UsersModule } from '@modules/users/users.module';
-import { SupabaseModule } from '@providers/services/supabase/supabase.module';
-import { AuthMiddleware } from '@middleware/auth/auth.middleware';
-import { CustomersController } from './customers/customers.controller';
-import { ClientsController } from './clients/clients.controller';
 
 @Module({
   imports: [

@@ -51,6 +51,8 @@ export class ClientsController extends AppController<ClientDocument, CreateClien
   @ApiResponse({ status: 404, description: 'Client not found.' })
   @Put(':id')
   async update(@Param('id') id: string, @Body() updateClientDto: UpdateClientDto, @Res() res: Response) {
+    console.log("update");
+    
     return super.update(id, updateClientDto, res);
   }
 
@@ -66,9 +68,7 @@ export class ClientsController extends AppController<ClientDocument, CreateClien
   @ApiResponse({ status: 200, description: 'Return all clients for the current owner.' })
   @ApiResponse({ status: 404, description: 'Clients not found.' })
   @Ownership()
-  @Roles(RoleEnum.ADMIN)
-  @UseGuards(AuthGuard)
-  @Get("me")
+  @Get("me/all")
   async findAllOwner(@Res() res: Response, @Req() req: Request) {
     const customer = req['customer'];
 

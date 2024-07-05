@@ -17,8 +17,8 @@ export class TaskCategorie {
   @Prop({ type: Types.ObjectId, ref: "Project", required: true })
   projectId: Types.ObjectId;
 
-  @Prop({ required: true })
-  order: number;
+  @Prop()
+  order?: number;
 
   createdAt?: Date;
   updatedAt?: Date;
