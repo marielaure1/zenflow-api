@@ -4,6 +4,8 @@ import { CustomersStripeService } from '@providers/services/stripe/services/cust
 import { CustomersService } from '@modules/customers/customers.service';
 import { CreateAuthDto } from '@modules/users/dto/create-auth-customer.dto';
 import { log } from "console";
+import UserStatut from "@modules/users/enum/user-statut.enum";
+import RoleEnum from "@enums/role.enum";
 
 @Controller('supabase')
 export class SupabaseController {
@@ -13,40 +15,48 @@ export class SupabaseController {
     private readonly customersStripeService: CustomersStripeService
   ) {}
 
-  // @Post("webhook")
-  // async webhook(@Body() data: any) {
-  //   const { type, record } = data;
+  @Post("webhook")
+  async webhook(@Body() data: any) {
+    const { type, record } = data;
     
-  //   try {
-  //     switch (type) {
-  //       case 'INSERT':
-  //       console.log("INSERT event");
-  //       console.log(record);
-        
-  //         // const user = await this.usersService.create({ uid: record.uid, ...record });
-  //         // const stripeCustomer = await this.customersStripeService.createCustomer();
-  //         // const customer = await this.customersService.create();
-  //         break;
-  //       case 'UPDATE':
-  //         console.log("UPDATE event");
-  //         const user = await this.usersService.create({ uid: record.uid, ...record });
-
-  //         console.log(user);
+    try {
+      switch (type) {
+        case 'INSERT':
+          console.log("INSERT event");
+          let createAuthDto = {
+            lastName: record.raw_user_meta_data.lastName,
+            firstName: record.raw_user_meta_data.firstName,
+            uid: record.id,
+            role: record?.role ? record?.role : RoleEnum.USER
+          }
           
-  //         break;
-  //       case 'DELETE':
-  //         console.log("DELETE event");
-  //         await this.usersService.remove(record.id);
-  //         const stripeCustomer = await this.customersStripeService.createCustomer({ name: `${record.firstName} ${record.lastName}`, email: record.email });
-  //         const customer = await this.customersService.create({ user: user._id, stripeCustomerId: stripeCustomer.id, ...record });
-  //         break;
-  //       default:
-  //         throw new HttpException('Unsupported event type', HttpStatus.BAD_REQUEST);
-  //     }
-  //     return { status: 'success' };
-  //   } catch (error) {
-  //     console.error('Error processing webhook:', error);
-  //     throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
-  //   }
-  // }
+          let user = await this.usersService.create({status: UserStatut.VERIFIED, role: createAuthDto?.role, uid: createAuthDto.uid});
+          let stripeCustomer = await this.customersStripeService.createCustomer({name: `${createAuthDto.firstName} ${createAuthDto.lastName}`});
+          let customers = await this.customersService.create({user, stripeCustomerId: stripeCustomer.id, ...createAuthDto});
+
+          console.log(customers);
+          
+          break;
+        case 'UPDATE':
+          console.log("UPDATE event");
+          // const user = await this.usersService.create({ uid: record.uid, ...record });
+
+          // console.log(user);
+          
+          break;
+        case 'DELETE':
+          console.log("DELETE event");
+          // await this.usersService.remove(record.id);
+          //  stripeCustomer = await this.customersStripeService.createCustomer({ name: `${record.firstName} ${record.lastName}`, email: record.email });
+          // const constcustomer = await this.customersService.create({ user: user._id, stripeCustomerId: stripeCustomer.id, ...record });
+          break;
+        default:
+          throw new HttpException('Unsupported event type', HttpStatus.BAD_REQUEST);
+      }
+      return { status: 'success' };
+    } catch (error) {
+      console.error('Error processing webhook:', error);
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 }

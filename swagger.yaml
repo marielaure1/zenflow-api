@@ -411,6 +411,13 @@ paths:
         '404':
           description: Custom field not found.
       tags: *ref_3
+  /supabase/webhook:
+    post:
+      operationId: SupabaseController_webhook
+      parameters: []
+      responses:
+        '201':
+          description: ''
   /notes:
     post:
       operationId: NotesController_create
@@ -493,9 +500,9 @@ paths:
         '404':
           description: Note not found.
       tags: *ref_4
-  /notes/me:
+  /notes/me/all:
     get:
-      operationId: NotesController_findAllOwner
+      operationId: NotesController_findAllOwnerWithoutFolder
       summary: Get all notes for the current owner
       parameters: []
       responses:
@@ -504,6 +511,133 @@ paths:
         '404':
           description: Notes not found.
       tags: *ref_4
+  /notes/me/folder/{id}:
+    get:
+      operationId: NotesController_findAllOwnerByFolder
+      summary: Get all notes for the current owner by specific folder
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Return all notes for the current owner in the specified folder.
+        '404':
+          description: Notes not found in the specified folder.
+      tags: *ref_4
+  /note-folders:
+    post:
+      operationId: NoteFoldersController_create
+      summary: Create a new note folder
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateNoteFolderDto'
+      responses:
+        '201':
+          description: The note folder has been successfully created.
+        '400':
+          description: Bad Request.
+      tags: &ref_5
+        - note-folders
+      security:
+        - bearer: []
+    get:
+      operationId: NoteFoldersController_findAll
+      summary: Get all note folders
+      parameters: []
+      responses:
+        '200':
+          description: Return all note folders.
+        '404':
+          description: Note Folders not found.
+      tags: *ref_5
+  /note-folders/{id}:
+    get:
+      operationId: NoteFoldersController_findOne
+      summary: Get a note folder by id
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Return a note folder.
+        '404':
+          description: Note Folders not found.
+      tags: *ref_5
+    put:
+      operationId: NoteFoldersController_update
+      summary: Update a note folder by id
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateNoteFolderDto'
+      responses:
+        '200':
+          description: The note folder has been successfully updated.
+        '404':
+          description: Note Folders not found.
+      tags: *ref_5
+    delete:
+      operationId: NoteFoldersController_remove
+      summary: Delete a note folder by id
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The note folder has been successfully deleted.
+        '404':
+          description: Note Folders not found.
+      tags: *ref_5
+  /note-folders/me/all:
+    get:
+      operationId: NoteFoldersController_findAllOwnerWithoutParent
+      summary: Get all note folders for the current owner
+      parameters: []
+      responses:
+        '200':
+          description: Return all note folders for the current owner.
+        '404':
+          description: Note Folders not found.
+      tags: *ref_5
+  /note-folders/me/{id}/children:
+    get:
+      operationId: NoteFoldersController_findAllChildrenByParentId
+      summary: >-
+        Get all child note folders for a specific parent folder for the current
+        owner
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Return all child note folders for the specified parent folder.
+        '404':
+          description: Child note folders not found.
+      tags: *ref_5
   /payments/create-checkout-session:
     post:
       operationId: PaymentsController_createCheckoutSession
@@ -517,7 +651,7 @@ paths:
       responses:
         '201':
           description: ''
-      tags: &ref_5
+      tags: &ref_6
         - payments
   /payments:
     post:
@@ -526,14 +660,14 @@ paths:
       responses:
         '201':
           description: ''
-      tags: *ref_5
+      tags: *ref_6
     get:
       operationId: PaymentsController_findAll
       parameters: []
       responses:
         '200':
           description: ''
-      tags: *ref_5
+      tags: *ref_6
   /payments/{id}:
     get:
       operationId: PaymentsController_findOne
@@ -546,7 +680,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_5
+      tags: *ref_6
     put:
       operationId: PaymentsController_update
       parameters:
@@ -558,7 +692,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_5
+      tags: *ref_6
     delete:
       operationId: PaymentsController_remove
       parameters:
@@ -570,7 +704,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_5
+      tags: *ref_6
   /plans:
     post:
       operationId: PlansController_create
@@ -587,7 +721,7 @@ paths:
           description: The plan has been successfully created.
         '400':
           description: Bad Request.
-      tags: &ref_6
+      tags: &ref_7
         - plans
       security:
         - bearer: []
@@ -600,7 +734,7 @@ paths:
           description: Return all plans.
         '404':
           description: Plans not found.
-      tags: *ref_6
+      tags: *ref_7
   /plans/{id}:
     put:
       operationId: PlansController_update
@@ -622,7 +756,7 @@ paths:
           description: The plan has been successfully updated.
         '404':
           description: Plan not found.
-      tags: *ref_6
+      tags: *ref_7
       security:
         - bearer: []
     delete:
@@ -636,7 +770,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_6
+      tags: *ref_7
     get:
       operationId: PlansController_findOne
       summary: Get a plan by id
@@ -651,7 +785,7 @@ paths:
           description: Return a plan.
         '404':
           description: Plan not found.
-      tags: *ref_6
+      tags: *ref_7
   /projects:
     post:
       operationId: ProjectsController_create
@@ -668,7 +802,7 @@ paths:
           description: The project has been successfully created.
         '400':
           description: Bad Request.
-      tags: &ref_7
+      tags: &ref_8
         - projects
       security:
         - bearer: []
@@ -681,7 +815,7 @@ paths:
           description: Return all projects.
         '404':
           description: Projects not found.
-      tags: *ref_7
+      tags: *ref_8
   /projects/{id}:
     get:
       operationId: ProjectsController_findOne
@@ -697,7 +831,7 @@ paths:
           description: Return a project.
         '404':
           description: Project not found.
-      tags: *ref_7
+      tags: *ref_8
     put:
       operationId: ProjectsController_update
       summary: Update a project by id
@@ -718,7 +852,7 @@ paths:
           description: The project has been successfully updated.
         '404':
           description: Project not found.
-      tags: *ref_7
+      tags: *ref_8
     delete:
       operationId: ProjectsController_remove
       summary: Delete a project by id
@@ -733,7 +867,7 @@ paths:
           description: The project has been successfully deleted.
         '404':
           description: Project not found.
-      tags: *ref_7
+      tags: *ref_8
   /projects/{id}/tasks-categories:
     get:
       operationId: ProjectsController_findTasksCategories
@@ -749,7 +883,7 @@ paths:
           description: Return tasks categories for the project.
         '404':
           description: Project or tasks categories not found.
-      tags: *ref_7
+      tags: *ref_8
   /projects/{id}/tasks:
     get:
       operationId: ProjectsController_findTasks
@@ -765,7 +899,7 @@ paths:
           description: Return tasks for the project.
         '404':
           description: Project or tasks not found.
-      tags: *ref_7
+      tags: *ref_8
   /projects/me/all:
     get:
       operationId: ProjectsController_findAllOwner
@@ -776,7 +910,7 @@ paths:
           description: Return all projects for the current owner.
         '404':
           description: Projects not found.
-      tags: *ref_7
+      tags: *ref_8
   /tasks:
     post:
       operationId: TasksController_create
@@ -793,7 +927,7 @@ paths:
           description: The task has been successfully created.
         '400':
           description: Bad Request.
-      tags: &ref_8
+      tags: &ref_9
         - tasks
       security:
         - bearer: []
@@ -806,7 +940,7 @@ paths:
           description: Return all tasks.
         '404':
           description: Tasks not found.
-      tags: *ref_8
+      tags: *ref_9
   /tasks/{id}:
     get:
       operationId: TasksController_findOne
@@ -822,7 +956,7 @@ paths:
           description: Return a task.
         '404':
           description: Task not found.
-      tags: *ref_8
+      tags: *ref_9
     put:
       operationId: TasksController_update
       summary: Update a task by id
@@ -843,7 +977,7 @@ paths:
           description: The task has been successfully updated.
         '404':
           description: Task not found.
-      tags: *ref_8
+      tags: *ref_9
     delete:
       operationId: TasksController_remove
       summary: Delete a task by id
@@ -858,7 +992,7 @@ paths:
           description: The task has been successfully deleted.
         '404':
           description: Task not found.
-      tags: *ref_8
+      tags: *ref_9
   /tasks-categories:
     post:
       operationId: TaskCategoriesController_create
@@ -875,7 +1009,7 @@ paths:
           description: The task category has been successfully created.
         '400':
           description: Bad Request.
-      tags: &ref_9
+      tags: &ref_10
         - tasks-categories
       security:
         - bearer: []
@@ -888,7 +1022,7 @@ paths:
           description: Return all task categories.
         '404':
           description: Task categories not found.
-      tags: *ref_9
+      tags: *ref_10
   /tasks-categories/{id}:
     get:
       operationId: TaskCategoriesController_findOne
@@ -904,7 +1038,7 @@ paths:
           description: Return a task category.
         '404':
           description: Task category not found.
-      tags: *ref_9
+      tags: *ref_10
     put:
       operationId: TaskCategoriesController_update
       summary: Update a task category by id
@@ -925,7 +1059,7 @@ paths:
           description: The task category has been successfully updated.
         '404':
           description: Task category not found.
-      tags: *ref_9
+      tags: *ref_10
     delete:
       operationId: TaskCategoriesController_remove
       summary: Delete a task category by id
@@ -940,7 +1074,7 @@ paths:
           description: The task category has been successfully deleted.
         '404':
           description: Task category not found.
-      tags: *ref_9
+      tags: *ref_10
   /tasks-categories/{id}/tasks:
     get:
       operationId: TaskCategoriesController_findTasks
@@ -956,7 +1090,7 @@ paths:
           description: Return all tasks for the specified task category.
         '404':
           description: Tasks not found.
-      tags: *ref_9
+      tags: *ref_10
   /prospects:
     post:
       operationId: ProspectsController_create
@@ -973,7 +1107,7 @@ paths:
           description: The prospect has been successfully created.
         '400':
           description: Bad Request.
-      tags: &ref_10
+      tags: &ref_11
         - prospects
       security:
         - bearer: []
@@ -986,7 +1120,7 @@ paths:
           description: Return all prospects.
         '404':
           description: Prospects not found.
-      tags: *ref_10
+      tags: *ref_11
   /prospects/{id}:
     get:
       operationId: ProspectsController_findOne
@@ -1002,7 +1136,7 @@ paths:
           description: Return a prospect.
         '404':
           description: Prospect not found.
-      tags: *ref_10
+      tags: *ref_11
     put:
       operationId: ProspectsController_update
       summary: Update a prospect by id
@@ -1023,7 +1157,7 @@ paths:
           description: The prospect has been successfully updated.
         '404':
           description: Prospect not found.
-      tags: *ref_10
+      tags: *ref_11
     delete:
       operationId: ProspectsController_remove
       summary: Delete a prospect by id
@@ -1038,7 +1172,7 @@ paths:
           description: The prospect has been successfully deleted.
         '404':
           description: Prospect not found.
-      tags: *ref_10
+      tags: *ref_11
   /prospects/me/all:
     get:
       operationId: ProspectsController_findAllOwner
@@ -1049,7 +1183,7 @@ paths:
           description: Return all prospects for the current owner.
         '404':
           description: Prospects not found.
-      tags: *ref_10
+      tags: *ref_11
   /subscriptions:
     post:
       operationId: SubscriptionsController_create
@@ -1066,7 +1200,7 @@ paths:
           description: The subscription has been successfully created.
         '400':
           description: Bad Request.
-      tags: &ref_11
+      tags: &ref_12
         - subscriptions
       security:
         - bearer: []
@@ -1079,7 +1213,7 @@ paths:
           description: Return all subscriptions.
         '404':
           description: Subscriptions not found.
-      tags: *ref_11
+      tags: *ref_12
       security:
         - bearer: []
   /subscriptions/{id}:
@@ -1097,7 +1231,7 @@ paths:
           description: Return a subscription.
         '404':
           description: Subscription not found.
-      tags: *ref_11
+      tags: *ref_12
       security:
         - bearer: []
     put:
@@ -1120,7 +1254,7 @@ paths:
           description: The subscription has been successfully updated.
         '404':
           description: Subscription not found.
-      tags: *ref_11
+      tags: *ref_12
       security:
         - bearer: []
     delete:
@@ -1137,10 +1271,10 @@ paths:
           description: The subscription has been successfully deleted.
         '404':
           description: Subscription not found.
-      tags: *ref_11
+      tags: *ref_12
       security:
         - bearer: []
-  /subscriptions/me:
+  /subscriptions/me/subscription:
     get:
       operationId: SubscriptionsController_findMySubscription
       summary: Get the subscription of the current user
@@ -1150,7 +1284,7 @@ paths:
           description: Return the subscription of the current user.
         '404':
           description: Subscription not found.
-      tags: *ref_11
+      tags: *ref_12
   /subscriptions/cancel-subscription/{subscriptionId}:
     delete:
       operationId: SubscriptionsController_cancelSubscription
@@ -1166,7 +1300,7 @@ paths:
           description: The subscription has been successfully canceled.
         '404':
           description: Subscription not found.
-      tags: *ref_11
+      tags: *ref_12
 info:
   title: Api ZenFlow
   description: Api for a CRM/Forum application with modules.
@@ -1295,7 +1429,7 @@ components:
         status:
           type: string
           description: The status of the user
-          enum: &ref_12
+          enum: &ref_13
             - Verified
             - NotVerified
             - Suspended
@@ -1303,7 +1437,7 @@ components:
         role:
           type: string
           description: The role of the user
-          enum: &ref_13
+          enum: &ref_14
             - USER
             - ADMIN
             - MEGA_ADMIN
@@ -1319,11 +1453,11 @@ components:
         status:
           type: string
           description: The status of the user
-          enum: *ref_12
+          enum: *ref_13
         role:
           type: string
           description: The role of the user
-          enum: *ref_13
+          enum: *ref_14
         token:
           type: string
           description: The token of the user
@@ -1339,11 +1473,11 @@ components:
         status:
           type: string
           description: The status of the user
-          enum: *ref_12
+          enum: *ref_13
         role:
           type: string
           description: The role of the user
-          enum: *ref_13
+          enum: *ref_14
         token:
           type: string
           description: The token of the user
@@ -1356,11 +1490,11 @@ components:
         status:
           type: string
           description: The status of the user
-          enum: *ref_12
+          enum: *ref_13
         role:
           type: string
           description: The role of the user
-          enum: *ref_13
+          enum: *ref_14
         token:
           type: string
           description: The token of the user
@@ -1440,9 +1574,17 @@ components:
         content:
           type: string
           description: The content of the note
+        ownerId:
+          type: string
+          description: The owner ID of the note
+        folderId:
+          type: string
+          description: The folder of the note
       required:
         - title
         - content
+        - ownerId
+        - folderId
     UpdateNoteDto:
       type: object
       properties:
@@ -1452,6 +1594,54 @@ components:
         content:
           type: string
           description: The content of the note
+        ownerId:
+          type: string
+          description: The owner ID of the note
+        folderId:
+          type: string
+          description: The folder of the note
+    CreateNoteFolderDto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title of the folder
+        description:
+          type: string
+          description: The description of the folder
+        parentId:
+          type: string
+          description: The parent folder ID of the folder
+        ownerId:
+          type: string
+          description: The owner ID of the note folder
+        order:
+          type: number
+          description: The order of the folder on the hierarchy of folder
+      required:
+        - title
+        - description
+        - parentId
+        - ownerId
+        - order
+    UpdateNoteFolderDto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title of the folder
+        description:
+          type: string
+          description: The description of the folder
+        parentId:
+          type: string
+          description: The parent folder ID of the folder
+        ownerId:
+          type: string
+          description: The owner ID of the note folder
+        order:
+          type: number
+          description: The order of the folder on the hierarchy of folder
     CreateCheckoutSessionDto:
       type: object
       properties: {}
@@ -1473,7 +1663,7 @@ components:
         interval:
           type: string
           description: The interval of the plan
-          enum: &ref_14
+          enum: &ref_15
             - month
             - year
         stripePlanId:
@@ -1509,7 +1699,7 @@ components:
         interval:
           type: string
           description: The interval of the plan
-          enum: *ref_14
+          enum: *ref_15
         stripePlanId:
           type: string
           description: The Stripe plan ID
@@ -1527,26 +1717,15 @@ components:
         description:
           type: string
           description: The description of the project
-        picture:
-          type: string
-          description: The picture URL of the project
         ownerId:
           type: string
           description: The ID of the project owner
-        teamId:
-          type: string
-          description: The ID of the team associated with the project
         priority:
           type: string
           description: The priority level of the project
         status:
           type: string
           description: The status of the project
-        milestoneIds:
-          description: The IDs of the milestones associated with the project
-          type: array
-          items:
-            type: string
         noteIds:
           description: The IDs of the notes associated with the project
           type: array
@@ -1582,26 +1761,15 @@ components:
         description:
           type: string
           description: The description of the project
-        picture:
-          type: string
-          description: The picture URL of the project
         ownerId:
           type: string
           description: The ID of the project owner
-        teamId:
-          type: string
-          description: The ID of the team associated with the project
         priority:
           type: string
           description: The priority level of the project
         status:
           type: string
           description: The status of the project
-        milestoneIds:
-          description: The IDs of the milestones associated with the project
-          type: array
-          items:
-            type: string
         noteIds:
           description: The IDs of the notes associated with the project
           type: array
@@ -1659,11 +1827,6 @@ components:
           type: array
           items:
             type: string
-        timeEntries:
-          description: Time entries for the task
-          type: array
-          items:
-            type: string
         customFields:
           type: object
           description: Custom fields for the task
@@ -1716,11 +1879,6 @@ components:
             type: string
         flags:
           description: Flags associated with the task
-          type: array
-          items:
-            type: string
-        timeEntries:
-          description: Time entries for the task
           type: array
           items:
             type: string

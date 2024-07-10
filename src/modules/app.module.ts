@@ -13,6 +13,7 @@ import { ClientsModule } from '@modules/clients/clients.module';
 import { CustomFieldsModule } from '@modules/custom-fields/custom-fields.module';
 import { CustomersModule } from '@modules/customers/customers.module';
 import { NotesModule } from '@modules/notes/notes.module';
+import { NoteFoldersModule } from '@modules/note-folders/note-folders.module';
 // import { NotificationsModule } from '@modules/notifications/notifications.module';
 import { PaymentsModule } from '@modules/payments/payments.module';
 import { PlansModule } from '@modules/plans/plans.module';
@@ -35,6 +36,7 @@ import { UsersModule } from '@modules/users/users.module';
     CustomFieldsModule,
     CustomersModule,
     NotesModule,
+    NoteFoldersModule,
     // NotificationsModule,
     PaymentsModule,
     PlansModule,

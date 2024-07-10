@@ -35,12 +35,14 @@ export class SubscriptionsController {
   @Post()
   async create(@Body() createSubscriptionDto: CreateSubscriptionDto, @Res() res: Response) {
     try {
+
+      
       const getCustomer = await this.customersService.findOne(createSubscriptionDto.customer.toString());
       const isFindUsers = await this.usersService.findOne(getCustomer.user._id?.toString());
       const isFindPlan = await this.plansService.findOne(createSubscriptionDto.plan.toString());
 
       const stripeSubscription = await this.stripeSubscriptionsService.createSubscription({
-        customer: getCustomer.stripeCustomerId,
+        customer: getCustomer?.stripeCustomerId,
         items: [{ plan: isFindPlan.stripePlanId }],
         payment_behavior: 'default_incomplete',
         payment_settings: { save_default_payment_method: 'on_subscription' },
@@ -246,23 +248,30 @@ export class SubscriptionsController {
   @ApiOperation({ summary: 'Get the subscription of the current user' })
   @ApiResponse({ status: 200, description: 'Return the subscription of the current user.' })
   @ApiResponse({ status: 404, description: 'Subscription not found.' })
-  @UseGuards(AuthGuard)
-  @Get("me")
+  @Get("me/subscription")
   async findMySubscription(@Res() res: Response, @Req() req: Request) {
-    const customer = req['customer'];
+    const customer = req['user_supabase'];
  
     try {
-      const data = await this.subscriptionsService.findWhere({where: {customer: customer._id.toString() }});
+      const data = await this.subscriptionsService.findWhere({where: {customer: customer.id.toString() }});
+      console.log("data", data);
+      
       if (!data || data.length === 0) {
         throw new Error("Not Found");
       }
+      
+      const stripeSubscription = await this.stripeSubscriptionsService.findSubscription(data[0]?.stripeSubscriptionId)
+
       return this.responsesHelper.getResponse({
         res,
         path: "findMySubscription",
         method: "Get",
         code: HttpStatus.OK,
         subject: "subscriptions",
-        data: data[0],
+        data: {
+          subscription: data[0],
+          stripeSubscription: stripeSubscription
+        },
       });
     } catch (error) {
       if (error.message === "Not Found") {

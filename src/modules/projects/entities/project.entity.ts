@@ -20,23 +20,14 @@ export class Project {
   @Prop({ required: true })
   description: string;
 
-  @Prop()
-  picture?: string;
-
   @Prop({ enum: StatusEnum })
   status?: string;
 
   @Prop({ enum: Priority })
   priority?: string;
 
-  @Prop({ type: Types.ObjectId, ref: "Customer", required: true })
-  ownerId: Types.ObjectId;
-
-  @Prop({ type: Types.ObjectId, ref: "Team" })
-  teamId?: Types.ObjectId;
-
-  @Prop({ type: [{ type: Types.ObjectId, ref: "Milestone" }] })
-  milestoneIds?: Types.ObjectId[];
+  @Prop({ required: true })
+  ownerId: string;
 
   @Prop({ type: [{ type: Types.ObjectId, ref: "Note" }] })
   noteIds?: Types.ObjectId[];

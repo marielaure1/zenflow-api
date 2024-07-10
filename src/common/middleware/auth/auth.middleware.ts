@@ -26,6 +26,8 @@ export class AuthMiddleware implements NestMiddleware {
     }
 
     const token = authHeader.split(' ')[1];
+    console.log(token);
+    
 
     if (!token) {
       return res.status(401).json({ message: 'No token provided' });
@@ -35,11 +37,11 @@ export class AuthMiddleware implements NestMiddleware {
       const decodedToken = await this.supabaseService.verifyToken(token);
       req['user_supabase'] = decodedToken;
 
-      const user = await this.usersService.findOneBySupabaseUid(decodedToken.id);
-      req['user'] = user;
+      // const user = await this.usersService.findOneBySupabaseUid(decodedToken.id);
+      // req['user'] = user;
 
-      const customer = await this.customersService.findOneByUser(user._id);
-      req['customer'] = customer;
+      // const customer = await this.customersService.findOneByUser(user._id);
+      // req['customer'] = customer;
       
       next();
     } catch (err) {

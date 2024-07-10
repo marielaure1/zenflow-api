@@ -1,3 +1,4 @@
+import { SupabaseService } from './../../providers/services/supabase/supabase.service';
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { DatabaseModule } from '@config/database/mongoose/mongoose.module';
 import { SubscriptionsService } from '@modules/subscriptions/subscriptions.service';
@@ -10,12 +11,13 @@ import { SubscriptionsStripeService } from "@providers/services/stripe/services/
 import { CustomersStripeService } from '@providers/services/stripe/services/customers.stripe.service';
 import { AuthMiddleware } from '@middleware/auth/auth.middleware';
 import { SupabaseModule } from '@providers/services/supabase/supabase.module';
+import { WebsocketModule } from '@modules/websocket/websocket.module';
 
 
 @Module({
-  imports: [DatabaseModule, StripeModule, SupabaseModule], 
+  imports: [DatabaseModule, StripeModule, SupabaseModule, WebsocketModule], 
   controllers: [SubscriptionsController],
-  providers: [SubscriptionsService, SubscriptionsStripeService, CustomersStripeService,  CustomersService, UsersService, PlansService, SupabaseModule],
+  providers: [SubscriptionsService, SubscriptionsStripeService, CustomersStripeService,  CustomersService, UsersService, PlansService, SupabaseService],
   exports: [SubscriptionsModule]
 })
 export class SubscriptionsModule {

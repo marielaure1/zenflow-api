@@ -11,6 +11,7 @@ import { PaymentsStripeService } from '@providers/services/stripe/services/payme
 import settings from '@constants/settings';
 import { log } from 'console';
 import {CreateCheckoutSessionDto} from "@modules/payments/dto/create-checkout-session.dto"
+import { WebhookStripeService } from '@providers/services/stripe/services/webhook.stripe.service';
 
 
 @ApiTags('payments')
@@ -20,6 +21,7 @@ export class PaymentsController extends AppController<PaymentDocument, CreatePay
   
   constructor(
       private readonly paymentsService: PaymentsService,
+      private readonly webhookStripeService: WebhookStripeService,
       @Inject(PaymentsStripeService) private readonly paymentsStripeService: PaymentsStripeService,
   ) {
     super(paymentsService, "payments");
@@ -51,4 +53,14 @@ export class PaymentsController extends AppController<PaymentDocument, CreatePay
       }
     });
   }
+
+  // @Post()
+  // async handleWebhook(@Body() event: any, @Res() res: Response) {
+  //   try {
+  //     const handledEvent = await this.webhookStripeService.handleEvent(event);
+  //     res.status(HttpStatus.OK).send({ received: true, handledEvent });
+  //   } catch (error) {
+  //     res.status(HttpStatus.BAD_REQUEST).send({ error: error.message });
+  //   }
+  // }
 }

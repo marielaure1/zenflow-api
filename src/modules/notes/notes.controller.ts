@@ -8,6 +8,7 @@ import { Response, Request } from "express";
 import ResponsesHelper from "@helpers/responses.helpers";
 import { AuthGuard } from "@guards/auth.guard";
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { log } from 'console';
 
 @ApiTags('notes')
 @Controller('notes')
@@ -64,13 +65,31 @@ export class NotesController extends AppController<NoteDocument, CreateNoteDto, 
   @ApiOperation({ summary: 'Get all notes for the current owner' })
   @ApiResponse({ status: 200, description: 'Return all notes for the current owner.' })
   @ApiResponse({ status: 404, description: 'Notes not found.' })
-  @UseGuards(AuthGuard)
-  @Get("me")
-  async findAllOwner(@Res() res: Response, @Req() req: Request) {
-    const customer = req['customer'];
+  @Get("me/all")
+  async findAllOwnerWithoutFolder(@Res() res: Response, @Req() req: Request) {
+    const customer = req['user_supabase'];
  
     try {
-      const data = await this.notesService.findWhere({where: {ownerId: customer._id.toString() }});
+      const data = await this.notesService.findWhere({
+        where: {
+          ownerId: customer.id.toString(),
+          $or: [
+            { folderId: { $exists: false } },
+            { folderId: null }
+          ] 
+        }
+      });
+
+      const allNotes = await this.notesService.findWhere({
+        where: {
+          ownerId: customer.id.toString()
+        }
+      });
+
+
+      console.log("data", data);
+      
+
       if (!data || data.length === 0) {
         throw new Error("Not Found");
       }
@@ -80,7 +99,10 @@ export class NotesController extends AppController<NoteDocument, CreateNoteDto, 
         method: "Get",
         code: HttpStatus.OK,
         subject: "notes",
-        data,
+        data: {
+          notes: data,
+          totalNote: allNotes.length
+        },
       });
     } catch (error) {
       if (error.message === "Not Found") {
@@ -105,4 +127,58 @@ export class NotesController extends AppController<NoteDocument, CreateNoteDto, 
       }
     }
   }
+
+  @ApiOperation({ summary: 'Get all notes for the current owner by specific folder' })
+@ApiResponse({ status: 200, description: 'Return all notes for the current owner in the specified folder.' })
+@ApiResponse({ status: 404, description: 'Notes not found in the specified folder.' })
+@UseGuards(AuthGuard)
+@Get("me/folder/:id")
+async findAllOwnerByFolder(@Res() res: Response, @Req() req: Request, @Param('id') id: string) {
+  const customer = req['user_supabase'];
+
+  try {
+    const data = await this.notesService.findWhere({
+      where: {
+        ownerId: customer.id.toString(),
+        folderId: id 
+      }
+    });
+    if (!data || data.length === 0) {
+      throw new Error("Not Found");
+    }
+    return this.responsesHelper.getResponse({
+      res,
+      path: "findAllOwnerByFolder",
+      method: "Get",
+      code: HttpStatus.OK,
+      subject: "notes",
+      data: {
+        notes: data
+      },
+    });
+  } catch (error) {
+    if (error.message === "Not Found") {
+      return this.responsesHelper.getResponse({
+        res,
+        path: "findAllOwnerByFolder",
+        method: "Get",
+        code: HttpStatus.NOT_FOUND,
+        subject: "notes",
+        data: error.message,
+      });
+    } else {
+      console.error("NotesController > findAllOwnerByFolder : ", error);
+      return this.responsesHelper.getResponse({
+        res,
+        path: "findAllOwnerByFolder",
+        method: "Get",
+        code: HttpStatus.INTERNAL_SERVER_ERROR,
+        subject: "notes",
+        data: error.message,
+      });
+    }
+  }
+}
+
+
 }

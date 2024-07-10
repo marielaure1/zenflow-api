@@ -53,13 +53,6 @@ export class CreateTaskDto {
   @Type(() => FlagDto)
   flags?: FlagDto[];
 
-  @ApiPropertyOptional({ description: 'Time entries for the task' })
-  @IsOptional()
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => TimeEntryDto)
-  timeEntries?: TimeEntryDto[];
-
   @ApiPropertyOptional({ description: 'Custom fields for the task' })
   @IsOptional()
   @IsObject()

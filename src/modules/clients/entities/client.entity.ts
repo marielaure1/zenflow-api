@@ -49,8 +49,8 @@ export class Client {
   @Prop()
   estimatedBudget?: number;
 
-  @Prop({ type: Types.ObjectId, ref: "Customer", required: true })
-  ownerId: Types.ObjectId;
+  @Prop({ required: true })
+  ownerId: string;
 
   @Prop({ type: Map, of: CustomFieldValueSchema })
   customFieldValues?: Map<string, CustomFieldValue>;

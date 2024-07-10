@@ -20,6 +20,9 @@ export class CustomersModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(AuthMiddleware)
+      .exclude(
+        'customers/register',
+      )
       .forRoutes(CustomersController);
   }
 }

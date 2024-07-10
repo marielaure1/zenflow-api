@@ -10,11 +10,13 @@ import { SupabaseModule } from '@providers/services/supabase/supabase.module';
 import { SupabaseService } from '@providers/services/supabase/supabase.service';
 import { UsersService } from '@modules/users/users.service';
 import { CustomersService } from '@modules/customers/customers.service';
+import { WebhookStripeService } from '@providers/services/stripe/services/webhook.stripe.service';
+import { SubscriptionsService } from '@modules/subscriptions/subscriptions.service';
 
 @Module({
   imports: [DatabaseModule, StripeModule, SupabaseModule],
   controllers: [PaymentsController],
-  providers: [PaymentsService, PaymentsStripeService, PlansStripeService, SupabaseService, UsersService, CustomersService],
+  providers: [PaymentsService, PaymentsStripeService, PlansStripeService, SupabaseService, UsersService, CustomersService, SubscriptionsService,  WebhookStripeService],
   exports: [PaymentsModule]
 })
 export class PaymentsModule {

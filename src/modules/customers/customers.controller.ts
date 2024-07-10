@@ -44,7 +44,6 @@ export class CustomersController extends AppController<CustomerDocument, CreateC
   }
 
   @Get()
-  // @Roles('admin')
   async findAll(@Res() res: Response) {
     return super.findAll(res);
   }
@@ -52,6 +51,7 @@ export class CustomersController extends AppController<CustomerDocument, CreateC
   @Post("register")
   async register(@Body() createAuthDto :CreateAuthDto, @Res() res: Response){
     try {
+      console.log(createAuthDto);
       
       const user = await this.usersService.create(createAuthDto);
       const stripeCustomer = await this.customersStripeService.createCustomer({name: `${createAuthDto.firstName} ${createAuthDto.lastName}`});
@@ -83,15 +83,9 @@ export class CustomersController extends AppController<CustomerDocument, CreateC
     }
   }
   
-
-  @Ownership()
-  @UseGuards(AuthGuard)
   @Get("me")
   async findMe(@Res() res: Response, @Req() req: Request) {
-
-    const usersupabase = req['user_supabase'];
-    const user = req['user'];
-    const customer = req['customer'];
+    const customer = req['user_supabase'];
 
     return this.responsesHelper.getResponse({
       res,
@@ -99,7 +93,7 @@ export class CustomersController extends AppController<CustomerDocument, CreateC
       method: "Get",
       code: HttpStatus.OK,
       subject: "me",
-      data: { usersupabase, user, customer }
+      data: { customer }
     });
   } 
  
@@ -108,14 +102,13 @@ export class CustomersController extends AppController<CustomerDocument, CreateC
   // @Roles(RoleEnum.ADMIN)
   async updateMe(@Res() res: Response, @Req() req: Request, @Body() updateAuthDto: UpdateAuthDto) {
 
-    const user = req['user'];
-    const customer = req['customer'];
+    const customer = req['user_supabase'];
     
     try {
       const result = await this.customersService.update(customer._id, updateAuthDto);
       const data = await this.customersService.findWhere({
         where: {
-          ownerId: customer._id.toString(),
+          ownerId: customer.id.toString(),
           schema: updateAuthDto.schema,
         },
         sort: "position"

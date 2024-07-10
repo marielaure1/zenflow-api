@@ -50,8 +50,7 @@ export abstract class AppService<AppModel extends Document, CreateDto, UpdateDto
   }
 
   async findWhere({ where, sort }: { where: object, sort?: string }): Promise<AppModel[]> {
-    console.log("FIND WHERE");
-    return this.appModel.find(where).sort(sort).populate(this.populate).exec();
+    return await this.appModel.find(where).sort(sort).populate(this.populate).exec();
   }
 
   async updateMany(where: object, updateDto: UpdateDto): Promise<any> {

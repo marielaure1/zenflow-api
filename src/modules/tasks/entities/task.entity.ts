@@ -37,9 +37,6 @@ export class Task {
   @Prop({ type: [{ title: String, color: String }] })
   flags?: { title: string; color: string }[];
 
-  @Prop({ type: [TimeEntrySchema] })
-  timeEntries?: TimeEntry[];
-
   @Prop({ type: Map, of: CustomFieldSchema })
   customFields?: Map<string, CustomField>;
 

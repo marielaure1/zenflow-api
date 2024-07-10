@@ -70,10 +70,10 @@ export class ProspectsController extends AppController<ProspectDocument, CreateP
   @UseGuards(AuthGuard)
   @Get("me/all")
   async findAllOwner(@Res() res: Response, @Req() req: Request) {
-    const customer = req['customer'];
+    const customer = req['user_supabase'];
 
     try {
-      const data = await this.prospectsService.findWhere({ where: { ownerId: customer._id.toString() } });
+      const data = await this.prospectsService.findWhere({ where: { ownerId: customer.id.toString() } });
       if (!data || data.length === 0) {
         throw new Error("Not Found");
       }

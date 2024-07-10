@@ -25,8 +25,8 @@ export class CustomField {
   @Prop()
   schemaIds?: Types.ObjectId[];
 
-  @Prop({ type: Types.ObjectId, ref: "Customer", required: true })
-  ownerId: Types.ObjectId;
+  @Prop({ required: true })
+  ownerId: string;
 
   createdAt?: Date;
   updatedAt?: Date;

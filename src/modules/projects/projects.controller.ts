@@ -10,6 +10,7 @@ import { Response, Request } from "express";
 import { AuthGuard } from "@guards/auth.guard";
 import { CustomFieldsService } from "@modules/custom-fields/custom-fields.service";
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { log } from 'console';
 
 @ApiTags('projects')
 @Controller('projects')
@@ -71,6 +72,8 @@ export class ProjectsController extends AppController<ProjectDocument, CreatePro
   @Get(":id/tasks-categories")
   async findTasksCategories(@Param('id') id: string, @Res() res: Response) {
     try {
+      console.log(id);
+      
       const data = await this.projectsService.findOne(id);
       if (!data) {
         throw new Error("Not Found");
@@ -80,6 +83,9 @@ export class ProjectsController extends AppController<ProjectDocument, CreatePro
       if (!dataTaskCategories) {
         throw new Error("Not Found");
       }
+
+      console.log(dataTaskCategories);
+      
 
       return this.responsesHelper.getResponse({
         res,
@@ -186,10 +192,10 @@ export class ProjectsController extends AppController<ProjectDocument, CreatePro
   @UseGuards(AuthGuard)
   @Get("me/all")
   async findAllOwner(@Res() res: Response, @Req() req: Request) {
-    const customer = req['customer'];
+    const customer = req['user_supabase'];
 
     try {
-      const data = await this.projectsService.findWhere({ where: { ownerId: customer._id.toString() } });
+      const data = await this.projectsService.findWhere({ where: { ownerId: customer.id.toString() } });
 
       if (!data || data.length === 0) {
         throw new Error("Not Found");

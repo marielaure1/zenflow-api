@@ -66,12 +66,12 @@ export class CustomFieldsController extends AppController<CustomFieldDocument, C
   @UseGuards(AuthGuard)
   @Get("me/:schema")
   async findAllOwnerCustomsFields(@Res() res: Response, @Req() req: Request, @Param('schema') schema: string) {
-    const customer = req['customer'];
+    const customer = req['user_supabase'];
 
     try {
       const data = await this.customFieldsService.findWhere({
         where: {
-          ownerId: customer._id.toString(),
+          ownerId: customer.id.toString(),
           schema,
         },
         sort: "position"
@@ -120,12 +120,12 @@ export class CustomFieldsController extends AppController<CustomFieldDocument, C
   @ApiResponse({ status: 404, description: 'Custom field not found.' })
   @Get(":id/me/:schema")
   async findOneOwnerCustomsFields(@Res() res: Response, @Req() req: Request, @Param('id') id: string, @Param('schema') schema: string) {
-    const customer = req['customer'];
+    const customer = req['user_supabase'];
 
     try {
       const data = await this.customFieldsService.findWhere({
         where: {
-          ownerId: customer._id.toString(),
+          ownerId: customer.id.toString(),
           schema,
           $or: [
             { schemaIds: [id] }
@@ -177,13 +177,13 @@ export class CustomFieldsController extends AppController<CustomFieldDocument, C
   @UseGuards(AuthGuard)
   @Put("me/:schema")
   async updatePositions(@Body() updateCustomFieldDtos: UpdateCustomFieldDto[], @Res() res: Response, @Req() req: Request, @Param('schema') schema: string) {
-    const customer = req['customer'];
+    const customer = req['user_supabase'];
 
     try {
       const result = await this.customFieldsService.updatePositions(updateCustomFieldDtos);
       const data = await this.customFieldsService.findWhere({
         where: {
-          ownerId: customer._id.toString(),
+          ownerId: customer.id.toString(),
           schema,
         },
         sort: "position"

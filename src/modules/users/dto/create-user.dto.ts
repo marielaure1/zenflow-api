@@ -11,7 +11,7 @@ export class CreateUserDto {
 
   @ApiPropertyOptional({ description: 'The role of the user', enum: RoleEnum })
   @IsEmpty()
-  role: RoleEnum;
+  role?: RoleEnum;
 
   @ApiPropertyOptional({ description: 'The token of the user' })
   @IsOptional()

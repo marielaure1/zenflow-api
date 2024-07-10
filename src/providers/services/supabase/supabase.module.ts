@@ -7,6 +7,7 @@ import { UsersModule } from '@modules/users/users.module';
 import { CustomersStripeService } from '@providers/services/stripe/services/customers.stripe.service';
 import { CustomersModule } from '@modules/customers/customers.module';
 import { StripeModule } from '@providers/services/stripe/stripe.module';
+import { WebsocketService } from '@modules/websocket/websocket.service';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { StripeModule } from '@providers/services/stripe/stripe.module';
     UsersService,
     CustomersService,
     CustomersStripeService,
+    WebsocketService
   ],
   controllers: [SupabaseController],
   exports: [SupabaseService],

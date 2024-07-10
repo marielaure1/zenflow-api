@@ -9,6 +9,7 @@ import { Client, ClientSchema } from '@modules/clients/entities/client.entity';
 import { CustomField, CustomFieldSchema } from '@modules/custom-fields/entities/custom-field.entity';
 import { Customer, CustomerSchema } from '@modules/customers/entities/customer.entity';
 import { Note, NoteSchema } from '@modules/notes/entities/note.entity';
+import { NoteFolder, NoteFolderSchema } from '@modules/note-folders/entities/note-folder.entity';
 // import { Notification, NotificationSchema } from '@modules/notifications/entities/notification.entity';
 import { Payment, PaymentSchema } from '@modules/payments/entities/payment.entity';
 import { Plan, PlanSchema } from '@modules/plans/entities/plan.entity';
@@ -28,6 +29,7 @@ import { User, UserSchema } from '@modules/users/entities/user.entity';
       { name: CustomField.name, schema: CustomFieldSchema },
       { name: Customer.name, schema: CustomerSchema },
       { name: Note.name, schema: NoteSchema },
+      { name: NoteFolder.name, schema: NoteFolderSchema },
       // { name: Notification.name, schema: NotificationSchema },
       { name: Payment.name, schema: PaymentSchema },
       { name: Plan.name, schema: PlanSchema },

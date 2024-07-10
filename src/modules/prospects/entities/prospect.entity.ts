@@ -51,8 +51,8 @@ export class Prospect {
   @Prop()
   estimatedBudget?: number;
 
-  @Prop({ type: Types.ObjectId, ref: "Customer", required: true })
-  ownerId: Types.ObjectId;
+  @Prop({ required: true })
+  ownerId: string;
 
   @Prop({ type: Map, of: CustomFieldValueSchema })
   customFieldValue?: Map<string, CustomFieldValue>;

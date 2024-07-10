@@ -688,6 +688,17 @@
         ]
       }
     },
+    "/supabase/webhook": {
+      "post": {
+        "operationId": "SupabaseController_webhook",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/notes": {
       "post": {
         "operationId": "NotesController_create",
@@ -824,9 +835,9 @@
         ]
       }
     },
-    "/notes/me": {
+    "/notes/me/all": {
       "get": {
-        "operationId": "NotesController_findAllOwner",
+        "operationId": "NotesController_findAllOwnerWithoutFolder",
         "summary": "Get all notes for the current owner",
         "parameters": [],
         "responses": {
@@ -839,6 +850,214 @@
         },
         "tags": [
           "notes"
+        ]
+      }
+    },
+    "/notes/me/folder/{id}": {
+      "get": {
+        "operationId": "NotesController_findAllOwnerByFolder",
+        "summary": "Get all notes for the current owner by specific folder",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return all notes for the current owner in the specified folder."
+          },
+          "404": {
+            "description": "Notes not found in the specified folder."
+          }
+        },
+        "tags": [
+          "notes"
+        ]
+      }
+    },
+    "/note-folders": {
+      "post": {
+        "operationId": "NoteFoldersController_create",
+        "summary": "Create a new note folder",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateNoteFolderDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The note folder has been successfully created."
+          },
+          "400": {
+            "description": "Bad Request."
+          }
+        },
+        "tags": [
+          "note-folders"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "NoteFoldersController_findAll",
+        "summary": "Get all note folders",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Return all note folders."
+          },
+          "404": {
+            "description": "Note Folders not found."
+          }
+        },
+        "tags": [
+          "note-folders"
+        ]
+      }
+    },
+    "/note-folders/{id}": {
+      "get": {
+        "operationId": "NoteFoldersController_findOne",
+        "summary": "Get a note folder by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return a note folder."
+          },
+          "404": {
+            "description": "Note Folders not found."
+          }
+        },
+        "tags": [
+          "note-folders"
+        ]
+      },
+      "put": {
+        "operationId": "NoteFoldersController_update",
+        "summary": "Update a note folder by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateNoteFolderDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The note folder has been successfully updated."
+          },
+          "404": {
+            "description": "Note Folders not found."
+          }
+        },
+        "tags": [
+          "note-folders"
+        ]
+      },
+      "delete": {
+        "operationId": "NoteFoldersController_remove",
+        "summary": "Delete a note folder by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The note folder has been successfully deleted."
+          },
+          "404": {
+            "description": "Note Folders not found."
+          }
+        },
+        "tags": [
+          "note-folders"
+        ]
+      }
+    },
+    "/note-folders/me/all": {
+      "get": {
+        "operationId": "NoteFoldersController_findAllOwnerWithoutParent",
+        "summary": "Get all note folders for the current owner",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Return all note folders for the current owner."
+          },
+          "404": {
+            "description": "Note Folders not found."
+          }
+        },
+        "tags": [
+          "note-folders"
+        ]
+      }
+    },
+    "/note-folders/me/{id}/children": {
+      "get": {
+        "operationId": "NoteFoldersController_findAllChildrenByParentId",
+        "summary": "Get all child note folders for a specific parent folder for the current owner",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return all child note folders for the specified parent folder."
+          },
+          "404": {
+            "description": "Child note folders not found."
+          }
+        },
+        "tags": [
+          "note-folders"
         ]
       }
     },
@@ -1911,7 +2130,7 @@
         ]
       }
     },
-    "/subscriptions/me": {
+    "/subscriptions/me/subscription": {
       "get": {
         "operationId": "SubscriptionsController_findMySubscription",
         "summary": "Get the subscription of the current user",
@@ -2355,11 +2574,21 @@
           "content": {
             "type": "string",
             "description": "The content of the note"
+          },
+          "ownerId": {
+            "type": "string",
+            "description": "The owner ID of the note"
+          },
+          "folderId": {
+            "type": "string",
+            "description": "The folder of the note"
           }
         },
         "required": [
           "title",
-          "content"
+          "content",
+          "ownerId",
+          "folderId"
         ]
       },
       "UpdateNoteDto": {
@@ -2372,6 +2601,71 @@
           "content": {
             "type": "string",
             "description": "The content of the note"
+          },
+          "ownerId": {
+            "type": "string",
+            "description": "The owner ID of the note"
+          },
+          "folderId": {
+            "type": "string",
+            "description": "The folder of the note"
+          }
+        }
+      },
+      "CreateNoteFolderDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "The title of the folder"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the folder"
+          },
+          "parentId": {
+            "type": "string",
+            "description": "The parent folder ID of the folder"
+          },
+          "ownerId": {
+            "type": "string",
+            "description": "The owner ID of the note folder"
+          },
+          "order": {
+            "type": "number",
+            "description": "The order of the folder on the hierarchy of folder"
+          }
+        },
+        "required": [
+          "title",
+          "description",
+          "parentId",
+          "ownerId",
+          "order"
+        ]
+      },
+      "UpdateNoteFolderDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "The title of the folder"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the folder"
+          },
+          "parentId": {
+            "type": "string",
+            "description": "The parent folder ID of the folder"
+          },
+          "ownerId": {
+            "type": "string",
+            "description": "The owner ID of the note folder"
+          },
+          "order": {
+            "type": "number",
+            "description": "The order of the folder on the hierarchy of folder"
           }
         }
       },
@@ -2478,17 +2772,9 @@
             "type": "string",
             "description": "The description of the project"
           },
-          "picture": {
-            "type": "string",
-            "description": "The picture URL of the project"
-          },
           "ownerId": {
             "type": "string",
             "description": "The ID of the project owner"
-          },
-          "teamId": {
-            "type": "string",
-            "description": "The ID of the team associated with the project"
           },
           "priority": {
             "type": "string",
@@ -2497,13 +2783,6 @@
           "status": {
             "type": "string",
             "description": "The status of the project"
-          },
-          "milestoneIds": {
-            "description": "The IDs of the milestones associated with the project",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
           },
           "noteIds": {
             "description": "The IDs of the notes associated with the project",
@@ -2556,17 +2835,9 @@
             "type": "string",
             "description": "The description of the project"
           },
-          "picture": {
-            "type": "string",
-            "description": "The picture URL of the project"
-          },
           "ownerId": {
             "type": "string",
             "description": "The ID of the project owner"
-          },
-          "teamId": {
-            "type": "string",
-            "description": "The ID of the team associated with the project"
           },
           "priority": {
             "type": "string",
@@ -2575,13 +2846,6 @@
           "status": {
             "type": "string",
             "description": "The status of the project"
-          },
-          "milestoneIds": {
-            "description": "The IDs of the milestones associated with the project",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
           },
           "noteIds": {
             "description": "The IDs of the notes associated with the project",
@@ -2664,13 +2928,6 @@
               "type": "string"
             }
           },
-          "timeEntries": {
-            "description": "Time entries for the task",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
           "customFields": {
             "type": "object",
             "description": "Custom fields for the task"
@@ -2741,13 +2998,6 @@
           },
           "flags": {
             "description": "Flags associated with the task",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "timeEntries": {
-            "description": "Time entries for the task",
             "type": "array",
             "items": {
               "type": "string"

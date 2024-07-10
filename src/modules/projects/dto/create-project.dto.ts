@@ -14,20 +14,10 @@ export class CreateProjectDto {
   @IsNotEmpty()
   description: string;
 
-  @ApiPropertyOptional({ description: 'The picture URL of the project' })
-  @IsString()
-  @IsOptional()
-  picture?: string;
-
   @ApiProperty({ description: 'The ID of the project owner' })
   @IsString()
   @IsNotEmpty()
   ownerId: string;
-
-  @ApiPropertyOptional({ description: 'The ID of the team associated with the project' })
-  @IsString()
-  @IsOptional()
-  teamId?: string;
 
   @ApiPropertyOptional({ description: 'The priority level of the project' })
   @IsString()
@@ -38,11 +28,6 @@ export class CreateProjectDto {
   @IsString()
   @IsOptional()
   status?: string;
-
-  @ApiPropertyOptional({ description: 'The IDs of the milestones associated with the project', type: [String] })
-  @IsOptional()
-  @IsArray()
-  milestoneIds?: string[];
 
   @ApiPropertyOptional({ description: 'The IDs of the notes associated with the project', type: [String] })
   @IsOptional()

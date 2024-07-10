@@ -70,10 +70,10 @@ export class ClientsController extends AppController<ClientDocument, CreateClien
   @Ownership()
   @Get("me/all")
   async findAllOwner(@Res() res: Response, @Req() req: Request) {
-    const customer = req['customer'];
+    const customer = req['user_supabase'];
 
     try {
-      const data = await this.clientsService.findWhere({ where: { ownerId: customer._id.toString() } });
+      const data = await this.clientsService.findWhere({ where: { ownerId: customer.id.toString() } });
       if (!data || data.length === 0) {
         throw new Error("Not Found");
       }
